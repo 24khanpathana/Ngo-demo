@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
     const { token, logout } = useAuth();
-    const navigate = useNavigate(); // For redirecting to home
+    const navigate = useNavigate();
+    
+    // Manage active tab
     const [activeTab, setActiveTab] = useState('content');
-    const [selectedPage, setSelectedPage] = useState('Home');
     
     // Data states
-    const [contents, setContents] = useState([]);
+    const[contents, setContents] = useState([]);
     const [animals, setAnimals] = useState([]);
-    const [overviewData, setOverviewData] = useState({ slots: [], volunteers: [], donations: [], feedback: [], complaints:[] });
+    const[overviewData, setOverviewData] = useState({ slots: [], volunteers: [], donations: [], feedback: [], complaints:[] });
     
-    // Shared Form States
+    // Content Form States
+    const [selectedPage, setSelectedPage] = useState('Home');
+    const[formData, setFormData] = useState({ title: '', description: '', imageUrl: '', date: '', role: '' });
     const [editingId, setEditingId] = useState(null);
-    
-    // Content Form
-    const [formData, setFormData] = useState({ title: '', description: '', imageUrl: '', date: '', role: '' });
-    const [customFields, setCustomFields] = useState([]);
+    const[customFields, setCustomFields] = useState([]);
     const [addCustomForm, setAddCustomForm] = useState(false);
 
-    // Animal Form
-    const [animalData, setAnimalData] = useState({ name: '', breed: '', age: '', gender: 'Male', location: '', description: '', imageUrl: '' });
+    // Animal Form States
+    const [animalData, setAnimalData] = useState({ name: '', age: '', breed: '', description: '', imageUrl: '' });
+    const [editingAnimalId, setEditingAnimalId] = useState(null);
 
     const api = axios.create({ baseURL: process.env.REACT_APP_API_URL, headers: { Authorization: `Bearer ${token}` } });
 
@@ -42,8 +43,8 @@ const AdminDashboard = () => {
     useEffect(() => { fetchAllData(); }, [token]);
 
     const handleLogout = () => {
-        logout();
-        navigate('/'); // Redirect to Home Page
+        logout();        // Clears session token
+        navigate('/');   // Redirects to Home Page
     };
 
     // --- Content Handlers ---
@@ -55,40 +56,51 @@ const AdminDashboard = () => {
         try {
             if (editingId) await api.put(`/api/content/${editingId}`, payload);
             else await api.post('/api/content', payload);
+            
             setFormData({ title: '', description: '', imageUrl: '', date: '', role: '' });
             setCustomFields([]); setAddCustomForm(false); setEditingId(null);
             fetchAllData();
         } catch (error) { alert('Error saving content'); }
     };
 
+    const handleContentDelete = async (id) => {
+        if(window.confirm('Delete this item?')) {
+            await api.delete(`/api/content/${id}`);
+            fetchAllData();
+        }
+    };
+
     const editContentItem = (item) => {
         setEditingId(item._id);
         setFormData({ title: item.title, description: item.description, imageUrl: item.imageUrl, date: item.date ? item.date.split('T')[0] : '', role: item.role || '' });
+        if(item.customForm && item.customForm.fields) {
+            setAddCustomForm(true); setCustomFields(item.customForm.fields);
+        }
     };
 
     // --- Animal Handlers ---
     const handleAnimalSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (editingId) await api.put(`/api/animals/${editingId}`, animalData);
+            if (editingAnimalId) await api.put(`/api/animals/${editingAnimalId}`, animalData);
             else await api.post('/api/animals', animalData);
             
-            setAnimalData({ name: '', breed: '', age: '', gender: 'Male', location: '', description: '', imageUrl: '' });
-            setEditingId(null);
+            setAnimalData({ name: '', age: '', breed: '', description: '', imageUrl: '' });
+            setEditingAnimalId(null);
             fetchAllData();
         } catch (error) { alert('Error saving animal'); }
     };
 
-    const editAnimal = (item) => {
-        setEditingId(item._id);
-        setAnimalData(item);
-    };
-
-    const handleDelete = async (id, type) => {
-        if(window.confirm('Delete this item?')) {
-            await api.delete(`/api/${type}/${id}`);
+    const handleAnimalDelete = async (id) => {
+        if(window.confirm('Delete this animal?')) {
+            await api.delete(`/api/animals/${id}`);
             fetchAllData();
         }
+    };
+
+    const editAnimal = (animal) => {
+        setEditingAnimalId(animal._id);
+        setAnimalData({ name: animal.name, age: animal.age, breed: animal.breed, description: animal.description, imageUrl: animal.imageUrl });
     };
 
     // --- Renderers ---
@@ -107,63 +119,38 @@ const AdminDashboard = () => {
         </div>
     );
 
-    const renderAnimalManager = () => (
+    const renderAdoptionManager = () => (
         <div className="card">
-            <h2 style={{color: 'var(--primary-light)', marginBottom: '20px'}}>Adoption Animals</h2>
-            
+            <h2 style={{color: 'var(--primary-light)', marginBottom: '20px'}}>Adoption Animals Manager</h2>
             <div className="admin-form-box">
-                <h3 style={{marginBottom: '20px'}}>{editingId ? 'Edit Animal' : 'Add New Animal'}</h3>
+                <h3 style={{marginBottom: '20px'}}>{editingAnimalId ? 'Edit Animal' : 'Add New Animal'}</h3>
                 <form onSubmit={handleAnimalSubmit}>
                     <div className="grid-container grid-2">
-                        <div className="form-group">
-                            <label>Name</label>
-                            <input type="text" className="form-control" required value={animalData.name} onChange={e => setAnimalData({...animalData, name: e.target.value})} />
-                        </div>
-                        <div className="form-group">
-                            <label>Breed</label>
-                            <input type="text" className="form-control" value={animalData.breed} onChange={e => setAnimalData({...animalData, breed: e.target.value})} />
-                        </div>
-                        <div className="form-group">
-                            <label>Age (e.g., 2 Months, 3 Years)</label>
-                            <input type="text" className="form-control" value={animalData.age} onChange={e => setAnimalData({...animalData, age: e.target.value})} />
-                        </div>
-                        <div className="form-group">
-                            <label>Gender</label>
-                            <select className="form-control" value={animalData.gender} onChange={e => setAnimalData({...animalData, gender: e.target.value})}>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label>Location</label>
-                            <input type="text" className="form-control" value={animalData.location} onChange={e => setAnimalData({...animalData, location: e.target.value})} />
-                        </div>
-                        <div className="form-group">
-                            <label>Image URL</label>
-                            <input type="text" className="form-control" value={animalData.imageUrl} onChange={e => setAnimalData({...animalData, imageUrl: e.target.value})} />
-                        </div>
+                        <div className="form-group"><label>Name</label><input type="text" className="form-control" required value={animalData.name} onChange={e => setAnimalData({...animalData, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Age</label><input type="text" className="form-control" required value={animalData.age} onChange={e => setAnimalData({...animalData, age: e.target.value})} placeholder="e.g. 2 Months, 3 Years" /></div>
+                        <div className="form-group"><label>Breed</label><input type="text" className="form-control" required value={animalData.breed} onChange={e => setAnimalData({...animalData, breed: e.target.value})} /></div>
+                        <div className="form-group"><label>Image URL</label><input type="text" className="form-control" required value={animalData.imageUrl} onChange={e => setAnimalData({...animalData, imageUrl: e.target.value})} /></div>
                     </div>
                     <div className="form-group">
-                        <label>Description / Personality</label>
-                        <textarea className="form-control" rows="3" value={animalData.description} onChange={e => setAnimalData({...animalData, description: e.target.value})}></textarea>
+                        <label>Description</label>
+                        <textarea className="form-control" rows="3" required value={animalData.description} onChange={e => setAnimalData({...animalData, description: e.target.value})}></textarea>
                     </div>
-                    <button type="submit" className="button-primary" style={{marginTop: '10px'}}>{editingId ? 'Update' : 'Save'} Animal</button>
-                    {editingId && <button type="button" onClick={() => {setEditingId(null); setAnimalData({ name: '', breed: '', age: '', gender: 'Male', location: '', description: '', imageUrl: '' })}} className="button-primary" style={{marginTop: '10px', marginLeft: '10px', backgroundColor: 'var(--secondary-light)'}}>Cancel Edit</button>}
+                    <button type="submit" className="button-primary" style={{marginTop: '20px'}}>{editingAnimalId ? 'Update' : 'Save'} Animal</button>
                 </form>
             </div>
 
             <div className="admin-table-wrapper">
                 <table className="admin-table">
-                    <thead><tr><th>Image</th><th>Name</th><th>Breed/Age</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>Image</th><th>Name</th><th>Age/Breed</th><th>Actions</th></tr></thead>
                     <tbody>
-                        {animals.map(item => (
-                            <tr key={item._id}>
-                                <td><img src={item.imageUrl} alt={item.name} style={{width:'50px', height:'50px', objectFit:'cover', borderRadius:'5px'}}/></td>
-                                <td>{item.name} ({item.gender})</td>
-                                <td>{item.breed} | {item.age}</td>
+                        {animals.map(animal => (
+                            <tr key={animal._id}>
+                                <td><img src={animal.imageUrl} alt={animal.name} style={{width:'50px', height:'50px', objectFit:'cover', borderRadius:'8px'}} /></td>
+                                <td>{animal.name}</td>
+                                <td>{animal.age} / {animal.breed}</td>
                                 <td>
-                                    <button onClick={() => editAnimal(item)} className="action-btn edit">✎ Edit</button>
-                                    <button onClick={() => handleDelete(item._id, 'animals')} className="action-btn delete">🗑 Delete</button>
+                                    <button onClick={() => editAnimal(animal)} className="action-btn edit">✎ Edit</button>
+                                    <button onClick={() => handleAnimalDelete(animal._id)} className="action-btn delete">🗑 Delete</button>
                                 </td>
                             </tr>
                         ))}
@@ -182,7 +169,7 @@ const AdminDashboard = () => {
                     {['Home', 'About', 'Team', 'Event', 'Service', 'Contact', 'Gallery'].map(p => <option key={p} value={p}>{p}</option>)}
                 </select>
             </div>
-
+            {/* Same form box content as previous prompt */}
             <div className="admin-form-box">
                 <h3 style={{marginBottom: '20px'}}>{editingId ? 'Edit Item' : `Add New to ${selectedPage}`}</h3>
                 <form onSubmit={handleContentSubmit}>
@@ -214,10 +201,30 @@ const AdminDashboard = () => {
                             </div>
                         )}
                     </div>
+                    {selectedPage === 'Service' && !editingId && (
+                        <div style={{marginTop: '20px', paddingTop: '20px', borderTop: '1px solid var(--border-light)'}}>
+                            <label style={{display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer'}}>
+                                <input type="checkbox" checked={addCustomForm} onChange={e => setAddCustomForm(e.target.checked)} />
+                                <strong>Attach Custom Form (Max 5 Fields)</strong>
+                            </label>
+                            {addCustomForm && (
+                                <div style={{marginTop: '15px'}}>
+                                    {customFields.map((field, idx) => (
+                                        <div key={idx} style={{display: 'flex', gap: '15px', marginBottom: '10px'}}>
+                                            <input placeholder="Field Name" className="form-control" required value={field.name} onChange={e => { const newF = [...customFields]; newF[idx].name = e.target.value; setCustomFields(newF); }} />
+                                            <select className="form-control" value={field.type} onChange={e => { const newF = [...customFields]; newF[idx].type = e.target.value; setCustomFields(newF); }}>
+                                                <option value="text">Text</option><option value="email">Email</option><option value="number">Number</option>
+                                            </select>
+                                        </div>
+                                    ))}
+                                    {customFields.length < 5 && <button type="button" onClick={() => setCustomFields([...customFields, {name:'', type:'text'}])} style={{background:'none', border:'none', color:'var(--primary-light)', cursor:'pointer', fontWeight:'bold'}}>+ Add Field</button>}
+                                </div>
+                            )}
+                        </div>
+                    )}
                     <button type="submit" className="button-primary" style={{marginTop: '20px'}}>{editingId ? 'Update' : 'Save'} Content</button>
                 </form>
             </div>
-
             <div className="admin-table-wrapper">
                 <table className="admin-table">
                     <thead><tr><th>Title</th><th>Details</th><th>Actions</th></tr></thead>
@@ -228,7 +235,7 @@ const AdminDashboard = () => {
                                 <td>{item.role || (item.date ? new Date(item.date).toLocaleDateString() : 'N/A')}</td>
                                 <td>
                                     <button onClick={() => editContentItem(item)} className="action-btn edit">✎ Edit</button>
-                                    <button onClick={() => handleDelete(item._id, 'content')} className="action-btn delete">🗑 Delete</button>
+                                    <button onClick={() => handleContentDelete(item._id)} className="action-btn delete">🗑 Delete</button>
                                 </td>
                             </tr>
                         ))}
@@ -241,7 +248,7 @@ const AdminDashboard = () => {
     const renderTabContent = () => {
         switch(activeTab) {
             case 'content': return renderContentManager();
-            case 'animals': return renderAnimalManager();
+            case 'adoption': return renderAdoptionManager();
             case 'slots': return renderTable(overviewData.slots, { Name: 'name', Mobile: 'mobile', Date: 'date', 'Time Slot': 'timeSlot' });
             case 'volunteers': return renderTable(overviewData.volunteers, { Name: 'name', Email: 'email', Mobile: 'mobile', Skills: 'skills' });
             case 'donations': return renderTable(overviewData.donations, { Name: 'name', Mobile: 'mobile', Amount: 'amount', 'Payment ID': 'razorpay_payment_id' });
@@ -256,15 +263,15 @@ const AdminDashboard = () => {
             <aside className="admin-sidebar">
                 <h2>Admin Panel</h2>
                 <nav className="admin-nav">
-                    <button onClick={() => {setActiveTab('content'); setEditingId(null)}} className={`admin-nav-btn ${activeTab === 'content' ? 'active' : ''}`}>Content Manager</button>
-                    <button onClick={() => {setActiveTab('animals'); setEditingId(null)}} className={`admin-nav-btn ${activeTab === 'animals' ? 'active' : ''}`}>Adoption Animals</button>
+                    <button onClick={() => setActiveTab('content')} className={`admin-nav-btn ${activeTab === 'content' ? 'active' : ''}`}>Content Manager</button>
+                    <button onClick={() => setActiveTab('adoption')} className={`admin-nav-btn ${activeTab === 'adoption' ? 'active' : ''}`}>Adoption Animals</button>
                     <button onClick={() => setActiveTab('slots')} className={`admin-nav-btn ${activeTab === 'slots' ? 'active' : ''}`}>Slot Bookings</button>
                     <button onClick={() => setActiveTab('volunteers')} className={`admin-nav-btn ${activeTab === 'volunteers' ? 'active' : ''}`}>Volunteers</button>
                     <button onClick={() => setActiveTab('donations')} className={`admin-nav-btn ${activeTab === 'donations' ? 'active' : ''}`}>Donations</button>
                     <button onClick={() => setActiveTab('feedback')} className={`admin-nav-btn ${activeTab === 'feedback' ? 'active' : ''}`}>Feedback</button>
                     <button onClick={() => setActiveTab('complaints')} className={`admin-nav-btn ${activeTab === 'complaints' ? 'active' : ''}`}>Complaints</button>
                 </nav>
-                <button onClick={handleLogout} className="admin-logout">Logout (Home)</button>
+                <button onClick={handleLogout} className="admin-logout">Logout</button>
             </aside>
             <main className="admin-main">
                 {renderTabContent()}

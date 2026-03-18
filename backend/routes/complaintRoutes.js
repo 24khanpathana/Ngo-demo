@@ -15,13 +15,14 @@ router.post('/', async (req, res) => {
             <p><strong>Email:</strong> ${req.body.email}</p>
             <p><strong>Complaint:</strong> ${req.body.complaint}</p>
         `;
+        
         await sendEmail({ 
-            to: process.env.ADMIN_ID || 'amaanp2710@gmail.com', 
-            subject: 'URGENT: New Complaint Submitted', 
+            to: process.env.ADMIN_EMAIL || 'amaanp2710@gmail.com', 
+            subject: 'New Complaint Submission', 
             htmlContent 
         });
 
-        res.status(201).json({ message: 'Complaint submitted successfully!' });
+        res.status(201).json({ message: 'Form submitted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
     }

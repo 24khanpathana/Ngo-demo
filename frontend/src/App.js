@@ -1,15 +1,15 @@
 // Import the component at the top
-import AdoptionAnimals from './pages/AdoptionAnimals';
+import Adoption from './pages/Adoption';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
-import Home from './components/sections/Home';
-import About from './components/sections/About';
+import Home from './pages/Home';
+import About from './pages/About';
 import Team from './pages/Team';
 import Events from './pages/Events';
 import Service from './pages/Service';
-import Contact from './components/sections/Contact';
+import Contact from './pages/Contact';
 
 import SlotBooking from './pages/SlotBooking';
 import Donation from './pages/Donation';
@@ -41,8 +41,9 @@ function App() {
                         <Route path="/events" element={<Events />} />
                         <Route path="/service" element={<Service />} />
                         <Route path="/contact" element={<Contact />} />
+                        <Route path="/adoption" element={<Adoption />} />
                         {/* ... inside your <Routes> add this: */}
-                        <Route path="/adoption-animals" element={<AdoptionAnimals />} />
+                        <Route path="/adoption-animals" element={<Adoption />} />
                         <Route path="/book-a-slot" element={<SlotBooking />} />
                         <Route path="/donate" element={<Donation />} />
                         

@@ -10,6 +10,7 @@ const Navbar = ({ theme, setTheme }) => {
         setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
     };
 
+// ... existing imports ...
     const links =[
         { name: 'Home', path: '/' },
         { name: 'About', path: '/about' },
@@ -17,8 +18,10 @@ const Navbar = ({ theme, setTheme }) => {
         { name: 'Events', path: '/events' },
         { name: 'Gallery', path: '/gallery' },
         { name: 'Service', path: '/service' },
+        { name: 'Adoption', path: '/adoption' }, // <-- NEW
         { name: 'Contact', path: '/contact' }
     ];
+// ... rest of Navbar.js ...
 
     return (
         <nav className="navbar">
