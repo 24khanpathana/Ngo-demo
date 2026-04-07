@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply bg-white text-gray-900 transition-colors duration-300;
+    @apply bg-[#FAFAFA] text-gray-800 font-sans antialiased transition-colors duration-300;
   }
   body[data-theme='dark'] {
     @apply bg-darkBg text-gray-100;
@@ -13,18 +15,21 @@
 
 @layer components {
   .btn-primary {
-    @apply w-full md:w-auto inline-block bg-primary hover:bg-primaryHover text-white font-semibold py-3 px-6 rounded-lg transition-transform duration-200 ease-in-out transform hover:-translate-y-1 text-center cursor-pointer shadow-md;
+    @apply inline-flex items-center justify-center bg-primary hover:bg-primaryHover text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98];
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary text-gray-700 dark:text-gray-200 bg-white dark:bg-darkCard hover:bg-gray-50 dark:hover:bg-gray-800 font-medium py-3 px-6 rounded-xl transition-all duration-300;
   }
   .input-field {
-    @apply w-full p-3 border border-gray-300 rounded-lg bg-gray-50 dark:bg-[#2a2a2a] dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all;
+    @apply w-full p-4 border border-gray-200 rounded-xl bg-white dark:bg-darkCard dark:border-gray-700 dark:text-white focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all shadow-sm;
   }
   .card {
-    @apply bg-white dark:bg-darkCard border border-gray-200 dark:border-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300;
+    @apply bg-white dark:bg-darkCard border border-gray-100 dark:border-gray-800 rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300;
   }
   .section-title {
-    @apply text-3xl md:text-4xl font-bold text-center text-primary mb-12;
+    @apply text-3xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight;
   }
   .page-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 min-h-[calc(100vh-80px)];
+    @apply max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 min-h-[calc(100vh-80px)];
   }
 }

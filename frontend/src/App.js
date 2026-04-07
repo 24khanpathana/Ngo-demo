@@ -12,12 +12,14 @@ import Service from './pages/Service';
 import Contact from './pages/Contact';
 
 import SlotBooking from './pages/SlotBooking';
+import Gallery from './pages/Gallery';
 import Donation from './pages/Donation';
 import AdminLogin from './pages/AdminLogin';
 import AdminForgotPassword from './pages/AdminForgotPassword';
 import AdminResetPassword from './pages/AdminResetPassword';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import Footer from './components/Footer';
 
 import { AuthProvider } from './context/AuthContext';
 
@@ -45,6 +47,7 @@ function App() {
                         {/* ... inside your <Routes> add this: */}
                         <Route path="/adoption-animals" element={<Adoption />} />
                         <Route path="/book-a-slot" element={<SlotBooking />} />
+                        <Route path="/gallery" element={<Gallery />} />
                         <Route path="/donate" element={<Donation />} />
                         
                         <Route path="/admin" element={<AdminLogin />} />
@@ -56,11 +59,15 @@ function App() {
                                 <AdminDashboard />
                             </ProtectedRoute>
                         } />
+
+                        
                     </Routes>
                 </div>
             </Router>
         </AuthProvider>
     );
 }
+
+
 
 export default App;

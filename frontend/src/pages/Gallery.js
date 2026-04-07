@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Pages.css';
+
 
 const Gallery = () => {
-    const[content, setContent] = useState([]);
+    const [content, setContent] = useState([]);
 
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/content`).then(res => {
-            setContent(res.data.filter(c => c.page === 'Gallery'));
-        });
+    useEffect(() => { 
+        axios.get(`${process.env.REACT_APP_API_URL}/api/content`)
+            .then(res => setContent(res.data.filter(c => c.page === 'Gallery')))
+            .catch(err => console.error("Failed to fetch gallery:", err));
     },[]);
 
     return (

@@ -10,7 +10,6 @@ const Donation = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage({ type: '', text: '' });
-        // (Keep your existing Razorpay Logic here exactly as it was)
         try {
             const { data: { key } } = { key: process.env.REACT_APP_RAZORPAY_KEY_ID };
             const { data: { id, amount } } = await axios.post(`${process.env.REACT_APP_API_URL}/api/donations/order`, { amount: formData.amount });
@@ -27,7 +26,7 @@ const Donation = () => {
                     } catch (error) { setMessage({ type: 'error', text: "Payment verification failed." }); }
                 },
                 prefill: { name: formData.name, contact: formData.mobile },
-                theme: { color: "#007bff" },
+                theme: { color: "#ea580c" }, // Tailwind orange-600 hex
             };
             const rzp = new window.Razorpay(options);
             rzp.open();
@@ -35,43 +34,36 @@ const Donation = () => {
     };
 
     return (
-        <div className="page-container flex justify-center items-center min-h-[calc(100vh-80px)] bg-gray-50 dark:bg-[#0a0a0a]">
-            <div className="card w-full max-w-2xl shadow-xl">
-                <h2 className="section-title !mb-10 text-center">Make a Donation</h2>
+        <div className="min-h-screen bg-orange-50/50 py-20 px-4 flex justify-center items-center font-sans text-gray-800">
+            <div className="bg-white w-full max-w-2xl shadow-2xl rounded-3xl p-8 md:p-12 border border-orange-100">
+                <div className="text-center mb-10">
+                    <p className="text-emerald-700 font-bold tracking-widest uppercase text-sm mb-2">Support Us</p>
+                    <h2 className="text-4xl font-serif font-bold text-gray-900">Make a Donation</h2>
+                </div>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6 items-center">
-                        <label className="md:text-right font-semibold text-gray-700 dark:text-gray-300">Full Name</label>
-                        <div className="md:col-span-2">
-                            <input type="text" name="name" value={formData.name} onChange={handleChange} className="input-field w-full" placeholder="Enter your name" required />
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-emerald-600 outline-none bg-gray-50" required />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Mobile No</label>
+                        <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-emerald-600 outline-none bg-gray-50" required />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Amount (INR)</label>
+                        <div className="relative">
+                            <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-bold text-lg">₹</span>
+                            <input type="number" name="amount" value={formData.amount} onChange={handleChange} className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-emerald-600 outline-none bg-gray-50 text-lg font-semibold text-emerald-900" required min="10" />
                         </div>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6 items-center">
-                        <label className="md:text-right font-semibold text-gray-700 dark:text-gray-300">Mobile No</label>
-                        <div className="md:col-span-2">
-                            <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} className="input-field w-full" placeholder="Enter mobile number" required />
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6 items-center">
-                        <label className="md:text-right font-semibold text-gray-700 dark:text-gray-300">Amount (INR)</label>
-                        <div className="md:col-span-2 relative">
-                            <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-bold">₹</span>
-                            <input type="number" name="amount" value={formData.amount} onChange={handleChange} className="input-field w-full pl-8" placeholder="0.00" required min="10" />
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6 pt-4">
-                        <div className="hidden md:block"></div>
-                        <div className="md:col-span-2">
-                            <button type="submit" className="btn-primary w-full shadow-lg">Donate Now</button>
-                        </div>
+                    <div className="pt-6">
+                        <button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl transition shadow-lg text-lg">Donate Now</button>
                     </div>
                 </form>
 
                 {message.text && (
-                    <div className={`mt-6 p-4 rounded-lg text-center font-medium ${message.type === 'success' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                    <div className={`mt-8 p-4 rounded-xl text-center font-bold ${message.type === 'success' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-red-100 text-red-800 border border-red-200'}`}>
                         {message.text}
                     </div>
                 )}
@@ -79,5 +71,4 @@ const Donation = () => {
         </div>
     );
 };
-
 export default Donation;

@@ -1,14 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content:["./src/**/*.{js,jsx,ts,tsx}"],
-  darkMode: ['class', '[data-theme="dark"]'], // Ties into your existing theme toggle
+  darkMode: ['class', '[data-theme="dark"]'],
   theme: {
     extend: {
+      fontFamily: {
+        sans:['Inter', 'sans-serif'],
+      },
       colors: {
-        primary: '#007bff',
-        primaryHover: '#0056b3',
-        darkBg: '#121212',
-        darkCard: '#1e1e1e',
+        primary: '#10b981', // Modern Emerald
+        primaryHover: '#059669',
+        darkBg: '#0f172a', // Slate 900
+        darkCard: '#1e293b', // Slate 800
       }
     },
   },
