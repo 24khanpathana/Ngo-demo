@@ -13,6 +13,17 @@ const Adoption = () => {
             .catch(err => console.error("Error fetching animals:", err));
     },[]);
 
+    // --- NEW: WhatsApp Redirect Function ---
+    const handleAdoptClick = (animalName) => {
+        // REPLACE THIS NUMBER WITH YOUR NGO'S ACTUAL WHATSAPP NUMBER (Include country code, no + sign)
+        const whatsappNumber = "919876543210"; 
+        const message = `Hello, I have an enquiry for the adoption of ${animalName} from your NGO.`;
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        
+        // Opens WhatsApp in a new tab
+        window.open(whatsappUrl, '_blank');
+    };
+
     // Hardcoded emotional stories extracted from the PDF
     const storyAnimals =[
         {
@@ -39,10 +50,10 @@ const Adoption = () => {
         <div className="w-full font-sans text-gray-800 bg-[#FAFAFA] min-h-screen pb-20">
             
             {/* 1. EMOTIONAL HEADER */}
-            <div div className="bg-white border-b border-gray-100 py-24 text-center px-6">
-                <span span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 inline-block">Their Second Chance</span>
+            <div className="bg-emerald-900 text-white py-20 px-6 text-center border-b border-emerald-800 shadow-inner">
+                <span className="text-emerald-300 font-bold tracking-widest uppercase text-sm mb-4 inline-block">Their Second Chance</span>
                 <h1 className="text-4xl md:text-6xl font-serif font-black mb-6 tracking-tight">Adopt a Best Friend.</h1>
-                <p span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 inline-block">
+                <p className="text-lg md:text-xl text-emerald-100 max-w-3xl mx-auto leading-relaxed">
                     They have survived the unimaginable—abandonment, accidents, and cruelty. Now, they are just looking for a soft place to land. Browse our available animals below and find your perfect companion.
                 </p>
             </div>
@@ -67,11 +78,10 @@ const Adoption = () => {
                                 </div>
                                 <p className="text-sm text-gray-500 mb-6 font-medium">📅 Age: {animal.age}</p>
                                 <p className="text-gray-600 leading-relaxed mb-8 flex-grow">{animal.description}</p>
+                                
+                                {/* UPDATED BUTTON WITH WHATSAPP REDIRECT */}
                                 <button 
-                                    onClick={() => { 
-                                        alert(`Thank you for your interest in ${animal.name}! Redirecting you to our contact page to begin the adoption process.`); 
-                                        navigate('/contact'); 
-                                    }} 
+                                    onClick={() => handleAdoptClick(animal.name)} 
                                     className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl transition-colors shadow-lg shadow-orange-600/20"
                                 >
                                     Adopt Me
