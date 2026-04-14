@@ -16,9 +16,9 @@ const Adoption = () => {
     // --- NEW: WhatsApp Redirect Function ---
     const handleAdoptClick = (animalName) => {
         // REPLACE THIS NUMBER WITH YOUR NGO'S ACTUAL WHATSAPP NUMBER (Include country code, no + sign)
-        const whatsappNumber = "919876543210"; 
+        const whatsappNumber = "7588322602"; 
         const message = `Hello, I have an enquiry for the adoption of ${animalName} from your NGO.`;
-        const whatsappUrl = `https://wa.me/${7588322602}?text=${encodeURIComponent(message)}`;
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         
         // Opens WhatsApp in a new tab
         window.open(whatsappUrl, '_blank');
