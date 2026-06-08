@@ -4,7 +4,7 @@ const DynamicContentSchema = new mongoose.Schema({
     page: { 
         type: String, 
         required: true, 
-        enum:['Home', 'About', 'Team', 'Event', 'Service', 'Contact', 'Gallery'] 
+        enum:['Home', 'About', 'Volunteer', 'Team', 'Event', 'Service', 'Contact', 'Gallery'] 
     },
     title: { type: String, required: true },
     description: { type: String },

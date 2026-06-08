@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaSun, FaMoon, FaLock, FaBars, FaTimes } from 'react-icons/fa';
+import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = ({ theme, setTheme }) => {
     const location = useLocation();
@@ -9,83 +9,77 @@ const Navbar = ({ theme, setTheme }) => {
     const toggleTheme = () => setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
     const closeMenu = () => setIsMenuOpen(false);
 
-    // Added Team and Gallery to the links array
-    const links =[
-        { name: 'Home', path: '/' }, 
+    const links = [
+        { name: 'Home', path: '/' },
         { name: 'About', path: '/about' },
-        { name: 'Team', path: '/team' }, 
-        { name: 'Events', path: '/events' }, 
-        { name: 'Gallery', path: '/gallery' }, 
-        { name: 'Adoption', path: '/adoption' }, 
-        { name: 'Service', path: '/service' }, 
-        { name: 'Contact', path: '/contact' }
+        { name: 'Services', path: '/service' },
+        { name: 'Events', path: '/events' },
+        { name: 'Gallery', path: '/gallery' },
+        { name: 'Volunteer', path: '/team' },
+        { name: 'Contact', path: '/contact' },
     ];
 
     return (
-        <nav className="fixed w-full top-0 z-50 bg-white/80 dark:bg-darkBg/80 backdrop-blur-lg border-b border-gray-100 dark:border-gray-800 transition-all duration-300 shadow-sm">
-            <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex justify-between items-center">
-                
-                {/* Logo Left */}
-                <Link to="/" onClick={closeMenu} className="flex items-center gap-3 z-50 group">
-                    <img src="https://tse1.mm.bing.net/th/id/OIP.Roc8Aj63hu6E9py24OG4IAHaFO?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Logo" className="w-20 h-10 rounded-full shadow-sm group-hover:scale-105 transition-transform duration-300" />
-                    <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Demo Mode</span>
+        <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/40 bg-white/76 backdrop-blur-2xl shadow-sm transition-all duration-300 dark:border-slate-800/70 dark:bg-[#071513]/85">
+            <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8 xl:px-12">
+                <Link to="/" onClick={closeMenu} className="flex shrink-0 items-center gap-3">
+                    <img src="/logo.svg" alt="Pyaar Foundation logo" className="h-12 w-12 rounded-2xl shadow-lg shadow-teal-500/20" />
+                    <div>
+                        <p className="text-xs font-black uppercase tracking-[0.24em] text-primary dark:text-teal-200">Pyaar Foundation</p>
+                        <h1 className="text-xl font-black text-slate-900 dark:text-white">Foundation</h1>
+                    </div>
                 </Link>
 
-                {/* Links Right */}
-                <div className="hidden lg:flex items-center space-x-8">
-                    <ul className="flex items-center space-x-8">
+                <div className="hidden min-w-0 items-center gap-4 lg:flex xl:gap-6">
+                    <ul className="flex min-w-0 items-center gap-3 text-sm font-semibold text-slate-600 dark:text-slate-300 xl:gap-5">
                         {links.map(link => (
                             <li key={link.name}>
-                                <Link 
-                                    to={link.path} 
-                                    className={`text-sm font-medium transition-all duration-200 relative group ${location.pathname === link.path ? 'text-primary' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'}`}
-                                >
+                                <Link
+                                    to={link.path}
+                                    className={`transition ${location.pathname === link.path ? 'text-primary dark:text-teal-300' : 'hover:text-slate-900 dark:hover:text-white'}`}>
                                     {link.name}
-                                    <span className={`absolute -bottom-1 left-0 w-full h-[2px] bg-primary rounded-full transition-all duration-300 ${location.pathname === link.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
                                 </Link>
                             </li>
                         ))}
                     </ul>
-
-                    <div className="flex items-center gap-4 pl-6 border-l border-gray-200 dark:border-gray-700">
-                        <button onClick={toggleTheme} className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition">
-                            {theme === 'light' ? <FaMoon size={18} /> : <FaSun size={18} />}
-                        </button>
-                        <Link to="/admin" className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition">
-                            <FaLock size={16} />
-                        </Link>
-                    </div>
+                    <Link to="/donate" className="shrink-0 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 px-4 py-3 text-sm font-black text-white shadow-lg shadow-teal-600/20 transition hover:from-teal-400 hover:to-emerald-400 xl:px-5">
+                        Donate Now
+                    </Link>
+                    <Link to="/admin" className="shrink-0 rounded-full border border-slate-200/80 bg-white px-4 py-3 text-sm font-black text-slate-700 shadow-sm transition hover:border-primary hover:text-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-teal-300 dark:hover:text-teal-200 xl:px-5">
+                        Admin Login
+                    </Link>
+                    <button onClick={toggleTheme} className="shrink-0 rounded-full border border-slate-200/80 bg-white px-3 py-3 text-slate-700 transition hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+                        {theme === 'light' ? <FaMoon size={16} /> : <FaSun size={16} />}
+                    </button>
                 </div>
 
-                {/* Mobile Toggle */}
-                <div className="flex items-center gap-4 lg:hidden z-50">
-                    <button onClick={toggleTheme} className="text-gray-600 dark:text-gray-300">
-                        {theme === 'light' ? <FaMoon size={18} /> : <FaSun size={18} />}
+                <div className="flex items-center gap-3 lg:hidden">
+                    <button onClick={toggleTheme} className="rounded-full border border-slate-200/80 bg-white px-3 py-3 text-slate-700 transition hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+                        {theme === 'light' ? <FaMoon size={16} /> : <FaSun size={16} />}
                     </button>
-                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-900 dark:text-white p-2">
-                        {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-slate-900 dark:text-white">
+                        {isMenuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
                     </button>
                 </div>
             </div>
 
-            {/* Mobile Menu */}
-            <div className={`lg:hidden absolute top-20 left-0 w-full bg-white dark:bg-darkBg border-b border-gray-100 dark:border-gray-800 shadow-xl transition-all duration-300 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
-                <ul className="flex flex-col p-6 space-y-4">
+            <div className={`lg:hidden ${isMenuOpen ? 'block' : 'hidden'} border-t border-slate-200/70 bg-white dark:border-slate-800/70 dark:bg-[#071513]`}>
+                <div className="space-y-4 px-6 py-6">
                     {links.map(link => (
-                        <li key={link.name}>
-                            <Link to={link.path} onClick={closeMenu} className={`block text-lg font-medium ${location.pathname === link.path ? 'text-primary' : 'text-gray-600 dark:text-gray-300'}`}>
-                                {link.name}
-                            </Link>
-                        </li>
-                    ))}
-                    <li className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                        <Link to="/admin" onClick={closeMenu} className="flex items-center gap-2 text-gray-600 dark:text-gray-300 font-medium">
-                            <FaLock size={16} /> Admin Login
+                        <Link key={link.name} to={link.path} onClick={closeMenu} className="block text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-cyan-600">
+                            {link.name}
                         </Link>
-                    </li>
-                </ul>
+                    ))}
+                    <Link to="/donate" onClick={closeMenu} className="block rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-teal-600/20">
+                        Donate Now
+                    </Link>
+                    <Link to="/admin" onClick={closeMenu} className="block text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
+                        Admin Login
+                    </Link>
+                </div>
             </div>
         </nav>
     );
 };
+
 export default Navbar;

@@ -1,64 +1,56 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
 const Footer = () => {
     return (
-        <footer className="bg-white dark:bg-darkCard border-t border-gray-200 dark:border-gray-800 pt-16 pb-8 transition-colors duration-300">
-            <div className="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-                <div className="md:col-span-1">
-                    <Link to="/" className="flex items-center gap-3 mb-4">
-                        <img src="/logo192.png" alt="Logo" className="w-8 h-8 rounded-full" />
-                        <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Ngo Demo</span>
-                    </Link>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-6">
-                        Dedicated to rescuing, rehabilitating, and rehoming animals. Giving every animal a chance to live and be loved.
+        <footer className="border-t border-slate-800 bg-[#071513] text-slate-300">
+            <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-4 lg:px-12">
+                <div className="space-y-4">
+                    <img src="/footer-logo.svg" alt="Pyaar Foundation" className="h-16 w-auto" />
+                    <p className="text-sm leading-relaxed text-slate-400">
+                        We rescue, rehabilitate, vaccinate, sterilise, and rehome animals with dignity, urgency, and transparent community support.
                     </p>
-                    <div className="flex space-x-4 text-gray-400">
-                        <a href="#" className="hover:text-primary transition-colors"><FaFacebook size={20}/></a>
-                        <a href="#" className="hover:text-primary transition-colors"><FaTwitter size={20}/></a>
-                        <a href="#" className="hover:text-primary transition-colors"><FaInstagram size={20}/></a>
-                        <a href="#" className="hover:text-primary transition-colors"><FaLinkedin size={20}/></a>
+                    <div className="flex items-center gap-4 text-slate-400">
+                        <a href="#" className="hover:text-white transition"><FaFacebook size={18} /></a>
+                        <a href="#" className="hover:text-white transition"><FaTwitter size={18} /></a>
+                        <a href="#" className="hover:text-white transition"><FaInstagram size={18} /></a>
+                        <a href="#" className="hover:text-white transition"><FaLinkedin size={18} /></a>
                     </div>
                 </div>
-                
                 <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Quick Links</h4>
-                    <ul className="space-y-3 text-sm text-gray-500 dark:text-gray-400">
-                        <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
-                        <li><Link to="/adoption" className="hover:text-primary transition-colors">Adopt a Pet</Link></li>
-                        <li><Link to="/donate" className="hover:text-primary transition-colors">Make a Donation</Link></li>
-                        <li><Link to="/volunteer" className="hover:text-primary transition-colors">Volunteer</Link></li>
+                    <h4 className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-300 mb-6">Quick Links</h4>
+                    <ul className="space-y-3 text-sm text-slate-400">
+                        <li><Link to="/about" className="hover:text-white transition">About Us</Link></li>
+                        <li><Link to="/gallery" className="hover:text-white transition">Gallery</Link></li>
+                        <li><Link to="/donate" className="hover:text-white transition">Donate</Link></li>
+                        <li><Link to="/team" className="hover:text-white transition">Volunteer</Link></li>
+                        <li><Link to="/events" className="hover:text-white transition">Events</Link></li>
                     </ul>
                 </div>
-
                 <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Services</h4>
-                    <ul className="space-y-3 text-sm text-gray-500 dark:text-gray-400">
-                        <li><Link to="/book-a-slot" className="hover:text-primary transition-colors">Book Animal Therapy</Link></li>
-                        <li><Link to="/book-a-slot" className="hover:text-primary transition-colors">Pet Cremation</Link></li>
-                        <li><Link to="/service" className="hover:text-primary transition-colors">Medical Support</Link></li>
+                    <h4 className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-300 mb-6">Programs</h4>
+                    <ul className="space-y-3 text-sm text-slate-400">
+                        <li><Link to="/service" className="hover:text-white transition">Rescue</Link></li>
+                        <li><Link to="/adoption" className="hover:text-white transition">Adoption</Link></li>
+                        <li><Link to="/events" className="hover:text-white transition">Events</Link></li>
                     </ul>
                 </div>
-
                 <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Contact</h4>
-                    <ul className="space-y-3 text-sm text-gray-500 dark:text-gray-400">
-                        <li>Animal Rescue Centre</li>
-                        <li>Nagpur, Maharashtra, India</li>
-                        <li>contact@ngo-demo.org</li>
-                        <li>+91 98765 43210</li>
+                    <h4 className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-300 mb-6">Contact</h4>
+                    <ul className="space-y-3 text-sm text-slate-400">
+                        <li>Near pipeline Vichoda, Chhota</li>
+                        <li>Nagpur,Chandrapur,Maharashtra,442406, India</li>
+                        <li><a href="mailto:contact@pyaarfoundation.org" className="hover:text-white transition">contact@pyaarfoundation.org</a></li>
+                        <li>+91 75888 93939</li>
                     </ul>
                 </div>
             </div>
-            <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-8 border-t border-gray-100 dark:border-gray-800 text-sm text-gray-400 flex flex-col md:flex-row justify-between items-center">
-                <p>&copy; {new Date().getFullYear()} Ngo Demo. All rights reserved.</p>
-                <div className="space-x-4 mt-4 md:mt-0">
-                    <a href="#" className="hover:text-gray-900 dark:hover:text-white transition">Privacy Policy</a>
-                    <a href="#" className="hover:text-gray-900 dark:hover:text-white transition">Terms of Service</a>
-                </div>
+            <div className="border-t border-slate-800 py-6 text-center text-sm text-slate-500">
+                &copy; {new Date().getFullYear()} Pyaar Foundation. All rights reserved.
             </div>
         </footer>
     );
 };
+
 export default Footer;

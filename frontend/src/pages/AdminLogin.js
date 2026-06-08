@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import api from '../utils/api';
 
 const AdminLogin = () => {
     const [formData, setFormData] = useState({ adminId: '', password: '' });
@@ -12,7 +12,7 @@ const AdminLogin = () => {
     const handleSubmit = async e => {
         e.preventDefault(); setError('');
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, formData);
+            const res = await api.post('/api/auth/login', formData);
             login(res.data.token); navigate('/admin/dashboard');
         } catch (err) { setError(err.response?.data?.message || 'Login failed'); }
     };

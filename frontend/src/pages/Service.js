@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaAmbulance, FaStethoscope, FaSyringe, FaWater, FaFireAlt } from 'react-icons/fa';
+import { FaAmbulance, FaArrowRight, FaFireAlt, FaStethoscope, FaSyringe, FaWater } from 'react-icons/fa';
+import api from '../utils/api';
 
-// --- Form Component for Static Forms ---
 const ServiceForm = ({ title, endpoint, fields }) => {
     const [data, setData] = useState({});
     const [msg, setMsg] = useState('');
@@ -11,60 +10,8 @@ const ServiceForm = ({ title, endpoint, fields }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}${endpoint}`, data);
-            setMsg(res.data.message || 'Form submitted successfully!'); 
-            setData({});
-        } catch (err) { 
-            setMsg('Error submitting form. Please try again.'); 
-        }
-    };
-
-    return (
-        <div className="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
-            <h3 className="text-3xl font-serif font-bold text-gray-900 mb-8">{title}</h3>
-            <form onSubmit={handleSubmit} className="space-y-6">
-                {fields.map(f => (
-                    <div key={f.name}>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 capitalize">{f.label || f.name}</label>
-                        {f.type === 'textarea' ? (
-                            <textarea 
-                                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none bg-gray-50 text-gray-800 transition-all" 
-                                rows="4" required 
-                                onChange={e => setData({...data,[f.name]: e.target.value})} 
-                                value={data[f.name] || ''} 
-                            />
-                        ) : (
-                            <input 
-                                type={f.type || 'text'} 
-                                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none bg-gray-50 text-gray-800 transition-all" 
-                                required 
-                                onChange={e => setData({...data, [f.name]: e.target.value})} 
-                                value={data[f.name] || ''} 
-                            />
-                        )}
-                    </div>
-                ))}
-                <button type="submit" className="w-full bg-primary hover:bg-primaryHover text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-primary/20 mt-4 active:scale-[0.98]">
-                    Submit
-                </button>
-            </form>
-            {msg && <p className="mt-6 text-center font-bold text-emerald-700 bg-emerald-50 p-4 rounded-xl border border-emerald-100">{msg}</p>}
-        </div>
-    );
-};
-
-// --- Form Component for Admin-Created Dynamic Forms ---
-const DynamicCustomForm = ({ formMeta }) => {
-    const [data, setData] = useState({});
-    const [msg, setMsg] = useState('');
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/api/forms/submit`, {
-                formId: formMeta._id, formTitle: formMeta.customForm.title, data
-            });
-            setMsg('Form submitted successfully!');
+            const res = await api.post(endpoint, data);
+            setMsg(res.data.message || 'Form submitted successfully.');
             setData({});
         } catch (err) {
             setMsg('Error submitting form. Please try again.');
@@ -72,136 +19,195 @@ const DynamicCustomForm = ({ formMeta }) => {
     };
 
     return (
-        <div className="bg-white p-8 md:p-10 rounded-3xl shadow-xl border-t-4 border-t-primary border-x border-b border-gray-100 hover:shadow-2xl transition-shadow duration-300">
-            <h3 className="text-3xl font-serif font-bold text-gray-900 mb-4">{formMeta.customForm.title}</h3>
-            {formMeta.description && <p className="mb-8 text-gray-500 leading-relaxed">{formMeta.description}</p>}
+        <div className="rounded-[2rem] border border-white bg-white p-8 shadow-xl shadow-slate-200/50 md:p-10">
+            <h3 className="mb-8 text-3xl font-black text-slate-950">{title}</h3>
             <form onSubmit={handleSubmit} className="space-y-6">
-                {formMeta.customForm.fields.map((f, i) => (
-                    <div key={i}>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 capitalize">{f.name}</label>
-                        <input 
-                            type={f.type} 
-                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none bg-gray-50 text-gray-800 transition-all" 
-                            required 
-                            onChange={e => setData({...data,[f.name]: e.target.value})} 
-                            value={data[f.name] || ''} 
-                        />
+                {fields.map(f => (
+                    <div key={f.name}>
+                        <label className="mb-2 block text-sm font-semibold capitalize text-slate-700">{f.label || f.name}</label>
+                        {f.type === 'textarea' ? (
+                            <textarea className="input-field resize-none" rows="4" required onChange={e => setData({ ...data, [f.name]: e.target.value })} value={data[f.name] || ''} />
+                        ) : (
+                            <input type={f.type || 'text'} className="input-field" required onChange={e => setData({ ...data, [f.name]: e.target.value })} value={data[f.name] || ''} />
+                        )}
                     </div>
                 ))}
-                <button type="submit" className="w-full bg-primary hover:bg-primaryHover text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-primary/20 mt-4 active:scale-[0.98]">
-                    Submit
-                </button>
+                <button type="submit" className="btn-primary w-full py-4">Submit</button>
             </form>
-            {msg && <p className="mt-6 text-center font-bold text-emerald-700 bg-emerald-50 p-4 rounded-xl border border-emerald-100">{msg}</p>}
+            {msg && <p className="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-center font-bold text-emerald-700">{msg}</p>}
         </div>
     );
 };
 
-// --- Main Service Page Component ---
+const DynamicCustomForm = ({ formMeta }) => {
+    const [data, setData] = useState({});
+    const [msg, setMsg] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await api.post('/api/forms/submit', {
+                formId: formMeta._id,
+                formTitle: formMeta.customForm.title,
+                data,
+            });
+            setMsg('Form submitted successfully.');
+            setData({});
+        } catch (err) {
+            setMsg('Error submitting form. Please try again.');
+        }
+    };
+
+    return (
+        <div className="rounded-[2rem] border border-white bg-white p-8 shadow-xl shadow-slate-200/50 md:p-10">
+            <h3 className="mb-4 text-3xl font-black text-slate-950">{formMeta.customForm.title}</h3>
+            {formMeta.description && <p className="mb-8 leading-7 text-slate-600">{formMeta.description}</p>}
+            <form onSubmit={handleSubmit} className="space-y-6">
+                {formMeta.customForm.fields.map((f, i) => (
+                    <div key={i}>
+                        <label className="mb-2 block text-sm font-semibold capitalize text-slate-700">{f.name}</label>
+                        <input type={f.type} className="input-field" required onChange={e => setData({ ...data, [f.name]: e.target.value })} value={data[f.name] || ''} />
+                    </div>
+                ))}
+                <button type="submit" className="btn-primary w-full py-4">Submit</button>
+            </form>
+            {msg && <p className="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-center font-bold text-emerald-700">{msg}</p>}
+        </div>
+    );
+};
+
 const Service = () => {
     const navigate = useNavigate();
     const [dynamicForms, setDynamicForms] = useState([]);
 
-    useEffect(() => { 
-        axios.get(`${process.env.REACT_APP_API_URL}/api/content`)
+    useEffect(() => {
+        document.title = 'Programs | Pyaar Foundation';
+        api.get('/api/content')
             .then(res => setDynamicForms(res.data.filter(c => c.page === 'Service')))
-            .catch(err => console.error("Error fetching dynamic forms:", err));
-    },[]);
+            .catch(() => setDynamicForms([]));
+    }, []);
 
-    const services =[
+    const services = [
         {
-            icon: FaAmbulance, title: "Rescue & Emergency Care",
-            desc: "When a street animal is struck by a car and left bleeding on the side of the road, our rescue team is their only hope. We transport injured and abandoned animals immediately to our centre for life-saving interventions."
+            icon: FaAmbulance,
+            title: 'Rescue & Emergency Care',
+            desc: 'When a street animal is injured, abused, abandoned, or critically sick, our rescue network coordinates transport and immediate intervention.',
         },
         {
-            icon: FaStethoscope, title: "Operation Theatre & Rehab",
-            desc: "Broken bones, maggot wounds, and severe infections require dedicated care. Our state-of-the-art operation theatre and hospitalisation wards allow us to perform complex surgeries, including custom prosthetics for large animals."
+            icon: FaStethoscope,
+            title: 'Operation Theatre & Rehab',
+            desc: 'Fractures, maggot wounds, infections, and trauma cases receive veterinary care, surgery support, hospitalisation, and recovery planning.',
         },
         {
-            icon: FaWater, title: "Hydrotherapy Unit",
-            desc: "For animals recovering from paralysis or orthopaedic surgeries, movement is excruciating. Our specialized hydrotherapy unit allows them to rebuild muscle strength and mobility in a weightless, pain-free environment."
+            icon: FaWater,
+            title: 'Hydrotherapy and Mobility',
+            desc: 'For animals recovering from paralysis or orthopaedic injuries, assisted movement helps rebuild strength with less pain and fear.',
         },
         {
-            icon: FaSyringe, title: "Animal Birth Control (ABC)",
-            desc: "To stop the cycle of suffering on the streets, we run a rigorous ABC programme. Community dogs are humanely sterilised, vaccinated against rabies, and released—reducing human-animal conflict."
+            icon: FaSyringe,
+            title: 'ABC and Vaccination',
+            desc: 'Community animals are humanely sterilised, vaccinated against rabies, and released with dignity to reduce future suffering.',
         },
         {
-            icon: FaFireAlt, title: "Pet Cremation Services",
-            desc: "Every life deserves dignity in the end. We established Nagpur’s first dedicated pet crematorium to provide a hygienic, legal, and deeply respectful farewell for pets, solving a heartbreaking challenge for local pet parents."
-        }
+            icon: FaFireAlt,
+            title: 'Organic Shelter Products',
+            desc: 'Eco-friendly products made through shelter-supported initiatives help fund rescue, medical treatment, and daily animal care.',
+        },
+        {
+            icon: FaFireAlt,
+            title: 'Dignified Farewell Support',
+            desc: 'Every life deserves dignity at the end. We support respectful farewell services for families and rescued animals.',
+        },
     ];
 
     return (
-        <div className="w-full bg-[#FAFAFA] min-h-screen pb-24">
-            
-            {/* 1. EMOTIONAL HEADER */}
-            <div className="bg-darkBg text-white py-24 px-6 text-center">
-                <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">Healing the Broken.</h1>
-                <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                    Our facilities aren't just buildings—they are the line between life and death for thousands of voiceless animals. See how your donations are put to work, and get involved below.
-                </p>
+        <div className="min-h-screen w-full bg-mist pb-24">
+            <div className="relative overflow-hidden bg-[#071513] px-6 py-28 text-center text-white">
+                <div className="absolute inset-0 opacity-25">
+                    <img src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?auto=format&fit=crop&w=1600&q=80" alt="" className="h-full w-full object-cover" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-b from-[#071513]/80 to-[#071513]" />
+                <div className="relative mx-auto max-w-3xl">
+                    <span className="mb-4 inline-block text-sm font-bold uppercase tracking-[0.3em] text-teal-200">Programs and initiatives</span>
+                    <h1 className="mb-6 text-4xl font-black tracking-tight md:text-6xl">A complete care path for animals in crisis.</h1>
+                    <p className="text-lg leading-8 text-slate-300 md:text-xl">
+                        From rescue and treatment to sterilisation, adoption, awareness, and dignified end-of-life support, our programs are designed around real street-level needs.
+                    </p>
+                </div>
             </div>
 
-            {/* 2. SERVICES & STORY SECTION */}
-            <section className="max-w-7xl mx-auto px-6 lg:px-12 py-20 -mt-10 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {services.map((srv, idx) => (
-                        <div key={idx} className="bg-white p-10 rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100 hover:-translate-y-1 transition-transform duration-300 group">
-                            <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                <srv.icon size={30} />
-                            </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-4">{srv.title}</h3>
-                            <p className="text-gray-600 leading-relaxed text-lg">{srv.desc}</p>
+            <section className="mx-auto max-w-7xl px-6 py-16 lg:px-12">
+                <div className="grid gap-5 md:grid-cols-4">
+                    {['Rescue', 'Rehab', 'Adoption', 'Awareness'].map(item => (
+                        <div key={item} className="rounded-[1.5rem] border border-white bg-white p-6 text-center shadow-xl shadow-slate-200/50">
+                            <p className="text-2xl font-black text-primary">{item}</p>
+                            <p className="mt-2 text-sm text-slate-500">A focused action stream</p>
                         </div>
                     ))}
-                    
-                    {/* Emotional CTA Card */}
-                    <div className="bg-gradient-to-br from-primary to-emerald-700 p-10 rounded-3xl shadow-xl text-white flex flex-col justify-center items-center text-center hover:-translate-y-1 transition-transform duration-300">
-                        <h3 className="text-3xl font-bold mb-4">We Can't Do It Alone</h3>
-                        <p className="text-emerald-100 mb-8 text-lg">
-                            Medicines, surgical equipment, and daily food require constant funding. Help us keep the operation theatre lights on.
+                </div>
+            </section>
+
+            <section className="mx-auto max-w-7xl px-6 py-12 lg:px-12">
+                <div className="mb-12 max-w-3xl">
+                    <p className="text-sm font-bold uppercase tracking-[0.28em] text-primary">What we do</p>
+                    <h2 className="mt-4 text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">Facilities and fieldwork that keep hope practical.</h2>
+                    <p className="mt-5 text-lg leading-8 text-slate-600">
+                        These initiatives follow a transparent flow donors can understand: rescue, treat, rehabilitate, adopt, prevent future suffering, and educate communities.
+                    </p>
+                </div>
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                    {services.map((srv, idx) => (
+                        <div key={idx} className="group rounded-[2rem] border border-white bg-white p-8 shadow-xl shadow-slate-200/50 transition-transform duration-300 hover:-translate-y-1">
+                            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50 text-primary transition-transform duration-300 group-hover:scale-110">
+                                <srv.icon size={28} />
+                            </div>
+                            <h3 className="mb-4 text-2xl font-black text-slate-950">{srv.title}</h3>
+                            <p className="text-lg leading-8 text-slate-600">{srv.desc}</p>
+                        </div>
+                    ))}
+                    <div className="flex flex-col justify-center rounded-[2rem] bg-gradient-to-br from-primary to-[#071513] p-8 text-white shadow-xl shadow-teal-900/20">
+                        <h3 className="mb-4 text-3xl font-black">Fund the next urgent case</h3>
+                        <p className="mb-8 text-lg leading-8 text-teal-50">
+                            Medicines, surgeries, transport, nutrition, and daily cleaning supplies require continuous support.
                         </p>
-                        <button onClick={() => navigate('/donate')} className="bg-white text-primary font-bold py-4 px-10 rounded-full shadow-lg hover:bg-gray-50 transition-colors w-full active:scale-[0.98]">
-                            Fund Our Medical Ward
+                        <button onClick={() => navigate('/donate')} className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-black text-primary shadow-lg transition hover:bg-teal-50">
+                            Open QR Donation <FaArrowRight />
                         </button>
                     </div>
                 </div>
             </section>
 
-            {/* 3. OUTREACH & ACTION FORMS SECTION */}
-            <section className="max-w-7xl mx-auto px-6 lg:px-12 pt-16">
-                <div className="text-center mb-16">
-                    <span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 inline-block">Take Action</span>
-                    <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-6">Our Outreach & Forms</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Join our cause as a volunteer, share your feedback to help us grow, or register for our custom outreach programs.
+            <section className="mx-auto max-w-7xl px-6 pt-16 lg:px-12">
+                <div className="mb-16 text-center">
+                    <span className="mb-4 inline-block text-sm font-bold uppercase tracking-[0.28em] text-primary">Take action</span>
+                    <h2 className="mb-6 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">Volunteer, report, or help us improve.</h2>
+                    <p className="mx-auto max-w-2xl text-lg leading-8 text-slate-600">
+                        Join as a volunteer, share feedback, report concerns, or use any custom outreach forms published by the Pyaar Foundation admin team.
                     </p>
                 </div>
-                
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                    <ServiceForm 
-                        title="Volunteer Apply" 
-                        endpoint="/api/volunteers/apply" 
-                        fields={[{ name: 'name' }, { name: 'email', type: 'email' }, { name: 'mobile', type: 'tel' }, { name: 'skills', type: 'textarea', label: 'Skills / Reason' }]} 
+
+                <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
+                    <ServiceForm
+                        title="Volunteer Application"
+                        endpoint="/api/volunteers/apply"
+                        fields={[{ name: 'name' }, { name: 'email', type: 'email' }, { name: 'mobile', type: 'tel' }, { name: 'skills', type: 'textarea', label: 'Skills / Reason' }]}
                     />
-                    <ServiceForm 
-                        title="General Feedback" 
-                        endpoint="/api/feedback" 
-                        fields={[{ name: 'name' }, { name: 'email', type: 'email' }, { name: 'feedback', type: 'textarea' }]} 
+                    <ServiceForm
+                        title="General Feedback"
+                        endpoint="/api/feedback"
+                        fields={[{ name: 'name' }, { name: 'email', type: 'email' }, { name: 'feedback', type: 'textarea' }]}
                     />
-                    <ServiceForm 
-                        title="Register Complaint" 
-                        endpoint="/api/complaints" 
-                        fields={[{ name: 'name' }, { name: 'email', type: 'email' }, { name: 'complaint', type: 'textarea' }]} 
+                    <ServiceForm
+                        title="Register Complaint"
+                        endpoint="/api/complaints"
+                        fields={[{ name: 'name' }, { name: 'email', type: 'email' }, { name: 'complaint', type: 'textarea' }]}
                     />
-                    
-                    {/* Render Admin-Created Dynamic Forms */}
+
                     {dynamicForms.map(form => form.customForm?.fields?.length > 0 && (
                         <DynamicCustomForm key={form._id} formMeta={form} />
                     ))}
                 </div>
             </section>
-            
         </div>
     );
 };

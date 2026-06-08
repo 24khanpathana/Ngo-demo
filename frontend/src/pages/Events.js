@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaGraduationCap, FaHandsHelping, FaHeart } from 'react-icons/fa';
+import api from '../utils/api';
 
 const Events = () => {
     const navigate = useNavigate();
@@ -9,25 +9,32 @@ const Events = () => {
 
     // Fetch dynamic events from the backend
     useEffect(() => { 
-        axios.get(`${process.env.REACT_APP_API_URL}/api/content`)
+        document.title = 'Events | Pyaar Foundation';
+        api.get('/api/content')
             .then(res => setEvents(res.data.filter(c => c.page === 'Event')))
             .catch(err => console.error("Error fetching events:", err));
     },[]);
 
     return (
-        <div className="w-full bg-white min-h-screen">
+        <div className="min-h-screen w-full bg-white">
             
             {/* 1. Header Section */}
-            <div className="py-24 px-6 text-center border-b border-gray-100 bg-[#FAFAFA]">
-                <span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 inline-block">
-                    Sahajeevan Initiative
+            <div className="relative overflow-hidden bg-[#071513] px-6 py-28 text-center text-white">
+                <div className="absolute inset-0 opacity-20">
+                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1600&q=80" alt="" className="h-full w-full object-cover" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-b from-[#071513]/75 to-[#071513]" />
+                <div className="relative">
+                <span className="mb-4 inline-block text-sm font-bold uppercase tracking-[0.3em] text-teal-200">
+                    Sahajeevan awareness initiative
                 </span>
-                <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+                <h1 className="mb-6 text-4xl font-black tracking-tight md:text-6xl">
                     Fostering Empathy Early.
                 </h1>
-                <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                <p className="mx-auto max-w-2xl text-lg leading-8 text-slate-300 md:text-xl">
                     Treating wounded animals is a cure, but education is the prevention. Through our "Sahajeevan" awareness campaigns, we are shaping the next generation to value all living beings.
                 </p>
+                </div>
             </div>
 
             {/* 2. Story & Details Section */}
@@ -42,7 +49,7 @@ const Events = () => {
                     {/* Text & Impact */}
                     <div className="space-y-8">
                         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                            Building a future where coexistence is a <span className="text-primary">symphony of understanding.</span>
+                            Building a future where coexistence becomes a <span className="text-primary">language of understanding.</span>
                         </h2>
                         <p className="text-lg text-gray-600 leading-relaxed">
                             A significant amount of animal abuse stems from fear and a lack of understanding. We conduct "Sahajeevan" events at schools to teach children responsible animal care, rabies awareness, and how to understand animal behaviour.
@@ -92,7 +99,7 @@ const Events = () => {
                                         </div>
                                     ) : (
                                         <div className="w-full h-56 bg-emerald-100 flex items-center justify-center">
-                                            <span className="text-emerald-800 font-bold opacity-50">Ngo Event</span>
+                                            <span className="text-emerald-800 font-bold opacity-50">Pyaar Foundation Event</span>
                                         </div>
                                     )}
                                     <div className="p-8 flex-grow flex flex-col">
@@ -116,7 +123,7 @@ const Events = () => {
             </section>
 
             {/* 4. Final CTA */}
-            <section className="bg-darkBg py-24 px-6 text-center text-white">
+            <section className="bg-[#071513] py-24 px-6 text-center text-white">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">Host a Sahajeevan Campaign</h2>
                 <p className="text-gray-400 mb-10 max-w-xl mx-auto text-lg leading-relaxed">
                     Want to bring our awareness programme to your community, corporate office, or educational institution?

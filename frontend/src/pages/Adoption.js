@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from '../utils/api';
 
 const Adoption = () => {
     const [animals, setAnimals] = useState([]);
@@ -8,7 +8,7 @@ const Adoption = () => {
 
     // Fetch dynamic animals from the database
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/animals`)
+        api.get('/api/animals')
             .then(res => setAnimals(res.data))
             .catch(err => console.error("Error fetching animals:", err));
     },[]);

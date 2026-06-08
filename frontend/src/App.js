@@ -1,7 +1,6 @@
-// Import the component at the top
 import Adoption from './pages/Adoption';
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -11,7 +10,6 @@ import Events from './pages/Events';
 import Service from './pages/Service';
 import Contact from './pages/Contact';
 
-import SlotBooking from './pages/SlotBooking';
 import Gallery from './pages/Gallery';
 import Donation from './pages/Donation';
 import AdminLogin from './pages/AdminLogin';
@@ -35,7 +33,7 @@ function App() {
         <AuthProvider>
             <Router>
                 <Navbar theme={theme} setTheme={setTheme} />
-                <div style={{ paddingTop: '80px' }}>
+                <div className="min-h-screen pt-24">
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/about" element={<About />} />
@@ -44,12 +42,9 @@ function App() {
                         <Route path="/service" element={<Service />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/adoption" element={<Adoption />} />
-                        {/* ... inside your <Routes> add this: */}
                         <Route path="/adoption-animals" element={<Adoption />} />
-                        <Route path="/book-a-slot" element={<SlotBooking />} />
                         <Route path="/gallery" element={<Gallery />} />
                         <Route path="/donate" element={<Donation />} />
-                        
                         <Route path="/admin" element={<AdminLogin />} />
                         <Route path="/admin-login" element={<AdminLogin />} />
                         <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
@@ -59,15 +54,15 @@ function App() {
                                 <AdminDashboard />
                             </ProtectedRoute>
                         } />
-
-                        
                     </Routes>
                 </div>
+                <Footer />
+                <Link to="/donate" className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 px-5 py-4 text-sm font-black text-white shadow-2xl shadow-teal-600/30 transition hover:from-teal-400 hover:to-emerald-400">
+                    Donate Now
+                </Link>
             </Router>
         </AuthProvider>
     );
 }
-
-
 
 export default App;

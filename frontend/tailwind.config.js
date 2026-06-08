@@ -8,10 +8,12 @@ module.exports = {
         sans:['Inter', 'sans-serif'],
       },
       colors: {
-        primary: '#10b981', // Modern Emerald
-        primaryHover: '#059669',
-        darkBg: '#0f172a', // Slate 900
-        darkCard: '#1e293b', // Slate 800
+        primary: '#0f9f8f',
+        primaryHover: '#0b7f73',
+        darkBg: '#071513',
+        darkCard: '#10211f',
+        honey: '#f59e0b',
+        mist: '#f7faf6',
       }
     },
   },

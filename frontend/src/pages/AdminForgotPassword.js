@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './FormPages.css';
+import api from '../utils/api';
 
 const AdminForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ const AdminForgotPassword = () => {
         setLoading(true);
         
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/forgot-password`, { email });
+            const res = await api.post('/api/auth/forgot-password', { email });
             setMessage(res.data.message);
         } catch (err) {
             setError(err.response?.data?.message || 'Something went wrong. Please try again later.');

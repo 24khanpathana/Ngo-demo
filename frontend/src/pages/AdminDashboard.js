@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../utils/api';
 
 const AdminDashboard = () => {
     const { token, logout } = useAuth();
@@ -10,7 +11,7 @@ const AdminDashboard = () => {
     
     const [contents, setContents] = useState([]);
     const [animals, setAnimals] = useState([]);
-    const [overviewData, setOverviewData] = useState({ slots: [], volunteers: [], donations: [], feedback: [], complaints:[] });
+    const [overviewData, setOverviewData] = useState({ volunteers: [], donations: [], feedback: [], complaints:[] });
     
     const [selectedPage, setSelectedPage] = useState('Home');
     const [formData, setFormData] = useState({ title: '', description: '', imageUrl: '', date: '', role: '' });
@@ -23,17 +24,17 @@ const AdminDashboard = () => {
 
     // Ensure API instance doesn't recreate on every render to prevent infinite loops in useEffect
     const api = React.useMemo(() => axios.create({ 
-        baseURL: process.env.REACT_APP_API_URL, 
+        baseURL: API_BASE_URL, 
         headers: { Authorization: `Bearer ${token}` } 
     }), [token]);
 
     const fetchAllData = useCallback(async () => {
         try {
-            const[contentRes, animalRes, slotsRes, volRes, donRes, feedRes, compRes] = await Promise.all([
-                api.get('/api/content'), api.get('/api/animals'), api.get('/api/slots'), api.get('/api/volunteers'), api.get('/api/donations'), api.get('/api/feedback'), api.get('/api/complaints')
+            const[contentRes, animalRes, volRes, donRes, feedRes, compRes] = await Promise.all([
+                api.get('/api/content'), api.get('/api/animals'), api.get('/api/volunteers'), api.get('/api/donations'), api.get('/api/feedback'), api.get('/api/complaints')
             ]);
             setContents(contentRes.data); setAnimals(animalRes.data);
-            setOverviewData({ slots: slotsRes.data, volunteers: volRes.data, donations: donRes.data, feedback: feedRes.data, complaints: compRes.data });
+            setOverviewData({ volunteers: volRes.data, donations: donRes.data, feedback: feedRes.data, complaints: compRes.data });
         } catch (error) { if (error.response?.status === 401) { logout(); navigate('/'); } }
     }, [api, logout, navigate]);
 
@@ -158,17 +159,17 @@ const AdminDashboard = () => {
                 <div className="card mb-8">
                     <label className="block text-sm font-semibold mb-2">Select Page to Manage</label>
                     <select value={selectedPage} onChange={e => { setSelectedPage(e.target.value); setEditingId(null); setAddCustomForm(false); }} className="input-field max-w-sm mb-6">
-                        {['Home', 'About', 'Team', 'Event', 'Service', 'Contact', 'Gallery'].map(p => <option key={p} value={p}>{p}</option>)}
+                        {['Home', 'About', 'Volunteer', 'Event', 'Service', 'Contact', 'Gallery'].map(p => <option key={p} value={p}>{p}</option>)}
                     </select>
 
                     <h3 className="text-xl font-bold mb-4">{editingId ? 'Edit Item' : `Add New to ${selectedPage}`}</h3>
                     <form onSubmit={handleContentSubmit} className="space-y-4 border-t dark:border-gray-700 pt-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label className="block mb-1 text-sm font-medium">{selectedPage === 'Team' ? 'Member Name' : 'Title'}</label><input type="text" className="input-field" required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} /></div>
+                            <div><label className="block mb-1 text-sm font-medium">{selectedPage === 'Volunteer' ? 'Volunteer Name' : 'Title'}</label><input type="text" className="input-field" required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} /></div>
                             {['Home', 'About', 'Event', 'Service', 'Contact'].includes(selectedPage) && (<div><label className="block mb-1 text-sm font-medium">Description</label><input type="text" className="input-field" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} /></div>)}
                             <div><label className="block mb-1 text-sm font-medium">Image URL</label><input type="text" className="input-field" value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} /></div>
                             {selectedPage === 'Event' && (<div><label className="block mb-1 text-sm font-medium">Event Date</label><input type="date" className="input-field" value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} /></div>)}
-                            {selectedPage === 'Team' && (<div><label className="block mb-1 text-sm font-medium">Role</label><input type="text" className="input-field" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} /></div>)}
+                            {selectedPage === 'Volunteer' && (<div><label className="block mb-1 text-sm font-medium">Role</label><input type="text" className="input-field" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} /></div>)}
                         </div>
                         {selectedPage === 'Service' && !editingId && (
                             <div className="pt-4 border-t dark:border-gray-700">
@@ -270,10 +271,8 @@ const AdminDashboard = () => {
         switch(activeTab) {
             case 'content': return renderContentManager();
             case 'adoption': return renderAdoptionManager();
-            // UPDATED: Now points to 'services' (plural array)
-            case 'slots': return renderTable(overviewData.slots, { Name: 'name', Mobile: 'mobile', Date: 'date', 'Time Slot': 'timeSlot', 'Services': 'services' }, '/api/slots');
             case 'volunteers': return renderTable(overviewData.volunteers, { Name: 'name', Email: 'email', Mobile: 'mobile', Skills: 'skills' }, '/api/volunteers');
-            case 'donations': return renderTable(overviewData.donations, { Name: 'name', Mobile: 'mobile', Amount: 'amount', 'Payment ID': 'razorpay_payment_id' }, '/api/donations');
+            case 'donations': return renderTable(overviewData.donations, { Name: 'name', Mobile: 'mobile', Amount: 'amount', 'Transaction Ref': 'transactionRef' }, '/api/donations');
             case 'feedback': return renderTable(overviewData.feedback, { Name: 'name', Email: 'email', Feedback: 'feedback' }, '/api/feedback');
             case 'complaints': return renderTable(overviewData.complaints, { Name: 'name', Email: 'email', Complaint: 'complaint' }, '/api/complaints');
             default: return null;
@@ -285,7 +284,7 @@ const AdminDashboard = () => {
             <aside className="w-full md:w-64 bg-white dark:bg-darkCard border-r dark:border-gray-800 p-6 flex flex-col">
                 <h2 className="text-2xl font-bold text-primary mb-8 text-center">Admin Panel</h2>
                 <nav className="flex flex-col space-y-2 flex-grow overflow-y-auto">
-                    {['content', 'adoption', 'slots', 'volunteers', 'donations', 'feedback', 'complaints'].map(tab => (
+                    {['content', 'adoption', 'volunteers', 'donations', 'feedback', 'complaints'].map(tab => (
                         <button key={tab} onClick={() => setActiveTab(tab)} className={`text-left px-4 py-3 rounded-lg capitalize font-medium transition-colors ${activeTab === tab ? 'bg-primary text-white shadow-md' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
                             {tab.replace('content', 'Content Manager').replace('adoption', 'Adoption Animals')}
                         </button>

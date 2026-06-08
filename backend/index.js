@@ -53,13 +53,13 @@ mongoose
 
 // --- API Routes ---
 app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/slots", require("./routes/slotRoutes"));
 app.use("/api/donations", require("./routes/donationRoutes"));
 app.use("/api/volunteers", require("./routes/volunteerRoutes"));
 app.use("/api/feedback", require("./routes/feedbackRoutes"));
 app.use("/api/complaints", require("./routes/complaintRoutes"));
 app.use("/api/content", require("./routes/contentRoutes"));
 app.use("/api/forms", require("./routes/formRoutes")); // <-- New
+app.use("/api/settings", require("./routes/settingRoutes"));
 // Add this under your other API Routes in server.js
 app.use("/api/animals", require("./routes/animalRoutes"));
 
