@@ -26,8 +26,12 @@ const Navbar = ({ theme, setTheme }) => {
                 <Link to="/" onClick={closeMenu} className="flex shrink-0 items-center gap-3">
                     <img src="/footor-1.svg" alt="Pyaar Foundation logo" className="h-14 w-14 rounded-2xl object-contain shadow-lg shadow-primary/20" />
                     <div>
-                        <p className="text-xs font-black uppercase tracking-[0.18em] text-primary dark:text-primary">Pyaar Foundation</p>
-                        <h1 className="text-lg font-black text-slate-900 dark:text-white sm:text-xl">Animal Rehab</h1>
+                        <p className="text-[1.05rem] font-black leading-none tracking-[0.14em] text-primary dark:text-primary sm:text-[1.15rem]">
+                            <span className="text-[1.35rem] sm:text-[1.6rem]">Pyaar</span> Foundation
+                        </p>
+                        <h1 className="mt-1 text-[0.6rem] font-black uppercase tracking-[0.28em] text-slate-700 dark:text-slate-200 sm:text-[0.7rem]">
+                            PETANITY AND ANIMAL REHABILITATORS FOUNDATION
+                        </h1>
                     </div>
                 </Link>
 

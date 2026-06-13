@@ -3,6 +3,8 @@ import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import api from '../utils/api';
 import PhoneAction from '../components/PhoneAction';
 
+const MAPS_LINK = 'https://www.google.com/maps/place/Devend+R,+2763%2BX7+PYAAR+FOUNDATION,+Pyaar+foundation,+C%2Fo,+near+pipeline,+Vichoda,+Chota+Nagpur,+Maharashtra+442404/data=!4m2!3m1!1s0x3bd3290025ea1737:0x5a5e6394e25cbb92?utm_source=mstt_1&entry=gps&coh=192189&g_ep=CAESBzI1LjI2LjQYACCenQoqhwEsOTQyNzUzMDYsOTQyMjMyOTksOTQyMTY0MTMsOTQyODA1NzYsOTQyMTI0OTYsOTQyMDczOTQsOTQyMDc1MDYsOTQyMDg1MDYsOTQyMTc1MjMsOTQyMTg2NTMsOTQyMjk4MzksOTQyNzUxNjgsNDcwODQzOTMsOTQyMTMyMDAsOTQyNTgzMjVCAklO&skid=f7d88dac-b7ae-4d5b-acaa-e86364f05535&g_st=aw';
+
 const Contact = () => {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [status, setStatus] = useState('');
@@ -51,7 +53,17 @@ const Contact = () => {
                             </div>
                             <div>
                                 <h4 className="font-semibold text-gray-900 dark:text-white">Our Location</h4>
-                                <p className="text-gray-500 dark:text-gray-400 mt-1">Animal Rescue Centre<br/>Nagpur, Maharashtra, India</p>
+                                <p className="text-gray-500 dark:text-gray-400 mt-1 leading-7">
+                                    C/O Dr. Devendra Rapelli<br />
+                                    Pyaar Foundation<br />
+                                    Petanity And Animal Rehabilitators Foundation Chandrapur.<br />
+                                    Animal welfare organisation<br />
+                                    Near pipeline, vichoda bujruk<br />
+                                    Chandrapur Maharashtra 442406.
+                                </p>
+                                <a href={MAPS_LINK} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-sm font-semibold text-primary hover:text-clay">
+                                    Open in Google Maps
+                                </a>
                             </div>
                         </div>
                         <div className="flex items-start gap-4">
@@ -78,7 +90,7 @@ const Contact = () => {
                     </div>
                     <div className="bg-white dark:bg-darkCard p-2 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                         <iframe
-                            src="https://www.google.com/maps?q=Nagpur,Maharashtra,India&output=embed"
+                            src="https://www.google.com/maps?q=Devend+R,+2763%2BX7+PYAAR+FOUNDATION,+Pyaar+foundation,+C%2Fo,+near+pipeline,+Vichoda,+Chota+Nagpur,+Maharashtra+442404&output=embed"
                             width="100%"
                             height="300"
                             className="rounded-xl border-0 grayscale hover:grayscale-0 transition-all duration-500"

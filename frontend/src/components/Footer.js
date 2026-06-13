@@ -41,8 +41,12 @@ const Footer = () => {
                 <div>
                     <h4 className="text-sm font-semibold uppercase tracking-[0.24em] text-white mb-6">Contact</h4>
                     <ul className="space-y-3 text-sm text-white/75">
-                        <li>Near pipeline Vichoda, Chhota</li>
-                        <li>Nagpur,Chandrapur,Maharashtra,442406, India</li>
+                        <li>C/O Dr. Devendra Rapelli</li>
+                        <li>Pyaar Foundation</li>
+                        <li>Petanity And Animal Rehabilitators Foundation Chandrapur.</li>
+                        <li>Animal welfare organisation</li>
+                        <li>Near pipeline, vichoda bujruk</li>
+                        <li>Chandrapur Maharashtra 442406</li>
                         <li><a href="mailto:Pyaar4petanity@gmail.com" className="hover:text-white transition">Pyaar4petanity@gmail.com</a></li>
                         <li><a href="mailto:workpyaar@gmail.com" className="hover:text-white transition">workpyaar@gmail.com</a></li>
                         <li><PhoneAction number="+91 9422567030" className="hover:text-white transition" /></li>

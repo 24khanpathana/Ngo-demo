@@ -1,207 +1,148 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaClipboardList, FaDownload, FaShareAlt, FaHeart, FaShieldAlt } from 'react-icons/fa';
-import api from '../utils/api';
-import PhoneAction from '../components/PhoneAction';
+import React, { useEffect } from 'react';
+import { FaBuilding, FaGlobeAmericas, FaShareAlt, FaUniversity } from 'react-icons/fa';
 
-const UPI_ID = 'pyaarfoundation@upi';
-const QR_CODE_URL = `https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=${encodeURIComponent(`upi://pay?pa=${UPI_ID}&pn=Pyaar%20Foundation&cu=INR`)}`;
-const suggestedAmounts = [5000, 10000, 20000];
+const ORGANIZATION_NAME = 'PETANITY AND ANIMAL REHABILITATORS FOUNDATION';
+const UPI_ID = 'petanityandanimalreh.97108903@hdfcbank';
+const QR_CODE_URL = `https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=${encodeURIComponent(`upi://pay?pa=${UPI_ID}&pn=${ORGANIZATION_NAME}&cu=INR`)}`;
+const WHATSAPP_NUMBER = '9422567030';
+const WHATSAPP_MESSAGE = 'Hello, I have shared my donation receipt. Please confirm the donation for Petanity and Animal Rehabilitators Foundation.';
+
+const indianBankDetails = [
+    ['Account Name', 'Petanity and Animal Rehabilitator Foundation Chandrapur'],
+    ['Account Number', '502000667558590'],
+    ['Bank Name', 'HDFC Bank'],
+    ['IFSC Code', 'HDFC0001053'],
+    ['Phone No.', '75888 93939'],
+    ['UPI ID', UPI_ID],
+];
+
+const internationalDetails = [
+    ['Account Name', 'Petanity and Animal Rehabilitator Foundation Chandrapur'],
+    ['FCRA Account Number', '41079582800'],
+    ['Bank Name', 'State Bank of India'],
+    ['FCRA Reg. Code', '08381070'],
+    ['Branch Code', '00691'],
+    ['SWIFT CODE', 'SBININBB104'],
+    ['BRANCH', 'NEW DELHI MAIN BRANCH'],
+    ['PayPal', 'paypal.me/pyaarfoundation'],
+    ['Contact', 'pyaar4petanity@gmail.com'],
+];
 
 const Donation = () => {
-    const [formData, setFormData] = useState({ name: '', mobile: '', amount: '', transactionRef: '', notes: '' });
-    const [message, setMessage] = useState({ type: '', text: '' });
-    const [isSaving, setIsSaving] = useState(false);
-
     useEffect(() => {
-        document.title = 'Donate by QR | Pyaar Foundation';
+        document.title = 'Bank Transfer Details | Pyaar Foundation';
     }, []);
 
-    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const handleCopy = async () => {
-        try {
-            await navigator.clipboard.writeText(UPI_ID);
-            setMessage({ type: 'success', text: 'UPI ID copied to clipboard. Thank you for supporting our rescue mission!' });
-        } catch (error) {
-            setMessage({ type: 'error', text: 'Unable to copy UPI ID. Please copy it manually.' });
-        }
-    };
-
-    const handleShare = async () => {
-        const shareText = `Support Pyaar Foundation with a donation via UPI: ${UPI_ID}. Visit ${window.location.href}`;
-        if (navigator.share) {
-            try {
-                await navigator.share({ title: 'Support Pyaar Foundation', text: shareText, url: window.location.href });
-                setMessage({ type: 'success', text: 'Share dialog opened successfully.' });
-                return;
-            } catch (error) {
-                setMessage({ type: 'error', text: 'Unable to open share dialog.' });
-            }
-        }
-        try {
-            await navigator.clipboard.writeText(shareText);
-            setMessage({ type: 'success', text: 'Donation link copied to clipboard.' });
-        } catch (error) {
-            setMessage({ type: 'error', text: 'Share is not supported in this browser.' });
-        }
-    };
-
-    const handleDownload = () => {
-        const link = document.createElement('a');
-        link.href = QR_CODE_URL;
-        link.download = 'rise-for-tails-qr.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setMessage({ type: '', text: '' });
-        setIsSaving(true);
-
-        try {
-            await api.post('/api/donations', {
-                name: formData.name,
-                mobile: formData.mobile,
-                amount: Number(formData.amount),
-                paymentMethod: 'UPI QR',
-                transactionRef: formData.transactionRef,
-                notes: formData.notes,
-            });
-
-            setMessage({ type: 'success', text: 'Thank you! Your donation confirmation has been recorded.' });
-            setFormData({ name: '', mobile: '', amount: '', transactionRef: '', notes: '' });
-        } catch (error) {
-            setMessage({ type: 'error', text: 'Unable to submit donation details. Please try again.' });
-        } finally {
-            setIsSaving(false);
-        }
+    const handleWhatsAppShare = () => {
+        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     };
 
     return (
-        <motion.div className="min-h-screen bg-clay text-slate-100 px-4 py-24 sm:px-6 lg:px-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.2fr_0.8fr] items-start">
-                <motion.section className="space-y-8 rounded-[2rem] border border-white/10 bg-white/[0.06] p-10 shadow-2xl shadow-clay/20 backdrop-blur" initial={{ x: -40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8 }}>
-                    <div className="inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-linen">
-                        <FaHeart /> QR Donation</div>
-                    <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">Give with love, trust and a simple scan.</h1>
-                    <p className="max-w-3xl text-slate-300 leading-8">Support rescued and rehabilitated animals through a premium UPI QR donation experience. Scan, pay, and confirm your transaction details instantly.</p>
-                    <div className="grid gap-4 sm:grid-cols-3">
-                        {[
-                            { title: 'Gateway-free', text: 'Donations now use direct UPI QR transfer without checkout redirects.' },
-                            { title: 'Transparent', text: 'Your transaction reference is recorded for acknowledgements.' },
-                            { title: 'Impactful', text: 'Every donation helps heal, shelter, and rehome animals.' },
-                        ].map(item => (
-                            <div key={item.title} className="rounded-3xl border border-slate-800/80 bg-slate-950/90 p-6 shadow-lg shadow-slate-950/20">
-                                <h3 className="text-xl font-semibold text-white">{item.title}</h3>
-                                <p className="mt-3 text-slate-400 leading-7">{item.text}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="rounded-[2rem] border border-white/10 bg-clay p-8 shadow-inner shadow-slate-900/30">
-                        <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-                            <div className="rounded-[1.75rem] border border-slate-800/90 bg-slate-900 p-6 text-center">
-                                <div className="relative overflow-hidden rounded-[1.5rem] border border-primary/20 bg-slate-950 p-6">
-                                    <img src={QR_CODE_URL} alt="Pyaar Foundation donation QR" className="mx-auto h-auto w-full max-w-[280px] rounded-3xl shadow-2xl shadow-primary/15" />
-                                </div>
-                                <div className="mt-6 flex flex-col gap-3">
-                                    <button type="button" onClick={handleCopy} className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-linen">
-                                        <FaClipboardList /> Copy UPI ID
-                                    </button>
-                                    <button type="button" onClick={handleDownload} className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-5 py-3 text-sm text-slate-200 transition hover:border-primary">
-                                        <FaDownload /> Download QR
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="rounded-[1.75rem] border border-slate-800/90 bg-slate-950 p-6">
-                                <div className="rounded-3xl bg-slate-900/90 p-6 mb-6 text-center">
-                                    <p className="text-sm uppercase tracking-[0.32em] text-primary">UPI ID</p>
-                                    <h2 className="mt-3 text-2xl font-semibold text-white break-words">{UPI_ID}</h2>
-                                </div>
-                                <div className="space-y-5 text-sm leading-relaxed text-slate-300">
-                                    <div className="rounded-3xl border border-slate-800/90 bg-slate-950 p-5">
-                                        <p className="font-semibold text-white">How it works</p>
-                                        <ol className="mt-4 space-y-3 text-slate-400 list-decimal list-inside">
-                                            <li>Scan the QR with your UPI app.</li>
-                                            <li>Complete payment using the UPI ID.</li>
-                                            <li>Enter your transaction reference below.</li>
-                                        </ol>
-                                    </div>
-                                    <div className="rounded-3xl border border-slate-800/90 bg-slate-950 p-5">
-                                        <p className="font-semibold text-white">Need support?</p>
-                                        <p className="mt-3 text-slate-400">Email <a href="mailto:contact@risefortails.org" className="text-primary hover:text-linen">contact@risefortails.org</a> or call <PhoneAction number="+91 75888 93939" className="inline-flex" buttonClassName="!text-primary hover:!text-linen" />.</p>
-                                    </div>
-                                </div>
-                                <button type="button" onClick={handleShare} className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full border border-primary/20 bg-white/5 px-5 py-4 text-sm font-semibold text-white transition hover:bg-white/10">
-                                    <FaShareAlt /> Share donation page
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </motion.section>
+        <div className="min-h-screen bg-[#f7f5f1] px-4 py-24 text-slate-800 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-6xl space-y-10">
+                <header className="mx-auto max-w-3xl text-center">
+                    <p className="text-sm font-bold uppercase tracking-[0.35em] text-primary">Pyaar Foundation</p>
+                    <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-5xl">Bank Transfer Details</h1>
+                    <p className="mt-4 text-sm leading-7 text-slate-500 sm:text-base">You can also donate directly through bank transfer.</p>
+                </header>
 
-                <motion.section className="rounded-[2rem] border border-primary/20 bg-slate-950/90 p-10 shadow-2xl shadow-primary/10" initial={{ x: 40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.15 }}>
-                    <div className="mb-8 flex items-center gap-4 text-slate-100">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-primary/15 text-primary">
-                            <FaShieldAlt size={20} />
+                <section className="grid gap-6 lg:grid-cols-2">
+                    <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-8">
+                        <div className="mb-6 flex items-center gap-3 text-primary">
+                            <FaUniversity size={18} />
+                            <h2 className="text-lg font-bold text-slate-900">Indian Bank Details</h2>
                         </div>
-                        <div>
-                            <p className="text-sm uppercase tracking-[0.32em] text-primary">Donate securely</p>
-                            <h2 className="text-3xl font-semibold text-white">Confirm Your Donation</h2>
+                        <dl className="space-y-4 text-sm sm:text-base">
+                            {indianBankDetails.map(([label, value]) => (
+                                <div key={label} className="grid grid-cols-[130px_1fr] gap-4 border-b border-slate-100 pb-3 last:border-b-0 last:pb-0 sm:grid-cols-[160px_1fr]">
+                                    <dt className="font-semibold text-slate-600">{label}</dt>
+                                    <dd className="break-words text-slate-800">{value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                    </article>
+
+                    <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-8">
+                        <div className="mb-6 flex items-center gap-3 text-primary">
+                            <FaGlobeAmericas size={18} />
+                            <h2 className="text-lg font-bold text-slate-900">International Donors</h2>
+                        </div>
+                        <dl className="space-y-4 text-sm sm:text-base">
+                            {internationalDetails.map(([label, value]) => (
+                                <div key={label} className="grid grid-cols-[130px_1fr] gap-4 border-b border-slate-100 pb-3 last:border-b-0 last:pb-0 sm:grid-cols-[160px_1fr]">
+                                    <dt className="font-semibold text-slate-600">{label}</dt>
+                                    <dd className="break-words text-slate-800">{value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                        <p className="mt-6 text-sm leading-6 text-slate-500">International donors can use PayPal or SWIFT transfer for contributions.</p>
+                    </article>
+                </section>
+
+                <section className="rounded-[2rem] border border-slate-200 bg-white px-6 py-10 text-center shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:px-10">
+                    <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-4xl">Scan to Donate</h2>
+                    <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">Use any UPI app to scan the QR code and make a payment.</p>
+                    <div className="mt-8 flex justify-center">
+                        <div className="rounded-[1.75rem] border border-slate-100 bg-white p-4 shadow-[0_14px_40px_rgba(15,23,42,0.12)]">
+                            <img src={QR_CODE_URL} alt="Donation QR code" className="h-auto w-52 sm:w-64" />
                         </div>
                     </div>
-                    <p className="text-slate-400 leading-7">After paying via UPI, please record the transaction reference and share it so we can issue a prompt acknowledgement and keep your support on record.</p>
-                    <div className="mt-8 grid grid-cols-3 gap-3">
-                        {suggestedAmounts.map(amount => (
-                            <button
-                                type="button"
-                                key={amount}
-                                onClick={() => setFormData({ ...formData, amount: String(amount) })}
-                                className="rounded-2xl border border-primary/20 bg-white/5 px-3 py-3 text-sm font-bold text-linen transition hover:bg-primary/10"
+                    <p className="mt-6 break-words text-xs font-medium text-slate-500 sm:text-sm">UPI ID: {UPI_ID}</p>
+                </section>
+
+                <section className="rounded-[2rem] border border-slate-200 bg-white px-6 py-10 text-center shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:px-10">
+                    <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-4xl">Share Your Receipt</h2>
+                    <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">After donating, please share your payment receipt with us on WhatsApp for confirmation.</p>
+                    <button
+                        type="button"
+                        onClick={handleWhatsAppShare}
+                        className="mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-[#25d366] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-green-500/20 transition hover:bg-[#1fb85a] sm:px-8 sm:py-4 sm:text-base"
+                    >
+                        <FaShareAlt /> Share on WhatsApp
+                    </button>
+                </section>
+
+                <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+                    <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-8">
+                        <div className="mb-4 flex items-center gap-3 text-primary">
+                            <FaBuilding size={18} />
+                            <h2 className="text-lg font-bold text-slate-900">Donation Address</h2>
+                        </div>
+                        <address className="not-italic space-y-2 text-sm leading-7 text-slate-600 sm:text-base">
+                            <p>C/O Dr. Devendra Rapelli</p>
+                            <p>Pyaar Foundation</p>
+                            <p>Petanity And Animal Rehabilitators Foundation Chandrapur.</p>
+                            <p>Animal welfare organisation</p>
+                            <p>Near pipeline, vichoda bujruk</p>
+                            <p>Chandrapur Maharashtra</p>
+                            <p>442406.</p>
+                        </address>
+                    </article>
+
+                    <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
+                        <iframe
+                            title="Pyaar Foundation location map"
+                            src="https://www.google.com/maps?q=Devend+R,+2763%2BX7+PYAAR+FOUNDATION,+Pyaar+foundation,+C%2Fo,+near+pipeline,+Vichoda,+Chota+Nagpur,+Maharashtra+442404&output=embed"
+                            className="h-[320px] w-full border-0 grayscale transition duration-500 hover:grayscale-0"
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            allowFullScreen
+                        />
+                        <div className="border-t border-slate-100 p-5 text-center">
+                            <a
+                                href="https://www.google.com/maps/place/Devend+R,+2763%2BX7+PYAAR+FOUNDATION,+Pyaar+foundation,+C%2Fo,+near+pipeline,+Vichoda,+Chota+Nagpur,+Maharashtra+442404/data=!4m2!3m1!1s0x3bd3290025ea1737:0x5a5e6394e25cbb92?utm_source=mstt_1&entry=gps&coh=192189&g_ep=CAESBzI1LjI2LjQYACCenQoqhwEsOTQyNzUzMDYsOTQyMjMyOTksOTQyMTY0MTMsOTQyODA1NzYsOTQyMTI0OTYsOTQyMDczOTQsOTQyMDc1MDYsOTQyMDg1MDYsOTQyMTc1MjMsOTQyMTg2NTMsOTQyMjk4MzksOTQyNzUxNjgsNDcwODQzOTMsOTQyMTMyMDAsOTQyNTgzMjVCAklO&skid=f7d88dac-b7ae-4d5b-acaa-e86364f05535&g_st=aw"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-sm font-bold text-primary transition hover:text-slate-900"
                             >
-                                Rs. {amount.toLocaleString('en-IN')}
-                            </button>
-                        ))}
-                    </div>
-                    <form onSubmit={handleSubmit} className="mt-10 space-y-6">
-                        <div className="grid gap-5 sm:grid-cols-2">
-                            <label className="block">
-                                <span className="text-sm font-semibold text-slate-200">Full Name</span>
-                                <input name="name" value={formData.name} onChange={handleChange} placeholder="Your name" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20" required />
-                            </label>
-                            <label className="block">
-                                <span className="text-sm font-semibold text-slate-200">Mobile Number</span>
-                                <input name="mobile" value={formData.mobile} onChange={handleChange} placeholder="+91 98765 43210" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20" required />
-                            </label>
+                                Open in Google Maps
+                            </a>
                         </div>
-                        <div className="grid gap-5 sm:grid-cols-2">
-                            <label className="block">
-                                <span className="text-sm font-semibold text-slate-200">Donation Amount (INR)</span>
-                                <input name="amount" type="number" min="10" value={formData.amount} onChange={handleChange} placeholder="1000" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20" required />
-                            </label>
-                            <label className="block">
-                                <span className="text-sm font-semibold text-slate-200">Transaction Reference</span>
-                                <input name="transactionRef" value={formData.transactionRef} onChange={handleChange} placeholder="UPI txn ref" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20" required />
-                            </label>
-                        </div>
-                        <label className="block">
-                            <span className="text-sm font-semibold text-slate-200">Notes (optional)</span>
-                            <textarea name="notes" value={formData.notes} onChange={handleChange} placeholder="Add any special note" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20" rows="3" />
-                        </label>
-                        <button type="submit" disabled={isSaving} className="w-full rounded-3xl bg-gradient-to-r from-primary to-honey px-6 py-4 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60">
-                            {isSaving ? 'Recording donation...' : 'Confirm Donation'}
-                        </button>
-                        {message.text && (
-                            <div className={`rounded-3xl border px-6 py-4 text-center text-sm font-semibold ${message.type === 'success' ? 'border-linen bg-linen/250/10 text-linen' : 'border-honey bg-honey/10 text-linen'}`}>
-                                {message.text}
-                            </div>
-                        )}
-                    </form>
-                </motion.section>
+                    </article>
+                </section>
             </div>
-        </motion.div>
+        </div>
     );
 };
 
