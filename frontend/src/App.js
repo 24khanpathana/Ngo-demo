@@ -1,6 +1,6 @@
 import Adoption from './pages/Adoption';
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -22,6 +22,16 @@ import Footer from './components/Footer';
 
 import { AuthProvider } from './context/AuthContext';
 
+const ScrollToTop = () => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+};
+
 function App() {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
@@ -33,6 +43,7 @@ function App() {
     return (
         <AuthProvider>
             <Router>
+                <ScrollToTop />
                 <Navbar theme={theme} setTheme={setTheme} />
                 <div className="min-h-screen pt-24">
                     <Routes>
