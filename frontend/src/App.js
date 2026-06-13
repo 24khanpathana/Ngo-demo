@@ -9,6 +9,7 @@ import Team from './pages/Team';
 import Events from './pages/Events';
 import Service from './pages/Service';
 import Contact from './pages/Contact';
+import Sponsors from './pages/Sponsors';
 
 import Gallery from './pages/Gallery';
 import Donation from './pages/Donation';
@@ -44,6 +45,7 @@ function App() {
                         <Route path="/adoption" element={<Adoption />} />
                         <Route path="/adoption-animals" element={<Adoption />} />
                         <Route path="/gallery" element={<Gallery />} />
+                        <Route path="/sponsors" element={<Sponsors />} />
                         <Route path="/donate" element={<Donation />} />
                         <Route path="/admin" element={<AdminLogin />} />
                         <Route path="/admin-login" element={<AdminLogin />} />
@@ -57,7 +59,7 @@ function App() {
                     </Routes>
                 </div>
                 <Footer />
-                <Link to="/donate" className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 px-5 py-4 text-sm font-black text-white shadow-2xl shadow-teal-600/30 transition hover:from-teal-400 hover:to-emerald-400">
+                <Link to="/donate" className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-honey to-primary px-5 py-4 text-sm font-black text-white shadow-2xl shadow-honey/30 transition hover:from-clay hover:to-primary">
                     Donate Now
                 </Link>
             </Router>

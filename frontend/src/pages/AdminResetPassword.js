@@ -92,7 +92,7 @@ const AdminResetPassword = () => {
                         {loading ? 'Resetting...' : 'Reset Password'}
                     </button>
                 </form>
-                {message && <p className="form-message success" style={{ color: 'green', marginTop: '10px' }}>{message}</p>}
+                {message && <p className="form-message success" style={{ color: '#9A5734', marginTop: '10px' }}>{message}</p>}
                 {error && <p className="form-message error">{error}</p>}
             </div>
         </div>

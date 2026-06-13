@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-[#f7faf6] text-slate-800 font-sans antialiased transition-colors duration-300;
+    @apply bg-[#FBFFFA] text-slate-800 font-sans antialiased transition-colors duration-300;
   }
   body[data-theme='dark'] {
     @apply bg-darkBg text-gray-100;
@@ -15,16 +15,16 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-primary hover:bg-primaryHover text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 shadow-lg shadow-emerald-500/20 hover:shadow-xl active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 bg-honey hover:bg-clay text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 shadow-lg shadow-honey/25 hover:shadow-xl active:scale-[0.98];
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-700 hover:border-primary dark:hover:border-primary text-slate-700 dark:text-slate-200 bg-white/80 dark:bg-darkCard hover:bg-white dark:hover:bg-slate-800 font-semibold py-3 px-6 rounded-full transition-all duration-300 backdrop-blur;
+    @apply inline-flex items-center justify-center gap-2 border border-sand/70 dark:border-sand hover:border-primary dark:hover:border-linen text-clay dark:text-mist bg-white/80 dark:bg-clay hover:bg-primary/10 dark:hover:bg-sand/20 font-semibold py-3 px-6 rounded-full transition-all duration-300 backdrop-blur;
   }
   .input-field {
-    @apply w-full p-4 border border-slate-200 rounded-2xl bg-white/90 dark:bg-darkCard dark:border-slate-700 dark:text-white focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all shadow-sm;
+    @apply w-full p-4 border border-sand/60 rounded-2xl bg-white/90 dark:bg-clay dark:border-sand dark:text-white focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all shadow-sm;
   }
   .card {
-    @apply bg-white/90 dark:bg-darkCard border border-white/70 dark:border-slate-800 rounded-2xl p-8 shadow-xl shadow-slate-200/40 hover:shadow-2xl transition-shadow duration-300 backdrop-blur;
+    @apply bg-white/90 dark:bg-clay border border-sand/30 dark:border-sand/50 rounded-2xl p-8 shadow-xl shadow-sand/20 hover:shadow-2xl transition-shadow duration-300 backdrop-blur;
   }
   .section-title {
     @apply text-3xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight;
@@ -39,5 +39,5 @@ html {
 }
 
 ::selection {
-  background: rgba(45, 212, 191, 0.28);
+  background: rgba(234, 237, 113, 0.45);
 }

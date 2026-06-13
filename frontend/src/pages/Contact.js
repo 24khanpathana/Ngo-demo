@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import api from '../utils/api';
+import PhoneAction from '../components/PhoneAction';
 
 const Contact = () => {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -45,7 +46,7 @@ const Contact = () => {
                     </div>
                     <div className="space-y-6">
                         <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-500 shrink-0">
+                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
                                 <FaMapMarkerAlt size={20} />
                             </div>
                             <div>
@@ -54,7 +55,7 @@ const Contact = () => {
                             </div>
                         </div>
                         <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-500 shrink-0">
+                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
                                 <FaEnvelope size={20} />
                             </div>
                             <div>
@@ -63,12 +64,15 @@ const Contact = () => {
                             </div>
                         </div>
                         <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-500 shrink-0">
+                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
                                 <FaPhoneAlt size={20} />
                             </div>
                             <div>
                                 <h4 className="font-semibold text-gray-900 dark:text-white">Call Us</h4>
-                                <p className="text-gray-500 dark:text-gray-400 mt-1">+91 98765 43210</p>
+                                <div className="mt-1 text-gray-500 dark:text-gray-400">
+                                    <PhoneAction number="+91 75888 93939" />
+                                    <div className="mt-2"><PhoneAction number="+91 94225 67030" /></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -102,7 +106,7 @@ const Contact = () => {
                         <button type="submit" className="btn-primary w-full" disabled={status === 'sending'}>
                             {status === 'sending' ? 'Sending...' : 'Send Message'}
                         </button>
-                        {status === 'success' && (<p className="text-cyan-600 font-medium text-center bg-cyan-100 p-3 rounded-lg mt-4">Message sent successfully!</p>)}
+                        {status === 'success' && (<p className="text-primary font-medium text-center bg-primary/10 p-3 rounded-lg mt-4">Message sent successfully!</p>)}
                         {status === 'error' && (<p className="text-red-500 font-medium text-center bg-red-50 p-3 rounded-lg mt-4">{errorMessage || 'Error sending message. Please try again.'}</p>)}
                     </form>
                 </div>

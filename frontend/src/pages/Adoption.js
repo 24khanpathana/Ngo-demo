@@ -16,7 +16,7 @@ const Adoption = () => {
     // --- NEW: WhatsApp Redirect Function ---
     const handleAdoptClick = (animalName) => {
         // REPLACE THIS NUMBER WITH YOUR NGO'S ACTUAL WHATSAPP NUMBER (Include country code, no + sign)
-        const whatsappNumber = "7588322602"; 
+        const whatsappNumber = "9422567030"; 
         const message = `Hello, I have an enquiry for the adoption of ${animalName} from your NGO.`;
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         
@@ -50,10 +50,10 @@ const Adoption = () => {
         <div className="w-full font-sans text-gray-800 bg-[#FAFAFA] min-h-screen pb-20">
             
             {/* 1. EMOTIONAL HEADER */}
-            <div className="bg-emerald-900 text-white py-20 px-6 text-center border-b border-emerald-800 shadow-inner">
-                <span className="text-emerald-300 font-bold tracking-widest uppercase text-sm mb-4 inline-block">Their Second Chance</span>
+            <div className="bg-clay text-white py-20 px-6 text-center border-b border-clay shadow-inner">
+                <span className="text-linen font-bold tracking-widest uppercase text-sm mb-4 inline-block">Their Second Chance</span>
                 <h1 className="text-4xl md:text-6xl font-serif font-black mb-6 tracking-tight">Adopt a Best Friend.</h1>
-                <p className="text-lg md:text-xl text-emerald-100 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-lg md:text-xl text-mist max-w-3xl mx-auto leading-relaxed">
                     They have survived the unimaginable—abandonment, accidents, and cruelty. Now, they are just looking for a soft place to land. Browse our available animals below and find your perfect companion.
                 </p>
             </div>
@@ -74,7 +74,7 @@ const Adoption = () => {
                             <div className="p-8 flex flex-col flex-grow">
                                 <div className="flex justify-between items-center mb-3">
                                     <h2 className="text-3xl font-bold text-gray-900">{animal.name}</h2>
-                                    <span className="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">{animal.breed}</span>
+                                    <span className="bg-linen/35 text-clay text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">{animal.breed}</span>
                                 </div>
                                 <p className="text-sm text-gray-500 mb-6 font-medium">📅 Age: {animal.age}</p>
                                 <p className="text-gray-600 leading-relaxed mb-8 flex-grow">{animal.description}</p>
@@ -82,7 +82,7 @@ const Adoption = () => {
                                 {/* UPDATED BUTTON WITH WHATSAPP REDIRECT */}
                                 <button 
                                     onClick={() => handleAdoptClick(animal.name)} 
-                                    className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl transition-colors shadow-lg shadow-orange-600/20"
+                                    className="w-full bg-honey hover:bg-clay text-white font-bold py-4 rounded-xl transition-colors shadow-lg shadow-honey/20"
                                 >
                                     Adopt Me
                                 </button>
@@ -100,7 +100,7 @@ const Adoption = () => {
             </section>
 
             {/* 3. FEATURED SURVIVOR STORIES (From PDF) */}
-            <section className="bg-orange-50 mt-24 py-24 px-6 border-t border-orange-100">
+            <section className="bg-sand/20 mt-24 py-24 px-6 border-t border-sand/40">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Stories of Resilience</h2>
@@ -133,7 +133,7 @@ const Adoption = () => {
                                             Found a Forever Home
                                         </button>
                                     ) : (
-                                        <button onClick={() => navigate('/donate')} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                                        <button onClick={() => navigate('/donate')} className="w-full bg-honey hover:bg-clay text-white font-bold py-4 rounded-xl transition-colors shadow-lg shadow-honey/20">
                                             Sponsor Their Care
                                         </button>
                                     )}

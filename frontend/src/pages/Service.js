@@ -34,7 +34,7 @@ const ServiceForm = ({ title, endpoint, fields }) => {
                 ))}
                 <button type="submit" className="btn-primary w-full py-4">Submit</button>
             </form>
-            {msg && <p className="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-center font-bold text-emerald-700">{msg}</p>}
+            {msg && <p className="mt-6 rounded-2xl border border-linen/50 bg-linen/25 p-4 text-center font-bold text-clay">{msg}</p>}
         </div>
     );
 };
@@ -71,7 +71,7 @@ const DynamicCustomForm = ({ formMeta }) => {
                 ))}
                 <button type="submit" className="btn-primary w-full py-4">Submit</button>
             </form>
-            {msg && <p className="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-center font-bold text-emerald-700">{msg}</p>}
+            {msg && <p className="mt-6 rounded-2xl border border-linen/50 bg-linen/25 p-4 text-center font-bold text-clay">{msg}</p>}
         </div>
     );
 };
@@ -122,13 +122,13 @@ const Service = () => {
 
     return (
         <div className="min-h-screen w-full bg-mist pb-24">
-            <div className="relative overflow-hidden bg-[#071513] px-6 py-28 text-center text-white">
+            <div className="relative overflow-hidden bg-clay px-6 py-28 text-center text-white">
                 <div className="absolute inset-0 opacity-25">
                     <img src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?auto=format&fit=crop&w=1600&q=80" alt="" className="h-full w-full object-cover" />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-b from-[#071513]/80 to-[#071513]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-clay/80 to-clay" />
                 <div className="relative mx-auto max-w-3xl">
-                    <span className="mb-4 inline-block text-sm font-bold uppercase tracking-[0.3em] text-teal-200">Programs and initiatives</span>
+                    <span className="mb-4 inline-block text-sm font-bold uppercase tracking-[0.3em] text-linen">Programs and initiatives</span>
                     <h1 className="mb-6 text-4xl font-black tracking-tight md:text-6xl">A complete care path for animals in crisis.</h1>
                     <p className="text-lg leading-8 text-slate-300 md:text-xl">
                         From rescue and treatment to sterilisation, adoption, awareness, and dignified end-of-life support, our programs are designed around real street-level needs.
@@ -158,19 +158,19 @@ const Service = () => {
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                     {services.map((srv, idx) => (
                         <div key={idx} className="group rounded-[2rem] border border-white bg-white p-8 shadow-xl shadow-slate-200/50 transition-transform duration-300 hover:-translate-y-1">
-                            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50 text-primary transition-transform duration-300 group-hover:scale-110">
+                            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110">
                                 <srv.icon size={28} />
                             </div>
                             <h3 className="mb-4 text-2xl font-black text-slate-950">{srv.title}</h3>
                             <p className="text-lg leading-8 text-slate-600">{srv.desc}</p>
                         </div>
                     ))}
-                    <div className="flex flex-col justify-center rounded-[2rem] bg-gradient-to-br from-primary to-[#071513] p-8 text-white shadow-xl shadow-teal-900/20">
+                    <div className="flex flex-col justify-center rounded-[2rem] bg-gradient-to-br from-primary to-clay p-8 text-white shadow-xl shadow-clay/20">
                         <h3 className="mb-4 text-3xl font-black">Fund the next urgent case</h3>
-                        <p className="mb-8 text-lg leading-8 text-teal-50">
+                        <p className="mb-8 text-lg leading-8 text-mist">
                             Medicines, surgeries, transport, nutrition, and daily cleaning supplies require continuous support.
                         </p>
-                        <button onClick={() => navigate('/donate')} className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-black text-primary shadow-lg transition hover:bg-teal-50">
+                        <button onClick={() => navigate('/donate')} className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-black text-primary shadow-lg transition hover:bg-primary/10">
                             Open QR Donation <FaArrowRight />
                         </button>
                     </div>

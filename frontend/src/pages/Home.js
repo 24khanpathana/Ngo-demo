@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import api from '../utils/api';
 import DynamicContentRenderer from '../components/DynamicContentRenderer';
+import PhoneAction from '../components/PhoneAction';
 import {
     FaAmbulance,
     FaArrowRight,
@@ -112,6 +113,7 @@ const galleryImages = [
 const Home = () => {
     const navigate = useNavigate();
     const [pets, setPets] = useState([]);
+    const [sponsors, setSponsors] = useState([]);
     const [contactData, setContactData] = useState({ name: '', email: '', phone: '', subject: 'General Inquiry', message: '' });
     const [contactMsg, setContactMsg] = useState('');
 
@@ -120,6 +122,9 @@ const Home = () => {
         api.get('/api/animals')
             .then(res => setPets(res.data.slice(0, 4)))
             .catch(() => setPets([]));
+        api.get('/api/sponsors')
+            .then(res => setSponsors(res.data.slice(0, 4)))
+            .catch(() => setSponsors([]));
     }, []);
 
     const handleContactSubmit = async (e) => {
@@ -143,23 +148,23 @@ const Home = () => {
                 <video autoPlay loop muted playsInline className="absolute inset-0 h-full w-full object-cover">
                     <source src="/BG.mp4" type="video/mp4" />
                 </video>
-                <div className="absolute inset-0 bg-gradient-to-br from-[#061411]/95 via-[#071513]/76 to-[#17210b]/78" />
+                <div className="absolute inset-0 bg-gradient-to-br from-black/78 via-clay/82 to-black/72" />
                 <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-mist to-transparent" />
 
                 <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
                     <motion.div initial="hidden" animate="visible" variants={fadeUp} transition={{ duration: 0.75 }} className="max-w-3xl">
-                        <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-teal-100 backdrop-blur">
+                        <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-white/20 bg-black/25 px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-linen backdrop-blur">
                             <span className="h-2 w-2 rounded-full bg-honey" />
                             Compassion in action
                         </div>
                         <h1 className="text-5xl font-black leading-[0.98] tracking-tight sm:text-6xl lg:text-7xl">
                             Rescue is only the beginning of love.
                         </h1>
-                        <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-200 sm:text-xl">
+                        <p className="mt-8 max-w-2xl text-lg leading-8 text-white/90 sm:text-xl">
                             Pyaar Foundation heals injured, abandoned, and voiceless animals through emergency rescue, medical rehabilitation, adoption, and community education.
                         </p>
                         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                            <button onClick={() => navigate('/donate')} className="btn-primary bg-gradient-to-r from-teal-400 via-emerald-400 to-honey px-8 py-4 text-slate-950 hover:from-teal-300 hover:to-amber-400">
+                            <button onClick={() => navigate('/donate')} className="btn-primary bg-gradient-to-r from-honey via-linen to-primary px-8 py-4 text-slate-950 hover:from-clay hover:to-linen">
                                 Donate Now <FaArrowRight />
                             </button>
                             <button onClick={() => navigate('/service')} className="btn-secondary border-white/20 bg-white/10 px-8 py-4 text-white hover:bg-white/20">
@@ -168,20 +173,20 @@ const Home = () => {
                         </div>
                     </motion.div>
 
-                    <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="rounded-[2rem] border border-white/15 bg-white/10 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl">
-                        <div className="rounded-[1.5rem] bg-[#071513]/80 p-6">
+                    <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="rounded-[2rem] border border-white/20 bg-black/20 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl">
+                        <div className="rounded-[1.5rem] bg-black/35 p-6">
                             <div className="grid grid-cols-2 gap-4">
                                 {impactStats.map(stat => (
-                                    <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/[0.06] p-5">
+                                    <div key={stat.label} className="rounded-2xl border border-white/15 bg-white/[0.08] p-5">
                                         <p className="text-3xl font-black text-white sm:text-4xl">{stat.value}</p>
-                                        <p className="mt-2 text-sm leading-6 text-slate-300">{stat.label}</p>
+                                        <p className="mt-2 text-sm leading-6 text-white/80">{stat.label}</p>
                                     </div>
                                 ))}
                             </div>
-                            <button onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })} className="mt-5 flex w-full items-center gap-4 rounded-2xl border border-rose-300/20 bg-rose-500/15 p-4 text-left transition hover:bg-rose-500/25">
-                                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500 text-white"><FaPhoneAlt /></span>
+                            <button onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })} className="mt-5 flex w-full items-center gap-4 rounded-2xl border border-honey/25 bg-black/25 p-4 text-left transition hover:bg-black/35">
+                                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-honey text-white"><FaPhoneAlt /></span>
                                 <span>
-                                    <span className="block text-xs font-bold uppercase tracking-[0.24em] text-rose-100">Animal emergency?</span>
+                                    <span className="block text-xs font-bold uppercase tracking-[0.24em] text-linen">Animal emergency?</span>
                                     <span className="font-semibold text-white">Report a rescue case now</span>
                                 </span>
                             </button>
@@ -191,9 +196,9 @@ const Home = () => {
             </section>
 
             <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={fadeUp} transition={{ duration: 0.65 }} className="mx-auto -mt-16 max-w-7xl px-6 lg:px-12">
-                <div className="grid gap-5 rounded-[2rem] border border-white/80 bg-white/90 p-5 shadow-2xl shadow-emerald-900/10 backdrop-blur md:grid-cols-4">
+                        <div className="grid gap-5 rounded-[2rem] border border-black/10 bg-white/90 p-5 shadow-2xl shadow-black/10 backdrop-blur md:grid-cols-4">
                     {impactStats.map(stat => (
-                        <div key={stat.label} className="rounded-3xl bg-gradient-to-br from-white to-teal-50 p-6 text-center">
+                        <div key={stat.label} className="rounded-3xl bg-gradient-to-br from-white to-primary/10 p-6 text-center">
                             <p className="text-4xl font-black text-slate-950">{stat.value}</p>
                             <p className="mt-2 text-sm font-medium text-slate-500">{stat.label}</p>
                         </div>
@@ -237,7 +242,7 @@ const Home = () => {
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2">
                         {dailyNeeds.map(need => (
-                            <div key={need} className="rounded-2xl border border-teal-100 bg-teal-50/60 p-5 font-semibold leading-7 text-slate-700">
+                            <div key={need} className="rounded-2xl border border-primary/20 bg-primary/10 p-5 font-semibold leading-7 text-slate-700">
                                 {need}
                             </div>
                         ))}
@@ -245,14 +250,14 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="bg-[#071513] px-6 py-24 text-white lg:px-12">
+            <section className="bg-clay px-6 py-24 text-white lg:px-12">
                 <div className="mx-auto max-w-7xl">
                     <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
                         <div>
-                            <p className="text-sm font-bold uppercase tracking-[0.28em] text-teal-200">Donation campaigns</p>
+                            <p className="text-sm font-bold uppercase tracking-[0.28em] text-linen">Donation campaigns</p>
                             <h2 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">Every scan becomes food, medicine, and recovery time.</h2>
                             <p className="mt-6 text-lg leading-8 text-slate-300">We have removed payment gateway complexity. Donate through a transparent UPI QR flow, then share your transaction reference for acknowledgement.</p>
-                            <button onClick={() => navigate('/donate')} className="btn-primary mt-8 bg-white text-slate-950 hover:bg-teal-50">Open QR Donation</button>
+                            <button onClick={() => navigate('/donate')} className="btn-primary mt-8 bg-white text-slate-950 hover:bg-primary/10">Open QR Donation</button>
                         </div>
                         <div className="grid gap-5 sm:grid-cols-3">
                             {campaigns.map(campaign => (
@@ -277,7 +282,7 @@ const Home = () => {
                         <article key={story.name} className="overflow-hidden rounded-[2rem] bg-white shadow-xl shadow-slate-200/60">
                             <img src={story.image} alt={story.name} loading="lazy" className="h-72 w-full object-cover" />
                             <div className="p-7">
-                                <span className="rounded-full bg-teal-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-primary">{story.tag}</span>
+                                <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-primary">{story.tag}</span>
                                 <h3 className="mt-5 text-3xl font-black text-slate-950">{story.name}</h3>
                                 <p className="mt-4 leading-7 text-slate-600">{story.text}</p>
                             </div>
@@ -315,6 +320,36 @@ const Home = () => {
                 </div>
             </section>
 
+            <section className="bg-mist px-6 py-24 lg:px-12">
+                <div className="mx-auto max-w-7xl">
+                    <div className="mb-12 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+                        <div className="max-w-3xl">
+                            <p className="text-sm font-bold uppercase tracking-[0.28em] text-primary">Sponsor support</p>
+                            <h2 className="mt-4 text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">Our Top 4 Sponsors</h2>
+                            <p className="mt-5 text-lg leading-8 text-slate-600">Support from our sponsors helps us continue rescuing, caring, and providing better lives for animals.</p>
+                        </div>
+                        <Link to="/sponsors" className="btn-secondary">View All Sponsors <FaArrowRight /></Link>
+                    </div>
+                    {sponsors.length > 0 ? (
+                        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                            {sponsors.map(sponsor => (
+                                <article key={sponsor._id} className="rounded-[1.5rem] border border-slate-100 bg-white p-4 shadow-xl shadow-slate-200/50 transition duration-300 hover:-translate-y-1">
+                                    <img src={sponsor.imageUrl || '/footor-1.svg'} alt={sponsor.name} loading="lazy" className="aspect-square w-full rounded-2xl object-cover" />
+                                    <h3 className="mt-4 text-xl font-black text-slate-950">{sponsor.name}</h3>
+                                    {sponsor.organization && <p className="mt-1 text-xs font-bold uppercase tracking-[0.16em] text-primary">{sponsor.organization}</p>}
+                                    <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-600">{sponsor.description}</p>
+                                </article>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="rounded-[1.5rem] border border-white bg-white p-8 text-center shadow-xl shadow-slate-200/50">
+                            <h3 className="text-2xl font-black text-slate-950">Sponsor profiles are coming soon.</h3>
+                            <p className="mx-auto mt-3 max-w-2xl text-slate-600">Sponsors added from the admin panel will appear here automatically.</p>
+                        </div>
+                    )}
+                </div>
+            </section>
+
             <section className="mx-auto max-w-7xl px-6 py-24 lg:px-12">
                 <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
                     <div>
@@ -331,7 +366,7 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="bg-gradient-to-br from-teal-50 via-white to-amber-50 px-6 py-24 lg:px-12">
+            <section className="bg-gradient-to-br from-primary/10 via-mist to-linen/25 px-6 py-24 lg:px-12">
                 <div className="mx-auto max-w-7xl">
                     <div className="grid gap-6 lg:grid-cols-3">
                         {[
@@ -363,13 +398,13 @@ const Home = () => {
                         <div className="mt-8 space-y-4">
                             {[
                                 [FaHome, 'Near pipeline Vichoda, Chhota Nagpur,Chandrapur,Maharashtra,442406'],
-                                [FaPhoneAlt, '++91 75888 93939'],
-                                [FaPhoneAlt, '+91 94225 67030'],
+                                [FaPhoneAlt, '+91 75888 93939', true],
+                                [FaPhoneAlt, '+91 94225 67030', true],
                                 [FaShieldAlt, 'pyaar4petanity@gmail.com'],
-                            ].map(([Icon, text]) => (
+                            ].map(([Icon, text, isPhone]) => (
                                 <div key={text} className="flex items-center gap-4 rounded-2xl bg-mist p-4">
                                     <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-primary"><Icon /></span>
-                                    <span className="font-semibold text-slate-700">{text}</span>
+                                    {isPhone ? <PhoneAction number={text} /> : <span className="font-semibold text-slate-700">{text}</span>}
                                 </div>
                             ))}
                         </div>

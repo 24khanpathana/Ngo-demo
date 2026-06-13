@@ -17,8 +17,8 @@ const Gallery = () => {
 
     return (
         <div className="min-h-screen w-full bg-mist pb-20 font-sans text-slate-800">
-            <div className="relative overflow-hidden bg-[#071513] px-6 py-24 text-center text-white shadow-inner">
-                <span className="mb-4 inline-block text-sm font-bold uppercase tracking-[0.3em] text-teal-200">Moments of hope</span>
+            <div className="relative overflow-hidden bg-clay px-6 py-24 text-center text-white shadow-inner">
+                <span className="mb-4 inline-block text-sm font-bold uppercase tracking-[0.3em] text-linen">Moments of hope</span>
                 <h1 className="mb-6 text-4xl font-black tracking-tight md:text-6xl">Our Gallery</h1>
                 <p className="mx-auto max-w-3xl text-lg leading-8 text-slate-300 md:text-xl">
                     Photos and stories showcasing the work of Pyaar Foundation and the animals whose lives have been transformed through compassion and care.
@@ -32,7 +32,7 @@ const Gallery = () => {
                                 {item.imageUrl ? (
                                     <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                 ) : (
-                                    <div className="flex h-full w-full items-center justify-center bg-teal-50 font-bold text-primary">
+                                    <div className="flex h-full w-full items-center justify-center bg-primary/10 font-bold text-primary">
                                         Pyaar Foundation
                                     </div>
                                 )}
@@ -48,7 +48,7 @@ const Gallery = () => {
                                     </div>
                                 )}
                                 <p className="text-gray-600 leading-relaxed mb-8 flex-grow whitespace-pre-wrap">{item.description}</p>
-                                <button onClick={() => navigate('/donate')} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl transition-colors shadow-lg shadow-emerald-600/20">
+                                <button onClick={() => navigate('/donate')} className="w-full bg-honey hover:bg-clay text-white font-bold py-4 rounded-xl transition-colors shadow-lg shadow-honey/20">
                                     Support Our Work
                                 </button>
                             </div>

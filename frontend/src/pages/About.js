@@ -32,13 +32,13 @@ const About = () => {
 
     return (
         <div className="bg-mist text-slate-900">
-            <section className="relative overflow-hidden bg-[#071513] px-6 py-28 text-white lg:px-12">
+            <section className="relative overflow-hidden bg-clay px-6 py-28 text-white lg:px-12">
                 <div className="absolute inset-0 opacity-30">
                     <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1600&q=80" alt="" className="h-full w-full object-cover" />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-[#071513] via-[#071513]/90 to-[#071513]/45" />
+                <div className="absolute inset-0 bg-gradient-to-r from-clay via-clay/90 to-clay/45" />
                 <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative mx-auto max-w-7xl">
-                    <p className="text-sm font-bold uppercase tracking-[0.3em] text-teal-200">About Pyaar Foundation</p>
+                    <p className="text-sm font-bold uppercase tracking-[0.3em] text-linen">About Pyaar Foundation</p>
                     <h1 className="mt-5 max-w-4xl text-5xl font-black leading-tight tracking-tight sm:text-6xl">Built for animals who cannot wait for kindness.</h1>
                     <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-200">Pyaar Foundation began with emergency feeding and grew into a rescue, rehabilitation, adoption, and awareness movement for animals in distress.</p>
                 </motion.div>
@@ -99,10 +99,10 @@ const About = () => {
                 </div>
             </section>
 
-            <section className="bg-[#071513] px-6 py-24 text-white lg:px-12">
+            <section className="bg-clay px-6 py-24 text-white lg:px-12">
                 <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.75fr_1.25fr]">
                     <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-8 backdrop-blur">
-                        <FaQuoteLeft className="text-4xl text-teal-200" />
+                        <FaQuoteLeft className="text-4xl text-linen" />
                         <p className="mt-8 text-3xl font-black leading-snug">Compassion without action is only sentiment.</p>
                         <p className="mt-6 text-slate-300">This belief shapes every rescue call, every dressing change, every adoption conversation, and every donation acknowledgement.</p>
                     </div>

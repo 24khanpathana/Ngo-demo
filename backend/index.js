@@ -62,6 +62,7 @@ app.use("/api/forms", require("./routes/formRoutes")); // <-- New
 app.use("/api/settings", require("./routes/settingRoutes"));
 // Add this under your other API Routes in server.js
 app.use("/api/animals", require("./routes/animalRoutes"));
+app.use("/api/sponsors", require("./routes/sponsorRoutes"));
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

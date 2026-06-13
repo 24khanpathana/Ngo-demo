@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaClipboardList, FaDownload, FaShareAlt, FaHeart, FaShieldAlt } from 'react-icons/fa';
 import api from '../utils/api';
+import PhoneAction from '../components/PhoneAction';
 
 const UPI_ID = 'pyaarfoundation@upi';
 const QR_CODE_URL = `https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=${encodeURIComponent(`upi://pay?pa=${UPI_ID}&pn=Pyaar%20Foundation&cu=INR`)}`;
@@ -80,10 +81,10 @@ const Donation = () => {
     };
 
     return (
-        <motion.div className="min-h-screen bg-[#071513] text-slate-100 px-4 py-24 sm:px-6 lg:px-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <motion.div className="min-h-screen bg-clay text-slate-100 px-4 py-24 sm:px-6 lg:px-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.2fr_0.8fr] items-start">
-                <motion.section className="space-y-8 rounded-[2rem] border border-white/10 bg-white/[0.06] p-10 shadow-2xl shadow-teal-900/20 backdrop-blur" initial={{ x: -40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8 }}>
-                    <div className="inline-flex items-center gap-3 rounded-full border border-teal-300/15 bg-teal-400/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-teal-100">
+                <motion.section className="space-y-8 rounded-[2rem] border border-white/10 bg-white/[0.06] p-10 shadow-2xl shadow-clay/20 backdrop-blur" initial={{ x: -40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8 }}>
+                    <div className="inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-linen">
                         <FaHeart /> QR Donation</div>
                     <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">Give with love, trust and a simple scan.</h1>
                     <p className="max-w-3xl text-slate-300 leading-8">Support rescued and rehabilitated animals through a premium UPI QR donation experience. Scan, pay, and confirm your transaction details instantly.</p>
@@ -99,24 +100,24 @@ const Donation = () => {
                             </div>
                         ))}
                     </div>
-                    <div className="rounded-[2rem] border border-white/10 bg-[#071513] p-8 shadow-inner shadow-slate-900/30">
+                    <div className="rounded-[2rem] border border-white/10 bg-clay p-8 shadow-inner shadow-slate-900/30">
                         <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
                             <div className="rounded-[1.75rem] border border-slate-800/90 bg-slate-900 p-6 text-center">
-                                <div className="relative overflow-hidden rounded-[1.5rem] border border-cyan-500/10 bg-slate-950 p-6">
-                                    <img src={QR_CODE_URL} alt="Pyaar Foundation donation QR" className="mx-auto h-auto w-full max-w-[280px] rounded-3xl shadow-2xl shadow-cyan-500/15" />
+                                <div className="relative overflow-hidden rounded-[1.5rem] border border-primary/20 bg-slate-950 p-6">
+                                    <img src={QR_CODE_URL} alt="Pyaar Foundation donation QR" className="mx-auto h-auto w-full max-w-[280px] rounded-3xl shadow-2xl shadow-primary/15" />
                                 </div>
                                 <div className="mt-6 flex flex-col gap-3">
-                                    <button type="button" onClick={handleCopy} className="inline-flex items-center justify-center gap-2 rounded-full bg-cyan-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400">
+                                    <button type="button" onClick={handleCopy} className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-linen">
                                         <FaClipboardList /> Copy UPI ID
                                     </button>
-                                    <button type="button" onClick={handleDownload} className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-5 py-3 text-sm text-slate-200 transition hover:border-cyan-500">
+                                    <button type="button" onClick={handleDownload} className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-5 py-3 text-sm text-slate-200 transition hover:border-primary">
                                         <FaDownload /> Download QR
                                     </button>
                                 </div>
                             </div>
                             <div className="rounded-[1.75rem] border border-slate-800/90 bg-slate-950 p-6">
                                 <div className="rounded-3xl bg-slate-900/90 p-6 mb-6 text-center">
-                                    <p className="text-sm uppercase tracking-[0.32em] text-cyan-300">UPI ID</p>
+                                    <p className="text-sm uppercase tracking-[0.32em] text-primary">UPI ID</p>
                                     <h2 className="mt-3 text-2xl font-semibold text-white break-words">{UPI_ID}</h2>
                                 </div>
                                 <div className="space-y-5 text-sm leading-relaxed text-slate-300">
@@ -130,10 +131,10 @@ const Donation = () => {
                                     </div>
                                     <div className="rounded-3xl border border-slate-800/90 bg-slate-950 p-5">
                                         <p className="font-semibold text-white">Need support?</p>
-                                        <p className="mt-3 text-slate-400">Email <a href="mailto:contact@risefortails.org" className="text-cyan-300 hover:text-cyan-200">contact@risefortails.org</a> or call +91 98765 43210.</p>
+                                        <p className="mt-3 text-slate-400">Email <a href="mailto:contact@risefortails.org" className="text-primary hover:text-linen">contact@risefortails.org</a> or call <PhoneAction number="+91 75888 93939" className="inline-flex" buttonClassName="!text-primary hover:!text-linen" />.</p>
                                     </div>
                                 </div>
-                                <button type="button" onClick={handleShare} className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full border border-cyan-500/20 bg-white/5 px-5 py-4 text-sm font-semibold text-white transition hover:bg-white/10">
+                                <button type="button" onClick={handleShare} className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full border border-primary/20 bg-white/5 px-5 py-4 text-sm font-semibold text-white transition hover:bg-white/10">
                                     <FaShareAlt /> Share donation page
                                 </button>
                             </div>
@@ -141,13 +142,13 @@ const Donation = () => {
                     </div>
                 </motion.section>
 
-                <motion.section className="rounded-[2rem] border border-teal-300/10 bg-slate-950/90 p-10 shadow-2xl shadow-teal-500/10" initial={{ x: 40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.15 }}>
+                <motion.section className="rounded-[2rem] border border-primary/20 bg-slate-950/90 p-10 shadow-2xl shadow-primary/10" initial={{ x: 40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.15 }}>
                     <div className="mb-8 flex items-center gap-4 text-slate-100">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-cyan-500/15 text-cyan-300">
+                        <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-primary/15 text-primary">
                             <FaShieldAlt size={20} />
                         </div>
                         <div>
-                            <p className="text-sm uppercase tracking-[0.32em] text-cyan-300">Donate securely</p>
+                            <p className="text-sm uppercase tracking-[0.32em] text-primary">Donate securely</p>
                             <h2 className="text-3xl font-semibold text-white">Confirm Your Donation</h2>
                         </div>
                     </div>
@@ -158,7 +159,7 @@ const Donation = () => {
                                 type="button"
                                 key={amount}
                                 onClick={() => setFormData({ ...formData, amount: String(amount) })}
-                                className="rounded-2xl border border-teal-300/15 bg-white/5 px-3 py-3 text-sm font-bold text-teal-100 transition hover:bg-teal-400/10"
+                                className="rounded-2xl border border-primary/20 bg-white/5 px-3 py-3 text-sm font-bold text-linen transition hover:bg-primary/10"
                             >
                                 Rs. {amount.toLocaleString('en-IN')}
                             </button>
@@ -168,32 +169,32 @@ const Donation = () => {
                         <div className="grid gap-5 sm:grid-cols-2">
                             <label className="block">
                                 <span className="text-sm font-semibold text-slate-200">Full Name</span>
-                                <input name="name" value={formData.name} onChange={handleChange} placeholder="Your name" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20" required />
+                                <input name="name" value={formData.name} onChange={handleChange} placeholder="Your name" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20" required />
                             </label>
                             <label className="block">
                                 <span className="text-sm font-semibold text-slate-200">Mobile Number</span>
-                                <input name="mobile" value={formData.mobile} onChange={handleChange} placeholder="+91 98765 43210" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20" required />
+                                <input name="mobile" value={formData.mobile} onChange={handleChange} placeholder="+91 98765 43210" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20" required />
                             </label>
                         </div>
                         <div className="grid gap-5 sm:grid-cols-2">
                             <label className="block">
                                 <span className="text-sm font-semibold text-slate-200">Donation Amount (INR)</span>
-                                <input name="amount" type="number" min="10" value={formData.amount} onChange={handleChange} placeholder="1000" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20" required />
+                                <input name="amount" type="number" min="10" value={formData.amount} onChange={handleChange} placeholder="1000" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20" required />
                             </label>
                             <label className="block">
                                 <span className="text-sm font-semibold text-slate-200">Transaction Reference</span>
-                                <input name="transactionRef" value={formData.transactionRef} onChange={handleChange} placeholder="UPI txn ref" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20" required />
+                                <input name="transactionRef" value={formData.transactionRef} onChange={handleChange} placeholder="UPI txn ref" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20" required />
                             </label>
                         </div>
                         <label className="block">
                             <span className="text-sm font-semibold text-slate-200">Notes (optional)</span>
-                            <textarea name="notes" value={formData.notes} onChange={handleChange} placeholder="Add any special note" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20" rows="3" />
+                            <textarea name="notes" value={formData.notes} onChange={handleChange} placeholder="Add any special note" className="mt-3 w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-4 py-4 text-white outline-none placeholder:text-slate-500 focus:border-primary focus:ring-2 focus:ring-primary/20" rows="3" />
                         </label>
-                        <button type="submit" disabled={isSaving} className="w-full rounded-3xl bg-gradient-to-r from-cyan-500 to-emerald-500 px-6 py-4 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60">
+                        <button type="submit" disabled={isSaving} className="w-full rounded-3xl bg-gradient-to-r from-primary to-honey px-6 py-4 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60">
                             {isSaving ? 'Recording donation...' : 'Confirm Donation'}
                         </button>
                         {message.text && (
-                            <div className={`rounded-3xl border px-6 py-4 text-center text-sm font-semibold ${message.type === 'success' ? 'border-emerald-400 bg-emerald-500/10 text-emerald-200' : 'border-rose-400 bg-rose-500/10 text-rose-200'}`}>
+                            <div className={`rounded-3xl border px-6 py-4 text-center text-sm font-semibold ${message.type === 'success' ? 'border-linen bg-linen/250/10 text-linen' : 'border-honey bg-honey/10 text-linen'}`}>
                                 {message.text}
                             </div>
                         )}

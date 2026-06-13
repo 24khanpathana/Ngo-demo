@@ -16,17 +16,18 @@ const Navbar = ({ theme, setTheme }) => {
         { name: 'Events', path: '/events' },
         { name: 'Gallery', path: '/gallery' },
         { name: 'Volunteer', path: '/team' },
+        { name: 'Sponsors', path: '/sponsors' },
         { name: 'Contact', path: '/contact' },
     ];
 
     return (
-        <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/40 bg-white/76 backdrop-blur-2xl shadow-sm transition-all duration-300 dark:border-slate-800/70 dark:bg-[#071513]/85">
+        <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/40 bg-white/76 backdrop-blur-2xl shadow-sm transition-all duration-300 dark:border-slate-800/70 dark:bg-clay/85">
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8 xl:px-12">
                 <Link to="/" onClick={closeMenu} className="flex shrink-0 items-center gap-3">
-                    <img src="/logo.svg" alt="Pyaar Foundation logo" className="h-12 w-12 rounded-2xl shadow-lg shadow-teal-500/20" />
+                    <img src="/footor-1.svg" alt="Pyaar Foundation logo" className="h-14 w-14 rounded-2xl object-contain shadow-lg shadow-primary/20" />
                     <div>
-                        <p className="text-xs font-black uppercase tracking-[0.24em] text-primary dark:text-teal-200">Pyaar Foundation</p>
-                        <h1 className="text-xl font-black text-slate-900 dark:text-white">Foundation</h1>
+                        <p className="text-xs font-black uppercase tracking-[0.18em] text-primary dark:text-primary">Pyaar Foundation</p>
+                        <h1 className="text-lg font-black text-slate-900 dark:text-white sm:text-xl">Animal Rehab</h1>
                     </div>
                 </Link>
 
@@ -36,16 +37,16 @@ const Navbar = ({ theme, setTheme }) => {
                             <li key={link.name}>
                                 <Link
                                     to={link.path}
-                                    className={`transition ${location.pathname === link.path ? 'text-primary dark:text-teal-300' : 'hover:text-slate-900 dark:hover:text-white'}`}>
+                                    className={`transition ${location.pathname === link.path ? 'text-primary dark:text-linen' : 'hover:text-slate-900 dark:hover:text-white'}`}>
                                     {link.name}
                                 </Link>
                             </li>
                         ))}
                     </ul>
-                    <Link to="/donate" className="shrink-0 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 px-4 py-3 text-sm font-black text-white shadow-lg shadow-teal-600/20 transition hover:from-teal-400 hover:to-emerald-400 xl:px-5">
+                    <Link to="/donate" className="shrink-0 rounded-full bg-gradient-to-r from-honey to-primary px-4 py-3 text-sm font-black text-white shadow-lg shadow-honey/20 transition hover:from-clay hover:to-primary xl:px-5">
                         Donate Now
                     </Link>
-                    <Link to="/admin" className="shrink-0 rounded-full border border-slate-200/80 bg-white px-4 py-3 text-sm font-black text-slate-700 shadow-sm transition hover:border-primary hover:text-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-teal-300 dark:hover:text-teal-200 xl:px-5">
+                    <Link to="/admin" className="shrink-0 rounded-full border border-slate-200/80 bg-white px-4 py-3 text-sm font-black text-slate-700 shadow-sm transition hover:border-primary hover:text-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-linen dark:hover:text-linen xl:px-5">
                         Admin Login
                     </Link>
                     <button onClick={toggleTheme} className="shrink-0 rounded-full border border-slate-200/80 bg-white px-3 py-3 text-slate-700 transition hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
@@ -63,14 +64,14 @@ const Navbar = ({ theme, setTheme }) => {
                 </div>
             </div>
 
-            <div className={`lg:hidden ${isMenuOpen ? 'block' : 'hidden'} border-t border-slate-200/70 bg-white dark:border-slate-800/70 dark:bg-[#071513]`}>
+            <div className={`lg:hidden ${isMenuOpen ? 'block' : 'hidden'} border-t border-slate-200/70 bg-white dark:border-slate-800/70 dark:bg-clay`}>
                 <div className="space-y-4 px-6 py-6">
                     {links.map(link => (
-                        <Link key={link.name} to={link.path} onClick={closeMenu} className="block text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-cyan-600">
+                        <Link key={link.name} to={link.path} onClick={closeMenu} className="block text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-primary">
                             {link.name}
                         </Link>
                     ))}
-                    <Link to="/donate" onClick={closeMenu} className="block rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-teal-600/20">
+                    <Link to="/donate" onClick={closeMenu} className="block rounded-full bg-gradient-to-r from-honey to-primary px-4 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-honey/20">
                         Donate Now
                     </Link>
                     <Link to="/admin" onClick={closeMenu} className="block text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">

@@ -18,9 +18,12 @@ const AdminLogin = () => {
     };
 
     return (
-        <div className="min-h-[calc(100vh-80px)] flex items-center justify-center p-4">
+        <div className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-mist p-4 dark:bg-darkBg">
             <div className="card w-full max-w-md">
-                <h2 className="section-title !mb-8">Admin Login</h2>
+                <div className="mb-8 text-center">
+                    <img src="/footor-1.svg" alt="Pyaar Foundation logo" className="mx-auto mb-5 h-16 w-16 rounded-2xl object-contain shadow-lg shadow-primary/20" />
+                    <h2 className="section-title !text-3xl">Admin Login</h2>
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
                         <label className="block text-sm font-medium mb-2">Admin Email</label>

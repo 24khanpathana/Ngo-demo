@@ -1,17 +1,11 @@
 <svg width="64" height="64" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="256" height="256" rx="56" fill="#071513"/>
-  <path d="M128 45C97.07 45 72 70.07 72 101C72 145.5 128 211 128 211C128 211 184 145.5 184 101C184 70.07 158.93 45 128 45Z" fill="url(#paint0_linear)"/>
-  <circle cx="100" cy="95" r="14" fill="#F8FAFC"/>
-  <circle cx="156" cy="95" r="14" fill="#F8FAFC"/>
-  <circle cx="128" cy="109" r="17" fill="#F8FAFC"/>
-  <path d="M106 142C106 128.745 116.745 118 130 118H134C147.255 118 158 128.745 158 142V144C158 151.732 151.732 158 144 158H120C112.268 158 106 151.732 106 144V142Z" fill="#F8FAFC"/>
-  <circle cx="84" cy="114" r="12" fill="#F8FAFC"/>
-  <circle cx="172" cy="114" r="12" fill="#F8FAFC"/>
-  <defs>
-    <linearGradient id="paint0_linear" x1="82" y1="57" x2="186" y2="194" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#2DD4BF"/>
-      <stop offset="0.52" stop-color="#34D399"/>
-      <stop offset="1" stop-color="#F59E0B"/>
-    </linearGradient>
-  </defs>
+  <rect width="256" height="256" rx="46" fill="#FBFFFA"/>
+  <rect x="29" y="35" width="88" height="146" rx="14" fill="#E26B29"/>
+  <rect x="18" y="91" width="105" height="67" rx="12" fill="#E26B29"/>
+  <path d="M123 65L71 181H123V65Z" fill="#9A5734"/>
+  <path d="M103 91H137V181H103V91Z" fill="#9A5734"/>
+  <path d="M91 151C92 132 107 119 126 119C143 119 158 131 160 147C147 144 135 149 126 160C116 147 104 144 91 151Z" fill="#FBFFFA"/>
+  <path d="M149 90H211C220 90 226 96 226 105V171C226 181 220 187 211 187H149V90Z" fill="#44C3E6"/>
+  <path d="M205 58L227 47L222 72L240 88L214 91L203 114L192 91L166 88L184 72L179 47L205 58Z" fill="#C5A180"/>
+  <rect x="12" y="12" width="232" height="232" rx="44" stroke="#EAED71" stroke-width="8"/>
 </svg>
