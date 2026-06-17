@@ -22,14 +22,14 @@ const Navbar = ({ theme, setTheme }) => {
 
     return (
         <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/40 bg-white/76 backdrop-blur-2xl shadow-sm transition-all duration-300 dark:border-slate-800/70 dark:bg-clay/85">
-            <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 lg:px-8 xl:px-12">
-                <Link to="/" onClick={closeMenu} className="flex shrink-0 items-center gap-3 leading-none">
+            <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3.5 lg:px-8 xl:px-12">
+                <Link to="/" onClick={closeMenu} className="flex min-w-0 flex-1 items-center gap-3 leading-none lg:flex-none lg:shrink-0">
                     <img src="/footor-1.svg" alt="Pyaar Foundation logo" className="h-11 w-11 flex-none rounded-2xl object-contain shadow-lg shadow-primary/20 sm:h-13 sm:w-13" />
-                    <div className="min-w-0">
-                        <p className="text-[0.98rem] font-black uppercase leading-tight tracking-[0.16em] text-primary dark:text-primary sm:text-[1.08rem]">
+                    <div className="min-w-0 overflow-hidden">
+                        <p className="truncate text-[0.92rem] font-black uppercase leading-tight tracking-[0.14em] text-primary dark:text-primary sm:text-[1.08rem]">
                             PYAAR FOUNDATION
                         </p>
-                        <p className="mt-1 max-w-[15rem] text-[0.58rem] font-bold uppercase leading-tight tracking-[0.22em] text-slate-700 dark:text-slate-200 sm:max-w-none sm:text-[0.66rem]">
+                        <p className="mt-1 hidden max-w-[15rem] text-[0.58rem] font-bold uppercase leading-tight tracking-[0.22em] text-slate-700 dark:text-slate-200 sm:block sm:max-w-none sm:text-[0.66rem]">
                             PETANITY AND ANIMAL REHABILITATORS
                         </p>
                     </div>
@@ -58,11 +58,15 @@ const Navbar = ({ theme, setTheme }) => {
                     </button>
                 </div>
 
-                <div className="flex items-center gap-3 lg:hidden">
-                    <button onClick={toggleTheme} className="rounded-full border border-slate-200/80 bg-white px-3 py-3 text-slate-700 transition hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+                <div className="flex shrink-0 items-center gap-2 lg:hidden">
+                    <button onClick={toggleTheme} aria-label="Toggle theme" className="rounded-full border border-slate-200/80 bg-white p-3 text-slate-700 transition hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
                         {theme === 'light' ? <FaMoon size={16} /> : <FaSun size={16} />}
                     </button>
-                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-slate-900 dark:text-white">
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                        className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/80 bg-white text-slate-900 shadow-sm transition hover:border-primary hover:text-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-linen dark:hover:text-linen"
+                    >
                         {isMenuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
                     </button>
                 </div>
