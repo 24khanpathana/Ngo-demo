@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FaBuilding, FaGlobeAmericas, FaShareAlt, FaUniversity } from 'react-icons/fa';
+import { FaBuilding, FaGlobeAmericas, FaShieldAlt, FaShareAlt, FaUniversity } from 'react-icons/fa';
 
 const ORGANIZATION_NAME = 'PETANITY AND ANIMAL REHABILITATORS FOUNDATION';
 const UPI_ID = 'petanityandanimalreh.97108903@hdfcbank';
@@ -46,6 +46,18 @@ const Donation = () => {
                     <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-5xl">Bank Transfer Details</h1>
                     <p className="mt-4 text-sm leading-7 text-slate-500 sm:text-base">You can also donate directly through bank transfer.</p>
                 </header>
+
+                <section className="rounded-[2rem] border border-emerald-200 bg-emerald-50 px-6 py-6 shadow-[0_18px_60px_rgba(15,23,42,0.06)] sm:px-8">
+                    <div className="flex items-start gap-4">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-200">
+                            <FaShieldAlt size={18} />
+                        </div>
+                        <div>
+                            <h2 className="text-lg font-black tracking-tight text-emerald-900 sm:text-2xl">80G/12A Tax Deduction Available</h2>
+                            <p className="mt-2 text-sm leading-7 text-emerald-900/80 sm:text-base">Your generous donations help support our animal welfare initiatives. Eligible donors can claim tax benefits under applicable Income Tax rules. Donation receipts and required documents will be provided for eligible contributions.</p>
+                        </div>
+                    </div>
+                </section>
 
                 <section className="grid gap-6 lg:grid-cols-2">
                     <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-8">

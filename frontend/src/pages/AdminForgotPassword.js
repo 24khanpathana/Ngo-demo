@@ -25,24 +25,24 @@ const AdminForgotPassword = () => {
     };
 
     return (
-        <div className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-mist px-4 py-12 dark:bg-darkBg">
-            <div className="card w-full max-w-md">
+        <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-gradient-to-br from-mist via-white to-linen/30 px-4 py-12 dark:from-darkBg dark:via-darkBg dark:to-slate-900">
+            <div className="card w-full max-w-md border border-white/70 bg-white/95 shadow-2xl shadow-slate-200/60 backdrop-blur dark:border-slate-800/70 dark:bg-darkCard/95">
                 <div className="mb-8 text-center">
                     <img src="/footor-1.svg" alt="Pyaar Foundation logo" className="mx-auto mb-5 h-16 w-16 rounded-2xl object-contain shadow-lg shadow-primary/20" />
                     <h2 className="section-title !text-3xl">Forgot Password</h2>
-                    <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">Enter your admin email and we will send a reset link.</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">Enter your registered admin email to receive a password reset link.</p>
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
-                        <label className="block text-sm font-medium mb-2">Admin Email</label>
+                        <label className="mb-2 block text-sm font-medium">Admin Email / Username</label>
                         <input 
-                            type="email" 
+                            type="text" 
                             name="email" 
                             value={email} 
                             onChange={(e) => setEmail(e.target.value)} 
                             className="input-field" 
                             required 
-                            placeholder="Enter your registered email"
+                            placeholder="Enter your registered email or username"
                             disabled={loading}
                         />
                     </div>

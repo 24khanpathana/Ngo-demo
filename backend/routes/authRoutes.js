@@ -8,7 +8,8 @@ const router = express.Router();
 // @desc    Authenticate admin and get token
 // @access  Public
 router.post('/login', async (req, res) => {
-    const { adminId, password } = req.body;
+    const adminId = (req.body.adminId || req.body.email || '').trim();
+    const { password } = req.body;
 
     try {
         const admin = await Admin.findOne({ adminId });
@@ -49,10 +50,10 @@ const sendEmail = require('../utils/sendEmail');
 // @desc    Send password reset email
 // @access  Public
 router.post('/forgot-password', async (req, res) => {
-    const { email } = req.body;
+    const identifier = (req.body.email || req.body.adminId || '').trim();
 
     try {
-        const admin = await Admin.findOne({ adminId: email });
+        const admin = await Admin.findOne({ adminId: identifier });
         if (!admin) {
             // Send success response even if not found to prevent email enumeration
             return res.status(200).json({ message: 'If that email exists, a reset link will be sent.' });

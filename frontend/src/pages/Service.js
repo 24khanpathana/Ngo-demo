@@ -3,6 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { FaAmbulance, FaArrowRight, FaFireAlt, FaStethoscope, FaSyringe, FaWater } from 'react-icons/fa';
 import api from '../utils/api';
 
+const documentOptions = [
+    'Registration Certificate',
+    'PAN of NGO',
+    '12A Document',
+    '80G Document',
+    'CSR Document',
+    'FCRA Account',
+    'AWBI Certificate',
+    'Niti Aayog Certificate',
+    'Aadhar Card of Founder',
+    'Other Documents',
+];
+
 const ServiceForm = ({ title, endpoint, fields }) => {
     const [data, setData] = useState({});
     const [msg, setMsg] = useState('');
@@ -35,6 +48,66 @@ const ServiceForm = ({ title, endpoint, fields }) => {
                 <button type="submit" className="btn-primary w-full py-4">Submit</button>
             </form>
             {msg && <p className="mt-6 rounded-2xl border border-linen/50 bg-linen/25 p-4 text-center font-bold text-clay">{msg}</p>}
+        </div>
+    );
+};
+
+const AuditRequestForm = () => {
+    const [data, setData] = useState({ name: '', mobile: '', email: '', documentType: '', description: '' });
+    const [msg, setMsg] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setMsg('');
+        setError('');
+
+        try {
+            const res = await api.post('/api/audit-requests', data);
+            setMsg(res.data.message || 'Request submitted successfully.');
+            setData({ name: '', mobile: '', email: '', documentType: '', description: '' });
+        } catch (err) {
+            setError(err.response?.data?.message || 'Error submitting request. Please try again.');
+        }
+    };
+
+    return (
+        <div className="rounded-[2rem] border border-primary/10 bg-gradient-to-br from-white to-linen/25 p-8 shadow-xl shadow-slate-200/50 md:p-10 lg:col-span-2">
+            <div className="mb-8 max-w-3xl">
+                <p className="text-sm font-bold uppercase tracking-[0.28em] text-primary">Official Requests</p>
+                <h3 className="mt-3 text-3xl font-black text-slate-950">Request for Audit Reports / Pyaar Official Documents</h3>
+                <p className="mt-3 text-base leading-7 text-slate-600">Submit your request and the admin team will review the document requirement and update the request status in the dashboard.</p>
+            </div>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                    <label className="mb-2 block text-sm font-semibold text-slate-700">Name</label>
+                    <input type="text" className="input-field" required value={data.name} onChange={e => setData({ ...data, name: e.target.value })} placeholder="Enter your name" />
+                </div>
+                <div>
+                    <label className="mb-2 block text-sm font-semibold text-slate-700">Mobile Number</label>
+                    <input type="number" inputMode="numeric" min="0" className="input-field" required value={data.mobile} onChange={e => setData({ ...data, mobile: e.target.value })} placeholder="Enter mobile number" />
+                </div>
+                <div>
+                    <label className="mb-2 block text-sm font-semibold text-slate-700">Email</label>
+                    <input type="email" className="input-field" required value={data.email} onChange={e => setData({ ...data, email: e.target.value })} placeholder="Enter email address" />
+                </div>
+                <div>
+                    <label className="mb-2 block text-sm font-semibold text-slate-700">Document Selection</label>
+                    <select className="input-field" required value={data.documentType} onChange={e => setData({ ...data, documentType: e.target.value })}>
+                        <option value="">Select a document</option>
+                        {documentOptions.map(option => <option key={option} value={option}>{option}</option>)}
+                    </select>
+                </div>
+                <div className="md:col-span-2">
+                    <label className="mb-2 block text-sm font-semibold text-slate-700">Description / Reason</label>
+                    <textarea className="input-field resize-none" rows="5" required value={data.description} onChange={e => setData({ ...data, description: e.target.value })} placeholder="Explain your document requirement" />
+                </div>
+                <div className="md:col-span-2">
+                    <button type="submit" className="btn-primary w-full py-4">Submit Request</button>
+                </div>
+            </form>
+            {msg && <p className="mt-6 rounded-2xl border border-linen/50 bg-linen/25 p-4 text-center font-bold text-clay">{msg}</p>}
+            {error && <p className="mt-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-center font-bold text-red-600">{error}</p>}
         </div>
     );
 };
@@ -187,6 +260,7 @@ const Service = () => {
                 </div>
 
                 <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
+                    <AuditRequestForm />
                     <ServiceForm
                         title="Volunteer Application"
                         endpoint="/api/volunteers/apply"

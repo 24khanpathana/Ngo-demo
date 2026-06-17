@@ -53,7 +53,6 @@ mongoose
 
 // --- API Routes ---
 app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/donations", require("./routes/donationRoutes"));
 app.use("/api/volunteers", require("./routes/volunteerRoutes"));
 app.use("/api/feedback", require("./routes/feedbackRoutes"));
 app.use("/api/complaints", require("./routes/complaintRoutes"));
@@ -63,6 +62,8 @@ app.use("/api/settings", require("./routes/settingRoutes"));
 // Add this under your other API Routes in server.js
 app.use("/api/animals", require("./routes/animalRoutes"));
 app.use("/api/sponsors", require("./routes/sponsorRoutes"));
+app.use("/api/audit-requests", require("./routes/auditRequestRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

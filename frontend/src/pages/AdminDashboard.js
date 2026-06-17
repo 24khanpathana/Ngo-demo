@@ -12,7 +12,10 @@ const AdminDashboard = () => {
     const [contents, setContents] = useState([]);
     const [animals, setAnimals] = useState([]);
     const [sponsors, setSponsors] = useState([]);
-    const [overviewData, setOverviewData] = useState({ volunteers: [], donations: [], feedback: [], complaints:[] });
+    const [auditRequests, setAuditRequests] = useState([]);
+    const [overviewData, setOverviewData] = useState({ volunteers: [], feedback: [], complaints: [] });
+    const [auditSearch, setAuditSearch] = useState('');
+    const [csvDownloading, setCsvDownloading] = useState(false);
     
     const [selectedPage, setSelectedPage] = useState('Home');
     const [formData, setFormData] = useState({ title: '', description: '', imageUrl: '', date: '', role: '' });
@@ -33,17 +36,37 @@ const AdminDashboard = () => {
 
     const fetchAllData = useCallback(async () => {
         try {
-            const[contentRes, animalRes, sponsorRes, volRes, donRes, feedRes, compRes] = await Promise.all([
-                api.get('/api/content'), api.get('/api/animals'), api.get('/api/sponsors'), api.get('/api/volunteers'), api.get('/api/donations'), api.get('/api/feedback'), api.get('/api/complaints')
+            const[contentRes, animalRes, sponsorRes, volRes, feedRes, compRes, auditRes] = await Promise.all([
+                api.get('/api/content'), api.get('/api/animals'), api.get('/api/sponsors'), api.get('/api/volunteers'), api.get('/api/feedback'), api.get('/api/complaints'), api.get('/api/audit-requests')
             ]);
             setContents(contentRes.data); setAnimals(animalRes.data); setSponsors(sponsorRes.data);
-            setOverviewData({ volunteers: volRes.data, donations: donRes.data, feedback: feedRes.data, complaints: compRes.data });
+            setOverviewData({ volunteers: volRes.data, feedback: feedRes.data, complaints: compRes.data });
+            setAuditRequests(auditRes.data);
         } catch (error) { if (error.response?.status === 401) { logout(); navigate('/'); } }
     }, [api, logout, navigate]);
 
     useEffect(() => { fetchAllData(); }, [fetchAllData]);
 
     const handleLogout = () => { logout(); navigate('/'); };
+
+    const handleDownloadCsv = async () => {
+        try {
+            setCsvDownloading(true);
+            const response = await api.get('/api/admin/export-csv', { responseType: 'blob' });
+            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'text/csv;charset=utf-8;' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'admin-export.csv');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            alert('Failed to download CSV. Please try again.');
+        } finally {
+            setCsvDownloading(false);
+        }
+    };
 
      // ==========================================
     // INSTANT DELETE LOGIC (NO PAGE RELOAD)
@@ -174,10 +197,9 @@ const AdminDashboard = () => {
                         {items.map(item => (
                             <tr key={item._id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
                                 {Object.keys(headers).map(key => (
-                                    // AFTER:
-<td key={key} className="p-4 max-w-xs truncate">
-    {Array.isArray(item[headers[key]]) ? item[headers[key]].join(', ') : item[headers[key]]}
-</td>
+                                    <td key={key} className="p-4 max-w-xs truncate">
+                                        {Array.isArray(item[headers[key]]) ? item[headers[key]].join(', ') : (item[headers[key]] || 'N/A')}
+                                    </td>
                                 ))}
                                 <td className="p-4 text-center">
                                     <button onClick={() => handleGenericDelete(apiEndpoint, item._id)} className="text-red-600 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-400 px-3 py-1 rounded transition-colors text-sm font-semibold">
@@ -188,6 +210,101 @@ const AdminDashboard = () => {
                         ))}
                     </tbody>
                 </table>
+            </div>
+        );
+    };
+
+    const handleAuditStatusChange = async (id, status) => {
+        try {
+            const { data } = await api.patch(`/api/audit-requests/${id}`, { status });
+            setAuditRequests(prev => prev.map(item => (item._id === id ? data : item)));
+        } catch (error) {
+            alert('Failed to update request status.');
+        }
+    };
+
+    const handleAuditDelete = async (id) => {
+        if(window.confirm('Are you sure you want to delete this request?')) {
+            try {
+                await api.delete(`/api/audit-requests/${id}`);
+                setAuditRequests(prev => prev.filter(item => item._id !== id));
+            } catch (error) {
+                alert('Failed to delete request.');
+            }
+        }
+    };
+
+    const renderAuditManager = () => {
+        const filteredRequests = auditRequests.filter(item => {
+            const searchValue = auditSearch.trim().toLowerCase();
+            if (!searchValue) return true;
+            return [item.name, item.mobile, item.email, item.documentType, item.description, item.status]
+                .filter(Boolean)
+                .some(value => value.toLowerCase().includes(searchValue));
+        });
+
+        return (
+            <div>
+                <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div>
+                        <h2 className="text-2xl font-bold text-primary mb-2">Audit Document Requests</h2>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">Review, filter, update, or delete submitted document requests.</p>
+                    </div>
+                    <input
+                        type="search"
+                        value={auditSearch}
+                        onChange={e => setAuditSearch(e.target.value)}
+                        placeholder="Search requests"
+                        className="input-field w-full lg:w-96"
+                    />
+                </div>
+
+                {filteredRequests.length === 0 ? (
+                    <div className="card p-10 text-center text-gray-500 font-medium">No audit document requests found.</div>
+                ) : (
+                    <div className="overflow-x-auto card !p-0">
+                        <table className="w-full text-left border-collapse whitespace-nowrap">
+                            <thead className="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700">
+                                <tr>
+                                    <th className="p-4">Name</th>
+                                    <th className="p-4">Mobile</th>
+                                    <th className="p-4">Email</th>
+                                    <th className="p-4">Document</th>
+                                    <th className="p-4">Status</th>
+                                    <th className="p-4">Requested</th>
+                                    <th className="p-4 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                {filteredRequests.map(request => (
+                                    <tr key={request._id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                        <td className="p-4 font-medium">{request.name}</td>
+                                        <td className="p-4 text-gray-500">{request.mobile}</td>
+                                        <td className="p-4 text-gray-500">{request.email}</td>
+                                        <td className="p-4 text-gray-500 max-w-xs truncate">{request.documentType}</td>
+                                        <td className="p-4">
+                                            <select
+                                                value={request.status || 'Pending'}
+                                                onChange={e => handleAuditStatusChange(request._id, e.target.value)}
+                                                className="input-field !py-2"
+                                            >
+                                                {['Pending', 'In Review', 'Approved', 'Rejected', 'Completed'].map(status => (
+                                                    <option key={status} value={status}>{status}</option>
+                                                ))}
+                                            </select>
+                                        </td>
+                                        <td className="p-4 text-gray-500">{request.createdAt ? new Date(request.createdAt).toLocaleString() : 'N/A'}</td>
+                                        <td className="p-4 text-center">
+                                            <button onClick={() => handleAuditDelete(request._id)} className="text-red-600 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-400 px-3 py-1 rounded transition-colors text-sm font-semibold">
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         );
     };
@@ -365,8 +482,8 @@ const AdminDashboard = () => {
             case 'content': return renderContentManager();
             case 'adoption': return renderAdoptionManager();
             case 'sponsors': return renderSponsorManager();
+            case 'audit': return renderAuditManager();
             case 'volunteers': return renderTable(overviewData.volunteers, { Name: 'name', Email: 'email', Mobile: 'mobile', Skills: 'skills' }, '/api/volunteers');
-            case 'donations': return renderTable(overviewData.donations, { Name: 'name', Mobile: 'mobile', Amount: 'amount', 'Transaction Ref': 'transactionRef' }, '/api/donations');
             case 'feedback': return renderTable(overviewData.feedback, { Name: 'name', Email: 'email', Feedback: 'feedback' }, '/api/feedback');
             case 'complaints': return renderTable(overviewData.complaints, { Name: 'name', Email: 'email', Complaint: 'complaint' }, '/api/complaints');
             default: return null;
@@ -381,15 +498,20 @@ const AdminDashboard = () => {
                     <h2 className="text-2xl font-bold text-primary">Admin Panel</h2>
                 </div>
                 <nav className="flex flex-col space-y-2 flex-grow overflow-y-auto">
-                    {['content', 'adoption', 'volunteers', 'sponsors', 'donations', 'feedback', 'complaints'].map(tab => (
+                    {['content', 'adoption', 'volunteers', 'sponsors', 'audit', 'feedback', 'complaints'].map(tab => (
                         <button key={tab} onClick={() => setActiveTab(tab)} className={`text-left px-4 py-3 rounded-lg capitalize font-medium transition-colors ${activeTab === tab ? 'bg-primary text-white shadow-md' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
-                            {tab.replace('content', 'Content Manager').replace('adoption', 'Adoption Animals').replace('sponsors', 'Sponsors')}
+                            {tab.replace('content', 'Content Manager').replace('adoption', 'Adoption Animals').replace('sponsors', 'Sponsors').replace('audit', 'Audit Document Requests')}
                         </button>
                     ))}
                 </nav>
                 <button onClick={handleLogout} className="mt-8 bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-bold transition-colors shadow-md">Logout</button>
             </aside>
             <main className="flex-1 p-6 md:p-10 overflow-y-auto w-full">
+                <div className="mb-6 flex flex-wrap items-center justify-end gap-3">
+                    <button onClick={handleDownloadCsv} disabled={csvDownloading} className="rounded-lg bg-slate-950 px-4 py-3 text-sm font-bold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-linen dark:text-slate-950 dark:hover:bg-white">
+                        {csvDownloading ? 'Downloading...' : 'Download CSV'}
+                    </button>
+                </div>
                 {renderTabContent()}
             </main>
         </div>

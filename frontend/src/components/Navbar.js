@@ -22,20 +22,20 @@ const Navbar = ({ theme, setTheme }) => {
 
     return (
         <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/40 bg-white/76 backdrop-blur-2xl shadow-sm transition-all duration-300 dark:border-slate-800/70 dark:bg-clay/85">
-            <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8 xl:px-12">
-                <Link to="/" onClick={closeMenu} className="flex shrink-0 items-center gap-3">
-                    <img src="/footor-1.svg" alt="Pyaar Foundation logo" className="h-14 w-14 rounded-2xl object-contain shadow-lg shadow-primary/20" />
-                    <div>
-                        <p className="text-[1.05rem] font-black leading-none tracking-[0.14em] text-primary dark:text-primary sm:text-[1.15rem]">
-                            <span className="text-[1.35rem] sm:text-[1.6rem]">Pyaar</span> Foundation
+            <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 lg:px-8 xl:px-12">
+                <Link to="/" onClick={closeMenu} className="flex shrink-0 items-center gap-3 leading-none">
+                    <img src="/footor-1.svg" alt="Pyaar Foundation logo" className="h-12 w-12 flex-none rounded-2xl object-contain shadow-lg shadow-primary/20 sm:h-14 sm:w-14" />
+                    <div className="min-w-0">
+                        <p className="text-[0.98rem] font-black uppercase leading-tight tracking-[0.16em] text-primary dark:text-primary sm:text-[1.08rem]">
+                            PYAAR FOUNDATION
                         </p>
-                        <h1 className="mt-1 text-[0.6rem] font-black uppercase tracking-[0.28em] text-slate-700 dark:text-slate-200 sm:text-[0.7rem]">
-                            PETANITY AND ANIMAL REHABILITATORS FOUNDATION
-                        </h1>
+                        <p className="mt-1 max-w-[15rem] text-[0.58rem] font-bold uppercase leading-tight tracking-[0.22em] text-slate-700 dark:text-slate-200 sm:max-w-none sm:text-[0.66rem]">
+                            &ldquo;PETANITY AND ANIMAL REHABILITATORS&rdquo;
+                        </p>
                     </div>
                 </Link>
 
-                <div className="hidden min-w-0 items-center gap-4 lg:flex xl:gap-6">
+                <div className="hidden min-w-0 items-center gap-3 lg:flex xl:gap-6">
                     <ul className="flex min-w-0 items-center gap-3 text-sm font-semibold text-slate-600 dark:text-slate-300 xl:gap-5">
                         {links.map(link => (
                             <li key={link.name}>
