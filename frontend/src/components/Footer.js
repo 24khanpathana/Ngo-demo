@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import PhoneAction from './PhoneAction';
 
 const Footer = () => {
@@ -13,10 +13,10 @@ const Footer = () => {
                         We rescue, rehabilitate, vaccinate, sterilise, and rehome animals with dignity, urgency, and transparent community support.
                     </p>
                     <div className="flex items-center gap-4 text-white/75">
-                        <a href="#" className="hover:text-white transition"><FaFacebook size={18} /></a>
-                        <a href="#" className="hover:text-white transition"><FaTwitter size={18} /></a>
-                        <a href="#" className="hover:text-white transition"><FaInstagram size={18} /></a>
-                        <a href="#" className="hover:text-white transition"><FaLinkedin size={18} /></a>
+                        <a href="https://www.facebook.com/petanity/" className="hover:text-white transition"><FaFacebook size={18} /></a>
+                        <a href="https://x.com/pyaarfoundation?" className="hover:text-white transition"><FaTwitter size={18} /></a>
+                        <a href="https://www.instagram.com/pyaar_rescue_shelter/" className="hover:text-white transition"><FaInstagram size={18} /></a>
+                        <a href="https://www.youtube.com/@pyaarfoundation" className="hover:text-white transition"><FaYoutube size={18} /></a>
                     </div>
                 </div>
                 <div>

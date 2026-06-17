@@ -30,7 +30,7 @@ const Navbar = ({ theme, setTheme }) => {
                             PYAAR FOUNDATION
                         </p>
                         <p className="mt-1 hidden max-w-[15rem] text-[0.58rem] font-bold uppercase leading-tight tracking-[0.22em] text-slate-700 dark:text-slate-200 sm:block sm:max-w-none sm:text-[0.66rem]">
-                            PETANITY AND ANIMAL REHABILITATORS
+                            ANIMAL REHABILITATORS
                         </p>
                     </div>
                 </Link>

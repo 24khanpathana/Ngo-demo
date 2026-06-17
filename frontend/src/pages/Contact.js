@@ -55,7 +55,7 @@ const Contact = () => {
                                 <h4 className="font-semibold text-gray-900 dark:text-white">Our Location</h4>
                                 <p className="text-gray-500 dark:text-gray-400 mt-1 leading-7">
                                     C/O Dr. Devendra Rapelli<br />
-                                    Pyaar Foundation<br />
+                                    PYAAR FOUNDATION<br />
                                     Petanity And Animal Rehabilitators Foundation Chandrapur.<br />
                                     Animal welfare organisation<br />
                                     Near pipeline, vichoda bujruk<br />
