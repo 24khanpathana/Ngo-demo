@@ -24,13 +24,13 @@ const Navbar = ({ theme, setTheme }) => {
         <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/40 bg-white/76 backdrop-blur-2xl shadow-sm transition-all duration-300 dark:border-slate-800/70 dark:bg-clay/85">
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 lg:px-8 xl:px-12">
                 <Link to="/" onClick={closeMenu} className="flex shrink-0 items-center gap-3 leading-none">
-                    <img src="/footor-1.svg" alt="Pyaar Foundation logo" className="h-12 w-12 flex-none rounded-2xl object-contain shadow-lg shadow-primary/20 sm:h-14 sm:w-14" />
+                    <img src="/footor-1.svg" alt="Pyaar Foundation logo" className="h-11 w-11 flex-none rounded-2xl object-contain shadow-lg shadow-primary/20 sm:h-13 sm:w-13" />
                     <div className="min-w-0">
                         <p className="text-[0.98rem] font-black uppercase leading-tight tracking-[0.16em] text-primary dark:text-primary sm:text-[1.08rem]">
                             PYAAR FOUNDATION
                         </p>
                         <p className="mt-1 max-w-[15rem] text-[0.58rem] font-bold uppercase leading-tight tracking-[0.22em] text-slate-700 dark:text-slate-200 sm:max-w-none sm:text-[0.66rem]">
-                            &ldquo;PETANITY AND ANIMAL REHABILITATORS&rdquo;
+                            PETANITY AND ANIMAL REHABILITATORS
                         </p>
                     </div>
                 </Link>
