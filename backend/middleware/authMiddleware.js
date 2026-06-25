@@ -1,20 +1,23 @@
 const jwt = require('jsonwebtoken');
 
 const protect = (req, res, next) => {
-    let token;
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-        try {
-            token = req.headers.authorization.split(' ')[1];
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            // You can attach user info to req if needed, e.g., req.admin = decoded.id
-            next();
-        } catch (error) {
-            console.error(error);
-            res.status(401).json({ message: 'Not authorized, token failed' });
-        }
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Not authorized, no token' });
     }
+
+    const token = authHeader.split(' ')[1];
     if (!token) {
-        res.status(401).json({ message: 'Not authorized, no token' });
+        return res.status(401).json({ message: 'Not authorized, no token' });
+    }
+
+    try {
+        jwt.verify(token, process.env.JWT_SECRET);
+        return next();
+    } catch (error) {
+        console.error(error);
+        return res.status(401).json({ message: 'Not authorized, token failed' });
     }
 };
 

@@ -207,6 +207,20 @@ const Home = () => {
             </motion.section>
 
             <section className="mx-auto max-w-7xl px-6 py-24 lg:px-12">
+                <div className="grid gap-8 rounded-[2rem] bg-white p-8 shadow-xl shadow-slate-200/60 lg:grid-cols-[1.1fr_0.9fr] lg:p-12">
+                    <div>
+                        <p className="text-sm font-bold uppercase tracking-[0.28em] text-primary">Donation schema</p>
+                        <h2 className="mt-4 text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">Support rescue, rehabilitation, and lasting care.</h2>
+                        <p className="mt-5 text-lg leading-8 text-slate-600">Explore meaningful support paths such as One Jeev Abhadan, Annual Adoption, Lifetime Adoption, Sponsor a Fruit Party for Gauvansh, Kayami Tithi, Wall of Honours, and Lifetime Sponsors.</p>
+                        <button onClick={() => navigate('/donation-schema')} className="mt-8 rounded-full bg-clay px-6 py-3 text-sm font-bold text-white transition hover:bg-honey">View Donation Schema</button>
+                    </div>
+                    <div className="overflow-hidden rounded-[1.8rem] border border-slate-200">
+                        <img src="https://images.unsplash.com/photo-1511044568932-338cba0ad803?auto=format&fit=crop&w=1000&q=80" alt="Donation support" className="h-full w-full object-cover" />
+                    </div>
+                </div>
+            </section>
+
+            <section className="mx-auto max-w-7xl px-6 py-24 lg:px-12">
                 <div className="mb-12 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
                     <div className="max-w-3xl">
                         <p className="text-sm font-bold uppercase tracking-[0.28em] text-primary">Featured initiatives</p>

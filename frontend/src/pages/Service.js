@@ -156,7 +156,7 @@ const Service = () => {
     useEffect(() => {
         document.title = 'Programs | Pyaar Foundation';
         api.get('/api/content')
-            .then(res => setDynamicForms(res.data.filter(c => c.page === 'Service')))
+            .then(res => setDynamicForms(res.data.filter(c => c.page === 'Service' && c.customForm?.fields?.length > 0)))
             .catch(() => setDynamicForms([]));
     }, []);
 
@@ -277,7 +277,7 @@ const Service = () => {
                         fields={[{ name: 'name' }, { name: 'email', type: 'email' }, { name: 'complaint', type: 'textarea' }]}
                     />
 
-                    {dynamicForms.map(form => form.customForm?.fields?.length > 0 && (
+                    {dynamicForms.map(form => (
                         <DynamicCustomForm key={form._id} formMeta={form} />
                     ))}
                 </div>

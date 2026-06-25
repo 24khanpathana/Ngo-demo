@@ -18,7 +18,8 @@ const AdminDashboard = () => {
     const [csvDownloading, setCsvDownloading] = useState(false);
     
     const [selectedPage, setSelectedPage] = useState('Home');
-    const [formData, setFormData] = useState({ title: '', description: '', imageUrl: '', date: '', role: '' });
+    const emptyContentForm = { title: '', description: '', amount: '', imageUrl: '', date: '', role: '' };
+    const [formData, setFormData] = useState(emptyContentForm);
     const [editingId, setEditingId] = useState(null);
     const [customFields, setCustomFields] = useState([]);
     const [addCustomForm, setAddCustomForm] = useState(false);
@@ -96,27 +97,69 @@ const AdminDashboard = () => {
     };
 
     // --- Content Handlers ---
+    const resetContentForm = () => {
+        setFormData(emptyContentForm);
+        setCustomFields([]);
+        setAddCustomForm(false);
+        setEditingId(null);
+    };
+
+    const handleContentPageChange = (page) => {
+        setSelectedPage(page);
+        resetContentForm();
+    };
+
     const handleContentSubmit = async (e) => {
         e.preventDefault();
         const payload = { ...formData, page: selectedPage };
-        if (addCustomForm && selectedPage === 'Service') payload.customForm = { title: formData.title, fields: customFields };
-        
+
+        if (!payload.date) {
+            delete payload.date;
+        }
+
+        if (selectedPage !== 'Donation Schema') {
+            payload.amount = '';
+        }
+
+        if (selectedPage === 'Service' && addCustomForm) {
+            const sanitizedFields = customFields
+                .map(field => ({ name: field.name?.trim(), type: field.type || 'text' }))
+                .filter(field => field.name);
+
+            if (sanitizedFields.length > 0) {
+                payload.customForm = { title: formData.title.trim(), fields: sanitizedFields };
+            }
+        } else {
+            payload.customForm = undefined;
+        }
+
         try {
             if (editingId) await api.put(`/api/content/${editingId}`, payload);
             else await api.post('/api/content', payload);
-            
-            setFormData({ title: '', description: '', imageUrl: '', date: '', role: '' });
-            setCustomFields([]); setAddCustomForm(false); setEditingId(null);
+
+            resetContentForm();
             fetchAllData();
-        } catch (error) { alert('Error saving content'); }
+        } catch (error) {
+            console.error(error);
+            const message = error.code === 'ERR_NETWORK'
+                ? 'Backend server is not running. Start the backend on http://localhost:5000 and try again.'
+                : error.response?.data?.message || error.message || 'Error saving content';
+            alert(message);
+        }
     };
 
     const handleContentDelete = async (id) => handleGenericDelete('/api/content', id);
 
     const editContentItem = (item) => {
         setEditingId(item._id);
-        setFormData({ title: item.title, description: item.description, imageUrl: item.imageUrl, date: item.date ? item.date.split('T')[0] : '', role: item.role || '' });
-        if(item.customForm && item.customForm.fields) { setAddCustomForm(true); setCustomFields(item.customForm.fields); }
+        setFormData({ title: item.title || '', description: item.description || '', amount: item.amount || '', imageUrl: item.imageUrl || '', date: item.date ? item.date.split('T')[0] : '', role: item.role || '' });
+        if(item.customForm?.fields?.length) {
+            setAddCustomForm(true);
+            setCustomFields(item.customForm.fields);
+        } else {
+            setAddCustomForm(false);
+            setCustomFields([]);
+        }
     };
 
     // --- Animal Handlers ---
@@ -317,23 +360,37 @@ const AdminDashboard = () => {
                 <h2 className="text-2xl font-bold text-primary mb-6">Content Manager</h2>
                 <div className="card mb-8">
                     <label className="block text-sm font-semibold mb-2">Select Page to Manage</label>
-                    <select value={selectedPage} onChange={e => { setSelectedPage(e.target.value); setEditingId(null); setAddCustomForm(false); }} className="input-field max-w-sm mb-6">
-                        {['Home', 'About', 'Volunteer', 'Event', 'Service', 'Contact', 'Gallery'].map(p => <option key={p} value={p}>{p}</option>)}
+                    <select value={selectedPage} onChange={e => handleContentPageChange(e.target.value)} className="input-field max-w-sm mb-6">
+                        {['Home', 'About', 'Volunteer', 'Event', 'Service', 'Contact', 'Gallery', 'Donation Schema'].map(p => <option key={p} value={p}>{p}</option>)}
                     </select>
 
                     <h3 className="text-xl font-bold mb-4">{editingId ? 'Edit Item' : `Add New to ${selectedPage}`}</h3>
                     <form onSubmit={handleContentSubmit} className="space-y-4 border-t dark:border-gray-700 pt-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div><label className="block mb-1 text-sm font-medium">{selectedPage === 'Volunteer' ? 'Volunteer Name' : 'Title'}</label><input type="text" className="input-field" required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} /></div>
-                            {['Home', 'About', 'Event', 'Service', 'Contact'].includes(selectedPage) && (<div><label className="block mb-1 text-sm font-medium">Description</label><input type="text" className="input-field" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} /></div>)}
+                            {['Home', 'About', 'Event', 'Service', 'Contact', 'Donation Schema'].includes(selectedPage) && (<div><label className="block mb-1 text-sm font-medium">Description</label><input type="text" className="input-field" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} /></div>)}
+                            {selectedPage === 'Donation Schema' && (<div><label className="block mb-1 text-sm font-medium">Amount</label><input type="text" className="input-field" value={formData.amount} onChange={e => setFormData({...formData, amount: e.target.value})} placeholder="e.g. Rs. 1000 or One-time" /></div>)}
                             <div><label className="block mb-1 text-sm font-medium">Image URL</label><input type="text" className="input-field" value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} /></div>
                             {selectedPage === 'Event' && (<div><label className="block mb-1 text-sm font-medium">Event Date</label><input type="date" className="input-field" value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} /></div>)}
                             {selectedPage === 'Volunteer' && (<div><label className="block mb-1 text-sm font-medium">Role</label><input type="text" className="input-field" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} /></div>)}
                         </div>
-                        {selectedPage === 'Service' && !editingId && (
+                        {selectedPage === 'Service' && (
                             <div className="pt-4 border-t dark:border-gray-700">
                                 <label className="flex items-center space-x-2 cursor-pointer mb-4">
-                                    <input type="checkbox" checked={addCustomForm} onChange={e => setAddCustomForm(e.target.checked)} className="w-4 h-4 text-primary rounded" />
+                                    <input
+                                        type="checkbox"
+                                        checked={addCustomForm}
+                                        onChange={e => {
+                                            setAddCustomForm(e.target.checked);
+                                            if (e.target.checked && customFields.length === 0) {
+                                                setCustomFields([{ name: '', type: 'text' }]);
+                                            }
+                                            if (!e.target.checked) {
+                                                setCustomFields([]);
+                                            }
+                                        }}
+                                        className="w-4 h-4 text-primary rounded"
+                                    />
                                     <strong className="text-sm">Attach Custom Form (Max 5 Fields)</strong>
                                 </label>
                                 {addCustomForm && (
@@ -367,7 +424,7 @@ const AdminDashboard = () => {
                                 {filteredContent.map(item => (
                                     <tr key={item._id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                         <td className="p-4 font-medium max-w-xs truncate">{item.title}</td>
-                                        <td className="p-4 text-gray-500">{item.role || (item.date ? new Date(item.date).toLocaleDateString() : 'N/A')}</td>
+                                        <td className="p-4 text-gray-500">{selectedPage === 'Donation Schema' ? (item.amount || item.description || 'N/A') : (item.role || (item.date ? new Date(item.date).toLocaleDateString() : item.description || 'N/A'))}</td>
                                         <td className="p-4 text-center space-x-3">
                                             <button onClick={() => editContentItem(item)} className="text-clay bg-primary/15 hover:bg-primary/25 dark:bg-primary/20 dark:text-linen px-3 py-1 rounded transition-colors text-sm font-semibold">Edit</button>
                                             <button onClick={() => handleContentDelete(item._id)} className="text-red-600 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 px-3 py-1 rounded transition-colors text-sm font-semibold">Delete</button>

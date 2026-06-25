@@ -13,6 +13,7 @@ import Sponsors from './pages/Sponsors';
 
 import Gallery from './pages/Gallery';
 import Donation from './pages/Donation';
+import DonationSchema from './pages/DonationSchema';
 import AdminLogin from './pages/AdminLogin';
 import AdminForgotPassword from './pages/AdminForgotPassword';
 import AdminResetPassword from './pages/AdminResetPassword';
@@ -55,6 +56,7 @@ function App() {
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/adoption" element={<Adoption />} />
                         <Route path="/adoption-animals" element={<Adoption />} />
+                        <Route path="/donation-schema" element={<DonationSchema />} />
                         <Route path="/gallery" element={<Gallery />} />
                         <Route path="/sponsors" element={<Sponsors />} />
                         <Route path="/donate" element={<Donation />} />

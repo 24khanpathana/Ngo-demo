@@ -13,7 +13,10 @@ const AdminLogin = () => {
     const handleSubmit = async e => {
         e.preventDefault(); setError('');
         try {
-            const res = await api.post('/api/auth/login', formData);
+            const res = await api.post('/api/auth/login', {
+                adminId: formData.adminId.trim(),
+                password: formData.password.trim(),
+            });
             login(res.data.token); navigate('/admin/dashboard');
         } catch (err) { setError(err.response?.data?.message || 'Login failed'); }
     };
