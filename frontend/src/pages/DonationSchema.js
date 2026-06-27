@@ -5,11 +5,13 @@ import api from '../utils/api';
 const DonationSchema = () => {
     const navigate = useNavigate();
     const [cards, setCards] = useState([]);
+    const legacyDonationPageName = ['Donation', 'Schema'].join(' ');
+    const donationPageNames = ['Donation Schemes', legacyDonationPageName];
 
     useEffect(() => {
         api.get('/api/content')
             .then((res) => {
-                const donationItems = res.data.filter((item) => item.page === 'Donation Schema');
+                const donationItems = res.data.filter((item) => donationPageNames.includes(item.page));
                 setCards(donationItems.map((item) => ({
                     id: item._id,
                     title: item.title,
@@ -24,7 +26,7 @@ const DonationSchema = () => {
     return (
         <div className="min-h-screen bg-[#FAFAFA] pb-20 font-sans text-gray-800">
             <div className="border-b border-clay bg-clay px-6 py-20 text-center text-white shadow-inner">
-                <span className="mb-4 inline-block text-sm font-bold uppercase tracking-[0.28em] text-linen">Donation schema</span>
+                <span className="mb-4 inline-block text-sm font-bold uppercase tracking-[0.28em] text-linen">Donation schemes</span>
                 <h1 className="mb-6 text-4xl font-black tracking-tight sm:text-5xl md:text-6xl">Choose a Donation Option</h1>
                 <p className="mx-auto max-w-3xl text-lg leading-8 text-mist">
                     Every contribution helps animals move from suffering to safety, treatment, and a second chance at life.

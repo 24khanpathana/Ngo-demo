@@ -59,7 +59,7 @@ const programs = [
         icon: FaHandHoldingHeart,
         title: 'Adoption Support',
         text: 'Responsible adoption guidance that helps recovered animals find patient, loving, and prepared families.',
-        image: 'https://images.unsplash.com/photo-1601758123927-196022b7ae1b?auto=format&fit=crop&w=900&q=80',
+        image: '/rose.jpeg',
     },
     {
         icon: FaShieldAlt,
@@ -71,22 +71,22 @@ const programs = [
 
 const stories = [
     {
-        name: 'Milky',
-        tag: 'Accident survivor',
-        text: 'Found with crushed limbs and tick fever, Milky rebuilt her life through surgery, daily care, and a team that refused to give up.',
-        image: 'https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&w=700&q=80',
+        name: 'Delta',
+        tag: 'The Guardian of Our Shelter',
+        text: 'Delta journey is a powerful story of courage and resilience. Despite losing part of his foot in a train accident, he healed with love and care to become our shelter fearless guardian—a gentle, loyal soul who proves that true strength comes from an unbreakable spirit and a heart full of love.',
+        image: '/delta.jpeg',
     },
     {
-        name: 'Sanju',
-        tag: 'Large animal rehab',
-        text: 'A wounded bull arrived unable to stand. Months of dressing, nutrition, and mobility support helped him return to a dignified life.',
-        image: 'https://images.unsplash.com/photo-1535435734705-4f0f32e27c83?auto=format&fit=crop&w=700&q=80',
+        name: 'Veera',
+        tag: 'Strength Reborn',
+        text: 'Veera is a true symbol of resilience, overcoming a devastating leg fracture through dedicated care, patience, and his own fighting spirit. Today, this majestic Gir bull stands strong and healthy, inspiring everyone with the powerful reminder that love and compassion can turn even the darkest moments into stories of hope.',
+        image: '/veera.jpeg',
     },
     {
-        name: 'Noori',
-        tag: 'Adopted',
-        text: 'Once terrified of touch, Noori now lives with a family that sends us updates every festival. Healing can become home.',
-        image: 'https://images.unsplash.com/photo-1601758175576-648226072e90?auto=format&fit=crop&w=700&q=80',
+        name: 'Rose',
+        tag: 'The Fearless Guardian',
+        text: 'Rose is a remarkable cat whose journey transformed from fear and aggression to trust and love through patience and compassionate care. Despite his injured foot, this beautiful odd-eyed feline is now a cherished member of our shelter family, protecting those around him with a heart full of courage.',
+        image: '/rose.jpeg',
     },
 ];
 
@@ -209,13 +209,13 @@ const Home = () => {
             <section className="mx-auto max-w-7xl px-6 py-24 lg:px-12">
                 <div className="grid gap-8 rounded-[2rem] bg-white p-8 shadow-xl shadow-slate-200/60 lg:grid-cols-[1.1fr_0.9fr] lg:p-12">
                     <div>
-                        <p className="text-sm font-bold uppercase tracking-[0.28em] text-primary">Donation schema</p>
+                        <p className="text-sm font-bold uppercase tracking-[0.28em] text-primary">Donation schemes</p>
                         <h2 className="mt-4 text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">Support rescue, rehabilitation, and lasting care.</h2>
                         <p className="mt-5 text-lg leading-8 text-slate-600">Explore meaningful support paths such as One Jeev Abhadan, Annual Adoption, Lifetime Adoption, Sponsor a Fruit Party for Gauvansh, Kayami Tithi, Wall of Honours, and Lifetime Sponsors.</p>
-                        <button onClick={() => navigate('/donation-schema')} className="mt-8 rounded-full bg-clay px-6 py-3 text-sm font-bold text-white transition hover:bg-honey">View Donation Schema</button>
+                        <button onClick={() => navigate('/donation-schema')} className="mt-8 rounded-full bg-clay px-6 py-3 text-sm font-bold text-white transition hover:bg-honey">View Donation Schemes</button>
                     </div>
                     <div className="overflow-hidden rounded-[1.8rem] border border-slate-200">
-                        <img src="https://images.unsplash.com/photo-1511044568932-338cba0ad803?auto=format&fit=crop&w=1000&q=80" alt="Donation support" className="h-full w-full object-cover" />
+                        <img src="/donation-schemes.jpeg" alt="Donation support" className="h-full w-full object-cover" />
                     </div>
                 </div>
             </section>

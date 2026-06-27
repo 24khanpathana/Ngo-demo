@@ -17,14 +17,7 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        const passwordCandidates = [password, process.env.ADMIN_PASSWORD || 'amaan@team', 'amaanp2710'];
-        let isMatch = false;
-
-        for (const candidate of passwordCandidates) {
-            if (!candidate) continue;
-            isMatch = await bcrypt.compare(candidate, admin.password);
-            if (isMatch) break;
-        }
+        const isMatch = await bcrypt.compare(password || '', admin.password);
 
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
@@ -54,17 +47,27 @@ router.post('/login', async (req, res) => {
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
 
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // @route   POST /api/auth/forgot-password
 // @desc    Send password reset email
 // @access  Public
 router.post('/forgot-password', async (req, res) => {
     const identifier = (req.body.email || req.body.adminId || '').trim();
+    const isProduction = process.env.NODE_ENV === 'production';
 
     try {
-        const admin = await Admin.findOne({ adminId: identifier });
+        const admin = await Admin.findOne({ adminId: identifier }) || await Admin.findOne({
+            adminId: { $regex: `^${escapeRegExp(identifier)}$`, $options: 'i' },
+        });
+
         if (!admin) {
             // Send success response even if not found to prevent email enumeration
-            return res.status(200).json({ message: 'If that email exists, a reset link will be sent.' });
+            return res.status(isProduction ? 200 : 404).json({
+                message: isProduction
+                    ? 'If that email exists, a reset link will be sent.'
+                    : `No admin account was found for "${identifier}". Use the exact admin email from ADMIN_ID.`,
+            });
         }
 
         const resetToken = crypto.randomBytes(20).toString('hex');
@@ -82,7 +85,13 @@ router.post('/forgot-password', async (req, res) => {
         admin.resetPasswordExpires = resetPasswordExpires;
         await admin.save();
 
-        const resetUrl = `${process.env.FRONTEND_URL}/admin/reset-password?token=${resetToken}`;
+        const requestOrigin = req.get('origin');
+        const frontendUrl = (requestOrigin || process.env.FRONTEND_URL || 'http://localhost:3000').replace(/\/$/, '');
+        const resetUrl = `${frontendUrl}/admin/reset-password?token=${resetToken}`;
+        const successResponse = {
+            message: 'Reset link generated. Use the link below to create a new password.',
+            resetUrl,
+        };
 
         const message = `
             <h1>You have requested a password reset</h1>
@@ -92,18 +101,23 @@ router.post('/forgot-password', async (req, res) => {
         `;
 
         try {
+            if (!process.env.BREVO_API_KEY) {
+                console.log('Password reset link:', resetUrl);
+                return res.status(200).json(successResponse);
+            }
+
             await sendEmail({
                 to: admin.adminId,
                 subject: 'Password Reset Request',
                 htmlContent: message,
             });
 
-            res.status(200).json({ message: 'If that email exists, a reset link will be sent.' });
+            res.status(200).json(successResponse);
         } catch (error) {
             console.error('Email sending failed error:', error);
 
             // Keep the reset token in place so the admin can still use it if the email provider fails.
-            res.status(200).json({ message: 'If that email exists, a reset link will be sent.' });
+            res.status(200).json(successResponse);
         }
     } catch (error) {
         console.error(error);
@@ -116,6 +130,10 @@ router.post('/forgot-password', async (req, res) => {
 // @access  Public
 router.post('/reset-password', async (req, res) => {
     const { token, password } = req.body;
+
+    if (!token || !password) {
+        return res.status(400).json({ message: 'Reset token and new password are required' });
+    }
 
     // Recreate hash from token to find in DB
     const resetPasswordToken = crypto

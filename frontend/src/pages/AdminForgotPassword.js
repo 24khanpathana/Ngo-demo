@@ -6,17 +6,20 @@ const AdminForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [resetUrl, setResetUrl] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async e => {
         e.preventDefault();
         setError('');
         setMessage('');
+        setResetUrl('');
         setLoading(true);
         
         try {
             const res = await api.post('/api/auth/forgot-password', { email });
             setMessage(res.data.message);
+            setResetUrl(res.data.resetUrl || '');
         } catch (err) {
             setError(err.response?.data?.message || 'Something went wrong. Please try again later.');
         } finally {
@@ -56,6 +59,15 @@ const AdminForgotPassword = () => {
                     </div>
                 </form>
                 {message && <p className="mt-5 rounded-2xl bg-primary/10 p-4 text-center font-medium text-primary">{message}</p>}
+                {resetUrl && (
+                    <div className="mt-4 rounded-2xl bg-linen/70 p-4 text-center">
+                        <p className="mb-3 text-sm font-medium text-slate-600">Use this reset link to create a new password.</p>
+                        <a href={resetUrl} className="btn-primary inline-flex">
+                            Open Reset Password
+                        </a>
+                        <p className="mt-3 break-all text-xs font-medium text-slate-500">{resetUrl}</p>
+                    </div>
+                )}
                 {error && <p className="mt-5 rounded-2xl bg-red-50 p-4 text-center font-medium text-red-500">{error}</p>}
             </div>
         </div>

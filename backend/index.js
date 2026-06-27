@@ -35,15 +35,7 @@ const createAdmin = async () => {
       await newAdmin.save();
       console.log("Admin user created successfully.");
     } else {
-      const isUsingExpectedPassword = await bcrypt.compare(adminPassword, adminExists.password);
-      if (!isUsingExpectedPassword) {
-        const salt = await bcrypt.genSalt(10);
-        adminExists.password = await bcrypt.hash(adminPassword, salt);
-        await adminExists.save();
-        console.log("Admin password updated successfully.");
-      } else {
-        console.log("Admin user already exists.");
-      }
+      console.log("Admin user already exists.");
     }
   } catch (error) {
     console.error("Error creating admin user:", error);
