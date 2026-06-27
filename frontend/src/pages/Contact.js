@@ -82,8 +82,8 @@ const Contact = () => {
                             <div>
                                 <h4 className="font-semibold text-gray-900 dark:text-white">Call Us</h4>
                                 <div className="mt-1 text-gray-500 dark:text-gray-400">
-                                    <PhoneAction number="+91 75888 93939" />
-                                    <div className="mt-2"><PhoneAction number="+91 94225 67030" /></div>
+                                    <PhoneAction number="+91 94225 67030" />
+                                    <div className="mt-2"><PhoneAction number="+91 75888 93939" /></div>
                                 </div>
                             </div>
                         </div>

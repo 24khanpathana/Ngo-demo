@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Volunteer = require('../models/Volunteer');
 const { protect } = require('../middleware/authMiddleware');
-const sendEmail = require('../utils/sendEmail');
+const notifyAdmin = require('../utils/notifyAdmin');
 
 router.post('/apply', async (req, res) => {
     try {
@@ -17,13 +17,12 @@ router.post('/apply', async (req, res) => {
             <p><strong>Skills/Reason:</strong> ${req.body.skills}</p>
         `;
         
-        await sendEmail({ 
-            to: process.env.ADMIN_EMAIL || 'amaanp2710@gmail.com', 
+        const emailSent = await notifyAdmin({ 
             subject: 'New Volunteer Application', 
             htmlContent 
         });
 
-        res.status(201).json({ message: 'Form submitted successfully' });
+        res.status(201).json({ message: 'Form submitted successfully', emailSent });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
     }

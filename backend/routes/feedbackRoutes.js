@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Feedback = require('../models/Feedback');
 const { protect } = require('../middleware/authMiddleware');
-const sendEmail = require('../utils/sendEmail');
+const notifyAdmin = require('../utils/notifyAdmin');
 
 router.post('/', async (req, res) => {
     try {
@@ -16,13 +16,12 @@ router.post('/', async (req, res) => {
             <p><strong>Feedback:</strong> ${req.body.feedback}</p>
         `;
         
-        await sendEmail({ 
-            to: process.env.ADMIN_EMAIL || 'amaanp2710@gmail.com', 
+        const emailSent = await notifyAdmin({ 
             subject: 'New Feedback Submission', 
             htmlContent 
         });
 
-        res.status(201).json({ message: 'Form submitted successfully' });
+        res.status(201).json({ message: 'Form submitted successfully', emailSent });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
     }

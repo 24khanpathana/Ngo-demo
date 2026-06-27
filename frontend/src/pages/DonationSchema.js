@@ -55,7 +55,7 @@ const DonationSchema = () => {
                             <div className="p-8">
                                 <div className="mb-4 flex items-center justify-between gap-3">
                                     <h3 className="text-2xl font-black text-gray-900">{item.title}</h3>
-                                    <span className="rounded-full bg-honey/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-honey">{item.amount}</span>
+                                    <span className="text-2xl font-black text-gray-900">{item.amount}</span>
                                 </div>
                                 <p className="mt-4 leading-7 text-gray-600">{item.description}</p>
                                 <button onClick={() => navigate('/donate')} className="mt-6 rounded-full bg-clay px-5 py-3 text-sm font-bold text-white transition hover:bg-honey">

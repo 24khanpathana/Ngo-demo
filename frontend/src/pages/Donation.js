@@ -12,7 +12,7 @@ const indianBankDetails = [
     ['Account Number', '502000667558590'],
     ['Bank Name', 'HDFC Bank'],
     ['IFSC Code', 'HDFC0001053'],
-    ['Phone No.', '75888 93939'],
+    ['Phone No.', '94225 67030'],
     ['UPI ID', UPI_ID],
 ];
 

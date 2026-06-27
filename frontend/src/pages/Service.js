@@ -119,12 +119,12 @@ const DynamicCustomForm = ({ formMeta }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/api/forms/submit', {
+            const res = await api.post('/api/forms/submit', {
                 formId: formMeta._id,
                 formTitle: formMeta.customForm.title,
                 data,
             });
-            setMsg('Form submitted successfully.');
+            setMsg(res.data.message || 'Form submitted successfully.');
             setData({});
         } catch (err) {
             setMsg('Error submitting form. Please try again.');

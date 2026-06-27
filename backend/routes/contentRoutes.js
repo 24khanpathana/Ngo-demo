@@ -3,6 +3,8 @@ const router = express.Router();
 const DynamicContent = require('../models/DynamicContent');
 const { protect } = require('../middleware/authMiddleware');
 
+const donationPages = ['Donation Schema', 'Donation Schemes'];
+
 const normalizeContentPayload = (body) => {
     const payload = { ...body };
 
@@ -10,7 +12,7 @@ const normalizeContentPayload = (body) => {
         delete payload.date;
     }
 
-    if (payload.page !== 'Donation Schema') {
+    if (!donationPages.includes(payload.page)) {
         payload.amount = '';
     }
 

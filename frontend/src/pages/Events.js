@@ -26,13 +26,13 @@ const Events = () => {
                 <div className="absolute inset-0 bg-gradient-to-b from-clay/75 to-clay" />
                 <div className="relative">
                 <span className="mb-4 inline-block text-sm font-bold uppercase tracking-[0.3em] text-linen">
-                    Sahajeevan awareness initiative
+                    Feeding drive awareness initiative
                 </span>
                 <h1 className="mb-6 text-4xl font-black tracking-tight md:text-6xl">
                     Fostering Empathy Early.
                 </h1>
                 <p className="mx-auto max-w-2xl text-lg leading-8 text-slate-300 md:text-xl">
-                    Treating wounded animals is a cure, but education is the prevention. Through our "Sahajeevan" awareness campaigns, we are shaping the next generation to value all living beings.
+                    Treating wounded animals is a cure, but education is the prevention. Through our "Feeding drive" awareness campaigns, we are shaping the next generation to value all living beings.
                 </p>
                 </div>
             </div>
@@ -52,7 +52,7 @@ const Events = () => {
                             Building a future where coexistence becomes a <span className="text-primary">language of understanding.</span>
                         </h2>
                         <p className="text-lg text-gray-600 leading-relaxed">
-                            A significant amount of animal abuse stems from fear and a lack of understanding. We conduct "Sahajeevan" events at schools to teach children responsible animal care, rabies awareness, and how to understand animal behaviour.
+                            A significant amount of animal abuse stems from fear and a lack of understanding. We conduct "Feeding drive" events at schools to teach children responsible animal care, rabies awareness, and how to understand animal behaviour.
                         </p>
                         <p className="text-lg text-gray-600 leading-relaxed">
                             By ingraining these values from an early age, we strive to drastically reduce human-animal conflicts in the future.
@@ -85,7 +85,7 @@ const Events = () => {
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Upcoming Events & Campaigns</h2>
                         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                            Join us at our upcoming Sahajeevan awareness drives and animal welfare events happening across the region.
+                            Join us at our upcoming Feeding drive awareness drives and animal welfare events happening across the region.
                         </p>
                     </div>
 
@@ -124,7 +124,7 @@ const Events = () => {
 
             {/* 4. Final CTA */}
             <section className="bg-clay py-24 px-6 text-center text-white">
-                <h2 className="text-3xl md:text-4xl font-bold mb-6">Host a Sahajeevan Campaign</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">Host a Feeding drive</h2>
                 <p className="text-gray-400 mb-10 max-w-xl mx-auto text-lg leading-relaxed">
                     Want to bring our awareness programme to your community, corporate office, or educational institution?
                 </p>

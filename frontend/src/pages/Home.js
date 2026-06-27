@@ -412,8 +412,8 @@ const Home = () => {
                         <div className="mt-8 space-y-4">
                             {[
                                 [FaHome, 'Near pipeline Vichoda, Chhota Nagpur,Chandrapur,Maharashtra,442406'],
-                                [FaPhoneAlt, '+91 75888 93939', true],
                                 [FaPhoneAlt, '+91 94225 67030', true],
+                                [FaPhoneAlt, '+91 75888 93939', true],
                                 [FaShieldAlt, 'pyaar4petanity@gmail.com'],
                             ].map(([Icon, text, isPhone]) => (
                                 <div key={text} className="flex items-center gap-4 rounded-2xl bg-mist p-4">

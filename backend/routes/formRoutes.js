@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const FormSubmission = require('../models/FormSubmission');
-const sendEmail = require('../utils/sendEmail');
+const notifyAdmin = require('../utils/notifyAdmin');
 
 router.post('/submit', async (req, res) => {
     try {
@@ -15,13 +15,12 @@ router.post('/submit', async (req, res) => {
         }
 
         const htmlContent = `<h2>New Submission: ${formTitle}</h2>${fieldsHtml}`;
-        await sendEmail({ 
-            to: process.env.ADMIN_EMAIL || 'amaanp2710@gmail.com', 
+        const emailSent = await notifyAdmin({ 
             subject: `New Submission - ${formTitle}`, 
             htmlContent 
         });
 
-        res.status(201).json({ message: 'Form submitted successfully!' });
+        res.status(201).json({ message: 'Form submitted successfully!', emailSent });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
     }

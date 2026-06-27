@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AuditDocumentRequest = require('../models/AuditDocumentRequest');
 const { protect } = require('../middleware/authMiddleware');
+const notifyAdmin = require('../utils/notifyAdmin');
 
 const normalize = (value) => (value === null || value === undefined ? '' : String(value).trim());
 
@@ -29,7 +30,22 @@ router.post('/', async (req, res) => {
 
         const request = new AuditDocumentRequest(payload);
         await request.save();
-        res.status(201).json({ message: 'Request submitted successfully.' });
+
+        const htmlContent = `
+            <h2>New Audit Document Request</h2>
+            <p><strong>Name:</strong> ${payload.name}</p>
+            <p><strong>Mobile:</strong> ${payload.mobile}</p>
+            <p><strong>Email:</strong> ${payload.email}</p>
+            <p><strong>Document Type:</strong> ${payload.documentType}</p>
+            <p><strong>Description:</strong> ${payload.description}</p>
+        `;
+
+        const emailSent = await notifyAdmin({
+            subject: 'New Audit Document Request',
+            htmlContent,
+        });
+
+        res.status(201).json({ message: 'Request submitted successfully.', emailSent });
     } catch (error) {
         res.status(500).json({ message: error.message || 'Server error' });
     }

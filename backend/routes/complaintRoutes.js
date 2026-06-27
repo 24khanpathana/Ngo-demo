@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Complaint = require('../models/Complaint');
 const { protect } = require('../middleware/authMiddleware');
-const sendEmail = require('../utils/sendEmail');
+const notifyAdmin = require('../utils/notifyAdmin');
 
 router.post('/', async (req, res) => {
     try {
@@ -16,13 +16,12 @@ router.post('/', async (req, res) => {
             <p><strong>Complaint:</strong> ${req.body.complaint}</p>
         `;
         
-        await sendEmail({ 
-            to: process.env.ADMIN_EMAIL || 'amaanp2710@gmail.com', 
+        const emailSent = await notifyAdmin({ 
             subject: 'New Complaint Submission', 
             htmlContent 
         });
 
-        res.status(201).json({ message: 'Form submitted successfully' });
+        res.status(201).json({ message: 'Form submitted successfully', emailSent });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
     }
@@ -34,17 +33,6 @@ router.get('/', protect, async (req, res) => {
         res.json(complaints);
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
-    }
-});
-
-// @route   DELETE /api/complaints/:id
-// @access  Private (Admin)
-router.delete('/:id', protect, async (req, res) => {
-    try {
-        await Complaint.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Complaint deleted successfully' });
-    } catch (error) { 
-        res.status(500).json({ message: 'Server error', error }); 
     }
 });
 
